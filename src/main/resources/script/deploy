@@ -1,0 +1,23 @@
+#!/bin/bash
+
+PRJ_JAR=`ls $1`
+
+
+
+if [ ! -d "lastDeploy" ]; then
+	mkdir lastDeploy
+fi
+
+
+
+if [ -f "$PRJ_JAR" ]; then
+ 
+   cp $PRJ_JAR lastDeploy/$PRJ_JAR`date +%Y%m%d%H%M%S`
+   cp -rf config  lastDeploy/config`date +%Y%m%d%H%M%S`
+   rm -rf ${PRJ_JAR}
+   mv tmp/${PRJ_JAR} .
+   mv tmp/xjar .
+   chmod 755 xjar
+
+fi
+
