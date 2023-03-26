@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.iv.ersr.mybatisplus.core.injector.DefaultSqlInjectorPlus;
+import com.iv.ersr.mybatisplus.interceptor.JoinInterceptor;
+import com.iv.ersr.mybatisplus.interceptor.MybatisPlusJoinInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +22,7 @@ import javax.sql.DataSource;
  * MybatisPlusConfig配置
  * </p>
  *
- * @author IVI04
+ * @author moxiaoyu
  * @since 2021-12-24
  */
 @Configuration
@@ -31,16 +33,6 @@ public class MybatisPlusConfig {
     @Bean
     public DefaultSqlInjectorPlus mySqlInjector(){
         return new DefaultSqlInjectorPlus();
-    }
-
-    /**
-     * 分页插件
-     */
-    @Bean
-    public MybatisPlusInterceptor paginationInterceptor() {
-        MybatisPlusInterceptor paginationInterceptor = new MybatisPlusInterceptor();
-        paginationInterceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
-        return paginationInterceptor;
     }
 
     @Bean
@@ -54,6 +46,12 @@ public class MybatisPlusConfig {
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
         interceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
+        interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
         return interceptor;
+    }
+
+    @Bean
+    public MybatisPlusJoinInterceptor joinInterceptorConfig() {
+        return new MybatisPlusJoinInterceptor(new JoinInterceptor());
     }
 }

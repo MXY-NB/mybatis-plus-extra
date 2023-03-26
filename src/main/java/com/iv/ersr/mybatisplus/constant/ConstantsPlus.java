@@ -3,7 +3,9 @@ package com.iv.ersr.mybatisplus.constant;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 
 /**
- * 常用常量
+ * <p>
+ * 自定义常量扩展
+ * </p>
  *
  * @author moxiaoyu
  * @since 2023-03-22

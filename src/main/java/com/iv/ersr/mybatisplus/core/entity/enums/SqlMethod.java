@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 /**
  * MybatisPlus 支持 SQL 方法
  *
- * @author MXY
+ * @author moxiaoyu
  * @since 2023-03-22
  */
 @Getter
@@ -33,22 +33,17 @@ public enum SqlMethod {
     /**
      * 查询满足条件所有数据
      */
-    JOIN_SELECT_LIST("joinSelectList", "查询满足条件所有数据", "<script>%s SELECT %s FROM %s %s %s %s\n</script>"),
+    JOIN_SELECT_LIST("joinSelectList", "查询满足条件所有数据", "<script>\n%s\nSELECT\n%s\n%s\nFROM %s %s %s %s\n</script>"),
 
     /**
      * 查询满足条件的总数
      */
-    JOIN_SELECT_COUNT("joinSelectCount", "查询满足条件的总数", "<script>%s SELECT COUNT(1) FROM %s %s %s %s\n</script>"),
+    JOIN_SELECT_COUNT("joinSelectCount", "查询满足条件的总数", "<script>\\n%s\nSELECT COUNT(1) FROM %s %s %s %s\n</script>"),
 
     /**
      * 查询满足条件的列表分页
      */
-    JOIN_SELECT_PAGE("joinSelectPage", "查询满足条件的列表分页", "<script>%s SELECT %s FROM %s %s %s %s\n</script>"),
-
-    /**
-     * 查询满足条件的单个对象
-     */
-    JOIN_SELECT_ONE("joinSelectOne", "查询满足条件的单个对象", "<script>%s SELECT %s FROM %s %s %s %s \n</script>");
+    JOIN_SELECT_PAGE("joinSelectPage", "查询满足条件的列表分页", "<script>\n%s\nSELECT\n%s\n%s\nFROM %s %s %s %s\n</script>");
 
     /**
      * 名称

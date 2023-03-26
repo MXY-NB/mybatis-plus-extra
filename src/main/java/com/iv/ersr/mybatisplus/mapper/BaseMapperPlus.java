@@ -2,9 +2,11 @@ package com.iv.ersr.mybatisplus.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Assert;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ import java.util.List;
  * 自定义Mapper
  * </p>
  *
- * @author IVI04
+ * @author moxiaoyu
  * @since 2023-03-22
  */
 public interface BaseMapperPlus<T> extends BaseMapper<T> {
@@ -28,11 +30,46 @@ public interface BaseMapperPlus<T> extends BaseMapper<T> {
 
     /**
      * 多表查询列表
-     * @param wrapper 条件包装
+     * @param queryWrapper 条件包装
      * @param <E> 适配各种传入类型
-     * @return 返回对象list
+     * @return 返回包装类型的对象list
      */
-    <E> List<E> joinSelectList(@Param(Constants.WRAPPER) Wrapper<E> wrapper);
+    <E> List<E> joinSelectList(@Param(Constants.WRAPPER) Wrapper<E> queryWrapper);
+
+    /**
+     * 多表查询列表
+     * @param queryWrapper 条件包装
+     * @param <E> 适配各种传入类型
+     * @return 返回包装类型的对象
+     */
+    default <E> E joinSelectOne(@Param(Constants.WRAPPER) Wrapper<E> queryWrapper){
+        List<E> list = this.joinSelectList(queryWrapper);
+        // 抄自 DefaultSqlSession#selectOne
+        if (list.size() == 1) {
+            return list.get(0);
+        } else if (list.size() > 1) {
+            throw new TooManyResultsException("Expected one result (or null) to be returned by selectOne(), but found: " + list.size());
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * 多表查询分页
+     * @param page 分页参数
+     * @param queryWrapper 条件包装
+     * @param <E> 适配各种传入类型
+     * @return 返回包装类型的对象
+     */
+    <E, P extends IPage<E>> P joinSelectPage(P page, @Param(Constants.WRAPPER) Wrapper<E> queryWrapper);
+
+    /**
+     * 多表查询总记录数
+     * @param queryWrapper 条件包装
+     * @param <E> 适配各种传入类型
+     * @return 总记录数
+     */
+    <E> long selectJoinCount(@Param(Constants.WRAPPER) Wrapper<E> queryWrapper);
 
     /**
      * 批量插入

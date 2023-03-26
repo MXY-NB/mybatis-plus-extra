@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
  * Spring Bean获取工具类
  * </p>
  *
- * @author IVI04
+ * @author moxiaoyu
  * @since 2021-12-24
  */
 @Configuration

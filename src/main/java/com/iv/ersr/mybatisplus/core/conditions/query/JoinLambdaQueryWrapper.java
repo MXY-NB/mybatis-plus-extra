@@ -6,17 +6,14 @@ import cn.hutool.core.text.CharSequenceUtil;
 import com.baomidou.mybatisplus.core.conditions.SharedString;
 import com.baomidou.mybatisplus.core.conditions.query.Query;
 import com.baomidou.mybatisplus.core.metadata.TableFieldInfo;
-import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.baomidou.mybatisplus.core.toolkit.ArrayUtils;
-import com.baomidou.mybatisplus.core.toolkit.LambdaUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
-import com.baomidou.mybatisplus.core.toolkit.support.LambdaMeta;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.iv.ersr.mybatisplus.core.conditions.AbstractJoinLambdaWrapper;
-import com.iv.ersr.mybatisplus.core.conditions.func.JoinMethodFunc;
-import com.iv.ersr.mybatisplus.core.entity.enums.SqlExcerpt;
-import lombok.extern.slf4j.Slf4j;
+import com.iv.ersr.mybatisplus.core.entity.CollectionResultMap;
+import com.iv.ersr.mybatisplus.utils.Lambdas;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,24 +30,30 @@ import static java.util.stream.Collectors.joining;
  * @author moxiaoyu
  * @since 2023-03-17
  */
-@Slf4j
 public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, JoinLambdaQueryWrapper<T>>
-    implements Query<JoinLambdaQueryWrapper<T>, T, SFunction<T, ?>>, JoinMethodFunc<JoinLambdaQueryWrapper<T>, T> {
-
-    /**
-     * join字段
-     */
-    private final SharedString sqlJoin = SharedString.emptyString();
+    implements Query<JoinLambdaQueryWrapper<T>, T, SFunction<T, ?>> {
 
     /**
      * 查询字段
      */
-    protected final List<SharedString> sqlSelect = new ArrayList<>();
+    @Getter
+    private boolean resultMap = false;
 
     /**
      * 查询字段
      */
-    protected final List<SharedString> joinSqlSelect = new ArrayList<>();
+    private final List<SharedString> sqlSelect = new ArrayList<>();
+
+    /**
+     * 查询字段
+     */
+    private final List<SharedString> joinSqlSelect = new ArrayList<>();
+
+    /**
+     * 一对多查询字段
+     */
+    @Getter
+    private final List<CollectionResultMap> collectionResultMaps = new ArrayList<>();
 
     public JoinLambdaQueryWrapper() {
         super((T) null);
@@ -73,7 +76,7 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
     @Override
     public final JoinLambdaQueryWrapper<T> select(SFunction<T, ?>... columns) {
         if (ArrayUtils.isNotEmpty(columns)) {
-            sqlSelect.add(new SharedString(columnsToString(false, columns)));
+            sqlSelect.add(new SharedString(columnsToString(false, true, columns)));
         }
         return typedThis;
     }
@@ -101,23 +104,13 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
         return typedThis;
     }
 
-    @Override
-    public <J> JoinLambdaQueryWrapper<T> leftJoin(boolean condition, SFunction<T, ?> masterTableField, SFunction<J, ?> joinTableField, String alias) {
-        return maybeDo(condition, ()->appendSqlSegments(SqlExcerpt.LEFT_JOIN, masterTableField, joinTableField, alias));
-    }
-
-    @Override
-    public <J> JoinLambdaQueryWrapper<T> rightJoin(boolean condition, SFunction<T, ?> masterTableField, SFunction<J, ?> joinTableField, String alias) {
-        return maybeDo(condition, ()->appendSqlSegments(SqlExcerpt.RIGHT_JOIN, masterTableField, joinTableField, alias));
-    }
-
     /**
      * JOIN SELECT 部分 SQL 设置
      * @param columns 查询字段
      */
     @SafeVarargs
     @Override
-    public final <J> JoinLambdaQueryWrapper<T> joinSelect(SFunction<J, ?>... columns) {
+    public final <J> JoinLambdaQueryWrapper<T> jSelect(SFunction<J, ?>... columns) {
         if (ArrayUtils.isNotEmpty(columns)) {
             joinSqlSelect.add(new SharedString(joinColumnsToString(false, columns)));
         }
@@ -128,24 +121,22 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
      * JOIN SELECT 部分 SQL 设置
      */
     @Override
-    public final JoinLambdaQueryWrapper<T> joinSelect() {
+    public final JoinLambdaQueryWrapper<T> jSelect() {
         if (MapUtil.isNotEmpty(joinClassAliasMap)) {
             joinClassAliasMap.forEach((clz, alias)-> joinSqlSelect.addAll(joinAllColumns(clz, alias).stream().map(SharedString::new).collect(Collectors.toList())));
         }
         return typedThis;
     }
 
-    protected <J> void appendSqlSegments(SqlExcerpt sqlExcerpt, SFunction<T, ?> masterTableField, SFunction<J, ?> joinTableField, String alias) {
-        LambdaMeta lambdaMeta = LambdaUtils.extract(joinTableField);
-        Class<?> instantiatedClass = lambdaMeta.getInstantiatedClass();
-        joinClassAliasMap.put(instantiatedClass, alias);
-        TableInfo tableInfo = TableInfoHelper.getTableInfo(instantiatedClass);
-        Assert.isTrue(tableInfo != null, "请在对应实体类上加上TableName注解！");
-        assert tableInfo != null;
-        String joinTableName = tableInfo.getTableName();
-        String sql = String.format(sqlExcerpt.getSql(), joinTableName, alias, columnToString(masterTableField, false, true), columnToString(joinTableField, false, false));
-        log.info("sql:{}", sql);
-        sqlJoin.setStringValue(sqlJoin.getStringValue() + StringPool.NEWLINE + sql);
+    /**
+     * JOIN SELECT 部分 SQL 设置
+     * @param collectionResultMap 查询字段
+     */
+    @Override
+    public final JoinLambdaQueryWrapper<T> coll(CollectionResultMap collectionResultMap) {
+        collectionResultMap.setPropertyName(Lambdas.toPropertyName(collectionResultMap.getProperty()));
+        collectionResultMaps.add(collectionResultMap);
+        return typedThis;
     }
 
     @Override
@@ -160,10 +151,6 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
         return sqlSegment + lastSql.getStringValue();
     }
 
-    public String getSqlJoin() {
-        return sqlJoin.getStringValue();
-    }
-
     public String getJoinSqlSelect() {
         String sql = joinSqlSelect.stream().map(SharedString::getStringValue).collect(joining(StringPool.COMMA));
         return CharSequenceUtil.isEmpty(sql) ? null : StringPool.COMMA + sql;
@@ -172,8 +159,8 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
     @Override
     public void clear() {
         super.clear();
-        sqlJoin.toNull();
         sqlSelect.clear();
         joinSqlSelect.clear();
+        collectionResultMaps.clear();
     }
 }

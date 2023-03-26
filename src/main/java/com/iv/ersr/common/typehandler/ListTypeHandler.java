@@ -20,7 +20,7 @@ import java.util.List;
  * 数据库数据转换List数组
  * </p>
  *
- * @author IVI04
+ * @author moxiaoyu
  * @since 2021-12-24
  */
 public abstract class ListTypeHandler<T> extends AbstractJsonTypeHandler<List<T>> {

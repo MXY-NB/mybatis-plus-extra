@@ -5,7 +5,7 @@ package com.iv.ersr.common.entity.enums;
  * 登录返回状态码枚举
  * </p>
  *
- * @author IVI04
+ * @author moxiaoyu
  * @since 2021-12-24
  */
 public enum Result {

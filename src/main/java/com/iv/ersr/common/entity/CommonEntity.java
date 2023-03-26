@@ -28,30 +28,6 @@ public class CommonEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 创建时间
-     */
-    @TableField(fill = FieldFill.INSERT, updateStrategy = FieldStrategy.NEVER)
-    private LocalDateTime createTime;
-
-    /**
-     * 创建人
-     */
-    @TableField(fill = FieldFill.INSERT, updateStrategy = FieldStrategy.NEVER)
-    private String creator;
-
-    /**
-     * 修改时间
-     */
-    @TableField(fill = FieldFill.UPDATE, insertStrategy = FieldStrategy.NEVER)
-    private LocalDateTime modTime;
-
-    /**
-     * 修改人
-     */
-    @TableField(fill = FieldFill.UPDATE, insertStrategy = FieldStrategy.NEVER)
-    private String modifier;
-
-    /**
      * ids【批量操作】
      */
     @TableField(exist = false)

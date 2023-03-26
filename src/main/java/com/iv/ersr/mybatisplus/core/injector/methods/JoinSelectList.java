@@ -7,6 +7,14 @@ import com.iv.ersr.mybatisplus.core.injector.AbstractMethodPlus;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlSource;
 
+/**
+ * <p>
+ * 自定义JoinSelectList方法
+ * </p>
+ *
+ * @author moxiaoyu
+ * @since 2023-03-22
+ */
 public class JoinSelectList extends AbstractMethodPlus {
 
     /**
@@ -31,8 +39,8 @@ public class JoinSelectList extends AbstractMethodPlus {
 
         setTableInfo(tableInfo);
 
-        String sql = String.format(sqlMethod.getSql(), sqlFirst(), sqlSelectColumns(true), getJoinTableName(), SqlScriptUtils.unSafeParam(JOIN_SQL_NAME),
-                sqlWrapper(true), sqlComment());
+        String sql = String.format(sqlMethod.getSql(), sqlFirst(), sqlSelectColumns(true), convertChooseEwSelect(JOIN_SQL_SELECT, null), getJoinTableName(), SqlScriptUtils.unSafeParam(JOIN_SQL_NAME),
+                sqlWrapper(), sqlComment());
         SqlSource sqlSource = languageDriver.createSqlSource(configuration, sql, modelClass);
         return this.addSelectMappedStatementForTable(mapperClass, sqlMethod.getMethod(), sqlSource, tableInfo);
     }

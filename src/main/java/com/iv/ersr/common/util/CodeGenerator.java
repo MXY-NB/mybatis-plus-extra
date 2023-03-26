@@ -20,7 +20,7 @@ import java.util.List;
  * MybatisPlus 代码生成器
  * </p>
  *
- * @author IVI04
+ * @author moxiaoyu
  * @since 2021-12-24
  */
 @Slf4j

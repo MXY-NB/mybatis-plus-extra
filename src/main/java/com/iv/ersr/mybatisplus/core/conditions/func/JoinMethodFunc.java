@@ -1,6 +1,7 @@
 package com.iv.ersr.mybatisplus.core.conditions.func;
 
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
+import com.iv.ersr.mybatisplus.core.entity.CollectionResultMap;
 
 import java.io.Serializable;
 
@@ -58,14 +59,20 @@ public interface JoinMethodFunc<Children, T> extends Serializable {
 
     /**
      * join查询字段
-     * @param joinSelectTableField 需要查询的关联的表字段
+     * @param columns 需要查询的关联的表字段
      * @return Children
      */
-    <J> Children joinSelect(SFunction<J, ?>... joinSelectTableField);
+    <J> Children jSelect(SFunction<J, ?>... columns);
 
     /**
      * join查询字段
      * @return Children
      */
-    Children joinSelect();
+    Children jSelect();
+
+    /**
+     * join查询字段
+     * @param collectionResultMap 需要查询的关联的表字段
+     */
+    Children coll(CollectionResultMap collectionResultMap);
 }

@@ -11,7 +11,7 @@ import java.util.Locale;
  * 随机id,code生成器
  * </p>
  *
- * @author IVI04
+ * @author moxiaoyu
  * @since 2021-12-24
  */
 public class Sequence {

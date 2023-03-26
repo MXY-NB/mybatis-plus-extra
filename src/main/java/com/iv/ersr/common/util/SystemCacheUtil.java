@@ -8,7 +8,7 @@ import cn.hutool.cache.impl.TimedCache;
  * 全局缓存对象
  * </p>
  *
- * @author IVI04
+ * @author moxiaoyu
  * @since 2021-12-24
  */
 public class SystemCacheUtil {

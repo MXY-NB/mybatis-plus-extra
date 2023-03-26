@@ -12,7 +12,7 @@ import java.io.Serializable;
  * 腾讯COS配置
  * </p>
  *
- * @author IVI04
+ * @author moxiaoyu
  * @since 2022-03-28
  */
 @Data

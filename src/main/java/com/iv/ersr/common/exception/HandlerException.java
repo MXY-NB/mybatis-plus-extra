@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
  * 自定义异常类
  * </p>
  *
- * @author IVI04
+ * @author moxiaoyu
  * @since 2021-12-24
  */
 @NoArgsConstructor

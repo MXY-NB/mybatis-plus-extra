@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.toolkit.sql.SqlScriptUtils;
 import com.iv.ersr.mybatisplus.constant.ConstantsPlus;
 import com.iv.ersr.mybatisplus.core.entity.TableInfoPlus;
-import com.iv.ersr.mybatisplus.core.entity.enums.SqlExcerpt;
 import com.iv.ersr.mybatisplus.utils.JoinSqlScriptUtils;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -15,12 +14,16 @@ import lombok.Setter;
 
 import java.util.function.Predicate;
 
+import static com.iv.ersr.mybatisplus.core.entity.enums.SqlExcerpt.TABLE_AS;
 import static java.util.stream.Collectors.joining;
 
 /**
+ * <p>
+ * 抽象的注入方法类
+ * </p>
+ *
  * @author moxiaoyu
- * @Title: JoinAbstractMethod
- * @time 8/27/21 3:53 PM
+ * @since 2023-03-26
  */
 public abstract class AbstractMethodPlus extends AbstractMethod implements ConstantsPlus {
 
@@ -40,7 +43,7 @@ public abstract class AbstractMethodPlus extends AbstractMethod implements Const
     }
 
     protected String getJoinTableName() {
-        return String.format(SqlExcerpt.TABLE_AS.getSql(), table.getTableInfo().getTableName(), JoinSqlScriptUtils.unSafeParam(TABLE_ALIAS_NAME));
+        return String.format(TABLE_AS.getSql(), table.getTableInfo().getTableName(), SqlScriptUtils.unSafeParam(TABLE_ALIAS_NAME));
     }
 
     protected String sqlSelectColumns(boolean queryWrapper) {
@@ -53,7 +56,7 @@ public abstract class AbstractMethodPlus extends AbstractMethod implements Const
         if (!queryWrapper) {
             return selectColumns;
         }
-        return convertChooseEwSelect(Q_WRAPPER_SQL_SELECT, selectColumns) + convertChooseEwSelect(JOIN_SQL_SELECT, null);
+        return convertChooseEwSelect(Q_WRAPPER_SQL_SELECT, selectColumns);
     }
 
     public String getAllSqlSelect(TableInfo tableInfo) {
@@ -84,13 +87,13 @@ public abstract class AbstractMethodPlus extends AbstractMethod implements Const
                 + "<when test=\"" + whenTest + QUOTE + RIGHT_CHEV + NEWLINE
                 + whenSqlScript + NEWLINE + "</when>" + NEWLINE;
         if (otherwise != null) {
-            sql += "<otherwise>" + otherwise + "</otherwise>" + NEWLINE;
+            sql += "<otherwise>\n" + otherwise + "\n</otherwise>" + NEWLINE;
         }
         sql += "</choose>";
         return sql;
     }
 
-    protected String sqlWrapper(boolean newLine) {
+    protected String sqlWrapper() {
         String sqlScript = "";
         if (table.getTableInfo().isWithLogicDelete()) {
             sqlScript += (NEWLINE + table.getLogicDeleteSql(true, true) + NEWLINE);
@@ -106,7 +109,6 @@ public abstract class AbstractMethodPlus extends AbstractMethod implements Const
                     table.getLogicDeleteSql(false, true));
             sqlScript = SqlScriptUtils.convertWhere(sqlScript);
         } else {
-            sqlScript += NEWLINE;
             sqlScript += SqlScriptUtils.convertIf(String.format(SqlScriptUtils.convertIf(" AND", String.format("%s and %s", WRAPPER_NONEMPTYOFENTITY, WRAPPER_NONEMPTYOFNORMAL), false) + " ${%s}", WRAPPER_SQLSEGMENT),
                     String.format(TEST_CONTENT_3, WRAPPER_SQLSEGMENT, WRAPPER_SQLSEGMENT,
                             WRAPPER_NONEMPTYOFWHERE), true);
@@ -116,6 +118,6 @@ public abstract class AbstractMethodPlus extends AbstractMethod implements Const
                             WRAPPER_EMPTYOFWHERE), true);
             sqlScript = SqlScriptUtils.convertIf(sqlScript, String.format(TEST_CONTENT_1, WRAPPER), true);
         }
-        return newLine ? NEWLINE + sqlScript : sqlScript;
+        return NEWLINE + sqlScript;
     }
 }
