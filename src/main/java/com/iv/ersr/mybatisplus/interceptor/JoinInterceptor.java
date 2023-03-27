@@ -1,15 +1,18 @@
 package com.iv.ersr.mybatisplus.interceptor;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.text.CharSequenceUtil;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
+import com.iv.ersr.game.entity.GameRentalDetail;
 import com.iv.ersr.mybatisplus.core.conditions.query.JoinLambdaQueryWrapper;
 import com.iv.ersr.mybatisplus.core.entity.CollectionResultMap;
 import com.iv.ersr.mybatisplus.core.entity.FieldMapping;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.Executor;
+import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.ResultMap;
 import org.apache.ibatis.mapping.ResultMapping;
@@ -17,6 +20,8 @@ import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.plugin.Intercepts;
 import org.apache.ibatis.plugin.Invocation;
 import org.apache.ibatis.plugin.Signature;
+import org.apache.ibatis.scripting.xmltags.DynamicSqlSource;
+import org.apache.ibatis.scripting.xmltags.TextSqlNode;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.core.annotation.Order;
@@ -48,7 +53,7 @@ public class JoinInterceptor implements Interceptor {
                 Map<String, Object> map = (Map<String, Object>) args[1];
                 Object ew = map.containsKey(Constants.WRAPPER) ? map.get(Constants.WRAPPER) : null;
                 // 如果说 Wrapper 是JoinLambdaWrapper类型就代表可能需要解析多表映射
-                if ((ew instanceof JoinLambdaQueryWrapper)) {
+                if (ew instanceof JoinLambdaQueryWrapper) {
                     JoinLambdaQueryWrapper joinLambdaQueryWrapper = (JoinLambdaQueryWrapper) ew;
 //                    if (joinLambdaQueryWrapper.isResultMap() && CollectionUtils.isNotEmpty(ms.getResultMaps())) {
                         args[0] = newMappedStatement(ms, joinLambdaQueryWrapper);
@@ -96,9 +101,28 @@ public class JoinInterceptor implements Interceptor {
         List<CollectionResultMap> collectionResultMaps = joinLambdaQueryWrapper.getCollectionResultMaps();
         if (CollectionUtils.isNotEmpty(collectionResultMaps)) {
             for (CollectionResultMap collectionResultMap : collectionResultMaps) {
-                MappedStatement mappedStatement = new MappedStatement.Builder(ms.getConfiguration(), "1111", ms.getSqlSource(), ms.getSqlCommandType()).build();
-                mappedStatement
-                ms.getConfiguration().addMappedStatement(mappedStatement);
+                MappedStatement mappedStatement = ms.getConfiguration().getMappedStatement("com.iv.ersr.game.mapper.GameRentalDetailMapper.joinSelectList");
+                BoundSql boundSql = mappedStatement.getBoundSql(MapUtil.builder().put(Constants.WRAPPER, collectionResultMap.getWrapper()).put("param1", collectionResultMap.getWrapper()).build());
+                mappedStatement.getConfiguration().addMappedStatement(new MappedStatement.Builder(mappedStatement.getConfiguration(), "111", new DynamicSqlSource(mappedStatement.getConfiguration(), new TextSqlNode("SELECT\n" +
+                        " \n" +
+                        "t1.id,t1.game_id,t1.game_size,t1.play_modes\n" +
+                        " \n" +
+                        " \n" +
+                        "FROM game_rental_detail AS t1  \n" +
+                        " \n" +
+                        " WHERE (t1.game_id = #{gameId})")), mappedStatement.getSqlCommandType())
+                        .resultMaps(CollUtil.newArrayList(new ResultMap.Builder(ms.getConfiguration(), "com.iv.ersr.game.mapper.GameRentalInfoMapper.mybatis-plus_GameRentalDetail", GameRentalDetail.class, new ArrayList<>(), true).build()))
+                        .build());
+                ms.getConfiguration().addMappedStatement(new MappedStatement.Builder(mappedStatement.getConfiguration(), "111", new DynamicSqlSource(mappedStatement.getConfiguration(), new TextSqlNode("SELECT\n" +
+                        " \n" +
+                        "t1.id,t1.game_id,t1.game_size,t1.play_modes\n" +
+                        " \n" +
+                        " \n" +
+                        "FROM game_rental_detail AS t1  \n" +
+                        " \n" +
+                        " WHERE (t1.game_id = #{gameId})")), mappedStatement.getSqlCommandType())
+                        .resultMaps(CollUtil.newArrayList(new ResultMap.Builder(ms.getConfiguration(), "com.iv.ersr.game.mapper.GameRentalInfoMapper.mybatis-plus_GameRentalDetail", GameRentalDetail.class, new ArrayList<>(), true).build()))
+                        .build());
                 StringBuilder stringBuilder = new StringBuilder();
                 List<ResultMapping> composites = new ArrayList<>();
                 for (FieldMapping fieldMapping : collectionResultMap.getFieldMappings()) {

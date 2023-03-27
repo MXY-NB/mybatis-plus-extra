@@ -1,8 +1,8 @@
 package com.iv.ersr.mybatisplus.core.entity;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import lombok.*;
-import org.apache.ibatis.mapping.SqlSource;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,7 +25,7 @@ public class CollectionResultMap {
     /**
      * 子查询
      */
-    private SqlSource sqlSource;
+    private Wrapper<?> wrapper;
 
     /**
      * 子查询的id

@@ -1,14 +1,11 @@
 package com.iv.ersr.common.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -26,18 +23,6 @@ import java.util.List;
 public class CommonTimeEntity extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 创建时间
-     */
-    @TableField(fill = FieldFill.INSERT, updateStrategy = FieldStrategy.NEVER)
-    private LocalDateTime createTime;
-
-    /**
-     * 修改时间
-     */
-    @TableField(fill = FieldFill.UPDATE, insertStrategy = FieldStrategy.NEVER)
-    private LocalDateTime modTime;
 
     /**
      * ids【批量操作】
