@@ -1,5 +1,6 @@
 package com.iv.ersr.mybatisplus.core.conditions.query;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.text.CharSequenceUtil;
@@ -12,6 +13,8 @@ import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.iv.ersr.mybatisplus.core.conditions.AbstractJoinLambdaWrapper;
 import com.iv.ersr.mybatisplus.core.entity.CollectionResultMap;
+import com.iv.ersr.mybatisplus.core.entity.FieldMapping;
+import com.iv.ersr.mybatisplus.exception.Exceptions;
 import com.iv.ersr.mybatisplus.utils.Lambdas;
 import lombok.Getter;
 
@@ -135,6 +138,19 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
     @Override
     public final JoinLambdaQueryWrapper<T> coll(CollectionResultMap collectionResultMap) {
         collectionResultMap.setPropertyName(Lambdas.toPropertyName(collectionResultMap.getProperty()));
+        if (CollUtil.isNotEmpty(collectionResultMap.getFieldMappings())) {
+            for (FieldMapping fieldMapping : collectionResultMap.getFieldMappings()) {
+                if (fieldMapping.getColumn() != null) {
+                    fieldMapping.setColumnName(Lambdas.toPropertyName(fieldMapping.getColumn()));
+                }
+                if (fieldMapping.getParam() != null) {
+                    fieldMapping.setParamName(Lambdas.toPropertyName(fieldMapping.getParam()));
+                }
+                if (CharSequenceUtil.isEmpty(fieldMapping.getColumnName()) || CharSequenceUtil.isEmpty(fieldMapping.getParamName())) {
+                    throw Exceptions.t("fieldMapping请填写完整参数");
+                }
+            }
+        }
         collectionResultMaps.add(collectionResultMap);
         return typedThis;
     }

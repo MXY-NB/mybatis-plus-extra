@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public final class JoinWrappers {
 
-    private static final JoinLambdaQueryWrapper<?> emptyWrapper = new EmptyWrapper<>();
+    private static final JoinLambdaQueryWrapper<?> EMPTY_WRAPPER = new EmptyWrapper<>();
 
     private JoinWrappers() {
         // ignore
@@ -27,12 +27,11 @@ public final class JoinWrappers {
     }
 
     public static <T> JoinLambdaQueryWrapper<T> emptyWrapper() {
-        return (JoinLambdaQueryWrapper<T>) emptyWrapper;
+        return (JoinLambdaQueryWrapper<T>) EMPTY_WRAPPER;
     }
 
     /**
      * 一个空的QueryWrapper子类该类不包含任何条件
-     *
      * @param <T>
      * @see com.baomidou.mybatisplus.core.conditions.query.QueryWrapper
      */

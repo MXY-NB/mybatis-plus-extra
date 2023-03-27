@@ -1,11 +1,13 @@
 package com.iv.ersr.mybatisplus.interceptor;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.iv.ersr.mybatisplus.core.conditions.query.JoinLambdaQueryWrapper;
 import com.iv.ersr.mybatisplus.core.entity.CollectionResultMap;
+import com.iv.ersr.mybatisplus.core.entity.FieldMapping;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -94,14 +96,22 @@ public class JoinInterceptor implements Interceptor {
         List<CollectionResultMap> collectionResultMaps = joinLambdaQueryWrapper.getCollectionResultMaps();
         if (CollectionUtils.isNotEmpty(collectionResultMaps)) {
             for (CollectionResultMap collectionResultMap : collectionResultMaps) {
+                MappedStatement mappedStatement = new MappedStatement.Builder(ms.getConfiguration(), "1111", ms.getSqlSource(), ms.getSqlCommandType()).build();
+                mappedStatement
+                ms.getConfiguration().addMappedStatement(mappedStatement);
+                StringBuilder stringBuilder = new StringBuilder();
+                List<ResultMapping> composites = new ArrayList<>();
+                for (FieldMapping fieldMapping : collectionResultMap.getFieldMappings()) {
+                    stringBuilder.append(fieldMapping.getParamName() + "=" + fieldMapping.getColumnName()).append(StringPool.COMMA);
+                    composites.add(new ResultMapping.Builder(ms.getConfiguration(),
+                            fieldMapping.getParamName(), fieldMapping.getColumnName(), Object.class)
+                            .build());
+                }
+                String collect = CharSequenceUtil.subBefore(stringBuilder.toString(), StringPool.COMMA, true);
                 ResultMapping builder = new ResultMapping.Builder(ms.getConfiguration(),
-                        collectionResultMap.getPropertyName(), "{" + collectionResultMap.getFieldMappings().get(0).getParamName() + "=" + collectionResultMap.getFieldMappings().get(0).getColumn() + "}", List.class)
-                        .nestedQueryId("com.iv.ersr.game.mapper.GameRentalInfoMapper.listDetails")
-                        .composites(CollUtil.newArrayList(
-                                new ResultMapping.Builder(ms.getConfiguration(),
-                                        collectionResultMap.getFieldMappings().get(0).getParamName(), collectionResultMap.getFieldMappings().get(0).getColumn(), Object.class)
-                                .build())
-                        ).build();
+                        collectionResultMap.getPropertyName(), "{" + collect + "}", List.class)
+                        .nestedQueryId(collectionResultMap.getId())
+                        .composites(composites).build();
                 newResultMappings.add(builder);
             }
         }

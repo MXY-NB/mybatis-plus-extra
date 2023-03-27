@@ -15,6 +15,16 @@ public final class Exceptions {
 
     /**
      * 返回一个新的异常，统一构建，方便统一处理
+     * @param t   异常信息
+     * @return 返回异常
+     */
+    public static MybatisPlusJoinException t(Throwable t) {
+        return new MybatisPlusJoinException(t);
+    }
+
+
+    /**
+     * 返回一个新的异常，统一构建，方便统一处理
      *
      * @param msg 消息
      * @param t   异常信息

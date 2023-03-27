@@ -1,16 +1,17 @@
 package com.iv.ersr.common.controller;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.json.JSONUtil;
 import com.iv.ersr.common.entity.Response;
+import com.iv.ersr.game.entity.GameRentalDetail;
 import com.iv.ersr.game.entity.GameRentalInfo;
 import com.iv.ersr.game.mapper.GameRentalInfoMapper;
 import com.iv.ersr.game.service.IGameRentalDetailService;
 import com.iv.ersr.game.service.IGameRentalInfoService;
 import com.iv.ersr.mybatisplus.core.entity.CollectionResultMap;
-import com.iv.ersr.mybatisplus.core.entity.FieldMapping;
 import com.iv.ersr.mybatisplus.core.toolkit.JoinWrappers;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.mapping.BoundSql;
+import org.apache.ibatis.mapping.SqlSource;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -53,13 +54,26 @@ public class CommonController extends BaseController {
 //        );
         GameRentalInfo gameRentalInfo2 = gameRentalInfoService.joinGetOne(JoinWrappers.<GameRentalInfo>lambdaQuery()
                         .select(GameRentalInfo::getId, GameRentalInfo::getChineseName)
-                        .coll(CollectionResultMap.builder().property(GameRentalInfo::getGameRentalDetails).fieldMappings(CollUtil.newArrayList(FieldMapping.builder().column("chinese_name").paramName("chineseName").build())).build())
-                        .eq(GameRentalInfo::getId, 1L)
+                        .coll(CollectionResultMap.builder()
+                                .sqlSource(new SqlSource() {
+                                    @Override
+                                    public BoundSql getBoundSql(Object parameterObject) {
+                                        return new BoundSql(JoinWrappers.<GameRentalDetail>lambdaQuery().eq(GameRentalDetail::getGameId, "#{gameId}").getTargetSql());
+                                    }
+                                })
+                                .id("com.iv.ersr.game.mapper.GameRentalInfoMapper.listDetails")
+                                .property(GameRentalInfo::getGameRentalDetails)
+                                .column(GameRentalInfo::getId)
+                                .param(GameRentalDetail::getGameId)
+                                .end()
+//                                .columnName("chinese_name")
+//                                .paramName("search")
+//                                .end()
+                                .build())
+                        .eq(GameRentalInfo::getId, 1627561102696390658L)
 //                .joinEq(Game::getChineseName, 1L)
         );
-        GameRentalInfo gameRentalInfo = gameRentalInfoMapper.getOne(new GameRentalInfo());
-        log.info("mapper: ================ \n" + JSONUtil.toJsonPrettyStr(gameRentalInfo));
-        if (gameRentalInfo2.getGameRentalDetails()!= null) {
+        if (gameRentalInfo2 != null && gameRentalInfo2.getGameRentalDetails()!= null) {
             log.error("mapper: ================ \n" + JSONUtil.toJsonPrettyStr(gameRentalInfo2));
         }
         return Response.createSuccResponse();

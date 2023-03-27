@@ -2,7 +2,10 @@ package com.iv.ersr.mybatisplus.core.entity;
 
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import lombok.*;
+import org.apache.ibatis.mapping.SqlSource;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -20,6 +23,16 @@ import java.util.List;
 public class CollectionResultMap {
 
     /**
+     * 子查询
+     */
+    private SqlSource sqlSource;
+
+    /**
+     * 子查询的id
+     */
+    private String id;
+
+    /**
      * 字段名
      */
     private String propertyName;
@@ -35,12 +48,10 @@ public class CollectionResultMap {
     private List<FieldMapping> fieldMappings;
 
     public static class CollectionResultMapBuilder {
-        @Generated
-        private String propertyName;
-        @Generated
-        private SFunction<?, ?> property;
-        @Generated
-        private List<FieldMapping> fieldMappings;
+        /**
+         * 字段名
+         */
+        private FieldMapping.FieldMappingBuilder fieldMappingBuilder = FieldMapping.builder();
 
         @Generated
         public <J> CollectionResultMapBuilder property(final SFunction<J, ?> property) {
@@ -49,8 +60,43 @@ public class CollectionResultMap {
         }
 
         @Generated
-        public CollectionResultMap build() {
-            return new CollectionResultMap(this.propertyName, this.property, this.fieldMappings);
+        public CollectionResultMapBuilder fieldMappings(FieldMapping... fieldMappings) {
+            this.fieldMappings = Arrays.asList(fieldMappings);
+            return this;
+        }
+
+        @Generated
+        public <J> CollectionResultMapBuilder column(final SFunction<J, ?> column) {
+            this.fieldMappingBuilder.column(column);
+            return this;
+        }
+
+        @Generated
+        public CollectionResultMapBuilder columnName(final String columnName) {
+            this.fieldMappingBuilder.columnName(columnName);
+            return this;
+        }
+
+        @Generated
+        public <J> CollectionResultMapBuilder param(final SFunction<J, ?> param) {
+            this.fieldMappingBuilder.param(param);
+            return this;
+        }
+
+        @Generated
+        public CollectionResultMapBuilder paramName(final String paramName) {
+            this.fieldMappingBuilder.paramName(paramName);
+            return this;
+        }
+
+        @Generated
+        public CollectionResultMapBuilder end() {
+            if (this.fieldMappings == null) {
+                this.fieldMappings = new ArrayList<>();
+            }
+            this.fieldMappings.add(this.fieldMappingBuilder.build());
+            this.fieldMappingBuilder = FieldMapping.builder();
+            return this;
         }
     }
 }

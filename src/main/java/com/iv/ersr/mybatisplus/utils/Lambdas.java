@@ -2,7 +2,7 @@ package com.iv.ersr.mybatisplus.utils;
 
 import com.baomidou.mybatisplus.core.toolkit.LambdaUtils;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
-import icu.mhb.mybatisplus.plugln.exception.Exceptions;
+import com.iv.ersr.mybatisplus.exception.Exceptions;
 import org.apache.ibatis.reflection.property.PropertyNamer;
 
 import java.lang.invoke.CallSite;
@@ -59,7 +59,7 @@ public class Lambdas {
                                                     methodType, FLAG_SERIALIZABLE);
             func = (SFunction<T, ?>) site.getTarget().invokeExact();
         } catch (Throwable e) {
-            throw Exceptions.mpje(e);
+            throw Exceptions.t(e);
         }
         return func;
     }

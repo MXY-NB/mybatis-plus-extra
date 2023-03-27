@@ -1,8 +1,7 @@
 package com.iv.ersr.mybatisplus.core.entity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
+import lombok.*;
 
 /**
  * <p>
@@ -21,10 +20,34 @@ public class FieldMapping {
     /**
      * 字段名
      */
-    private String column;
+    private SFunction<?, ?> column;
 
     /**
-     * 属性名
+     * 字段名
+     */
+    private String columnName;
+
+    /**
+     * 参数名
+     */
+    private SFunction<?, ?> param;
+
+    /**
+     * 参数名
      */
     private String paramName;
+
+    public static class FieldMappingBuilder {
+        @Generated
+        public <J> FieldMapping.FieldMappingBuilder column(final SFunction<J, ?> column) {
+            this.column = column;
+            return this;
+        }
+
+        @Generated
+        public <J> FieldMapping.FieldMappingBuilder param(final SFunction<J, ?> param) {
+            this.param = param;
+            return this;
+        }
+    }
 }

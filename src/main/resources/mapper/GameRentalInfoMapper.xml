@@ -2,15 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.iv.ersr.game.mapper.GameRentalInfoMapper">
 
-    <resultMap id="GameRentalInfoResultMap" type="com.iv.ersr.game.entity.GameRentalInfo" autoMapping="true">
-        <collection property="gameRentalDetails" column="{chineseName=chinese_name}" select="listDetails"/>
-    </resultMap>
-
-    <select id="getOne" resultType="com.iv.ersr.game.entity.GameRentalInfo" resultMap="GameRentalInfoResultMap">
-        SELECT id,chinese_name FROM game_rental_info WHERE id = 1
-    </select>
-
     <select id="listDetails" resultType="com.iv.ersr.game.entity.GameRentalDetail">
-        SELECT id,game_size FROM game_rental_detail WHERE game_size = #{chineseName}
+        SELECT id,game_size FROM game_rental_detail
+        <where>
+            AND game_id = #{gameId}
+            <if test="search != null and search != ''">
+                OR game_size like CONCAT('%',#{search},'%')
+            </if>
+        </where>
     </select>
 </mapper>

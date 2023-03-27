@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -22,21 +23,21 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class CommonEntity extends CommonTimeEntity {
+public class CommonTimeEntity extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 创建人
+     * 创建时间
      */
     @TableField(fill = FieldFill.INSERT, updateStrategy = FieldStrategy.NEVER)
-    private String creator;
+    private LocalDateTime createTime;
 
     /**
-     * 修改人
+     * 修改时间
      */
     @TableField(fill = FieldFill.UPDATE, insertStrategy = FieldStrategy.NEVER)
-    private String modifier;
+    private LocalDateTime modTime;
 
     /**
      * ids【批量操作】
