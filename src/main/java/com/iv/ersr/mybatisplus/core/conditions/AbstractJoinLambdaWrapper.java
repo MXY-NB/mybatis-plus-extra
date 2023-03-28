@@ -114,6 +114,7 @@ public abstract class AbstractJoinLambdaWrapper<T, Children extends AbstractJoin
         return columns;
     }
 
+    @Override
     protected <J> void appendSqlSegments(SqlExcerpt sqlExcerpt, SFunction<T, ?> masterTableField, SFunction<J, ?> joinTableField, String alias) {
         LambdaMeta lambdaMeta = LambdaUtils.extract(joinTableField);
         Class<?> instantiatedClass = lambdaMeta.getInstantiatedClass();

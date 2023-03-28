@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInt
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.iv.ersr.mybatisplus.core.injector.DefaultSqlInjectorPlus;
 import com.iv.ersr.mybatisplus.interceptor.JoinInterceptor;
+import com.iv.ersr.mybatisplus.interceptor.JoinInterceptor2;
 import com.iv.ersr.mybatisplus.interceptor.MybatisPlusJoinInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -52,6 +53,6 @@ public class MybatisPlusConfig {
 
     @Bean
     public MybatisPlusJoinInterceptor joinInterceptorConfig() {
-        return new MybatisPlusJoinInterceptor(new JoinInterceptor());
+        return new MybatisPlusJoinInterceptor(new JoinInterceptor(), new JoinInterceptor2());
     }
 }

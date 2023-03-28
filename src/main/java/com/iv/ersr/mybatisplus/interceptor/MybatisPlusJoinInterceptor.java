@@ -28,9 +28,11 @@ public class MybatisPlusJoinInterceptor implements InitializingBean {
     private List<SqlSessionFactory> sqlSessionFactoryList;
 
     private final JoinInterceptor joinInterceptor;
+    private final JoinInterceptor2 joinInterceptor2;
 
-    public MybatisPlusJoinInterceptor (JoinInterceptor joinInterceptor) {
+    public MybatisPlusJoinInterceptor (JoinInterceptor joinInterceptor, JoinInterceptor2 joinInterceptor2) {
         this.joinInterceptor = joinInterceptor;
+        this.joinInterceptor2 = joinInterceptor2;
     }
 
     @Override
@@ -54,6 +56,7 @@ public class MybatisPlusJoinInterceptor implements InitializingBean {
                         if (list.get(list.size() - 1) != joinInterceptor) {
                             list.removeIf(i -> i == joinInterceptor);
                             list.add(joinInterceptor);
+                            list.add(joinInterceptor2);
                         }
                     }
                     list.add(joinInterceptor);

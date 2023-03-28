@@ -54,7 +54,9 @@ public class CommonController extends BaseController {
         GameRentalInfo gameRentalInfo2 = gameRentalInfoService.joinGetOne(JoinWrappers.<GameRentalInfo>lambdaQuery()
                         .select(GameRentalInfo::getId, GameRentalInfo::getChineseName)
                         .coll(CollectionResultMap.builder()
-                                .wrapper(JoinWrappers.<GameRentalDetail>lambdaQuery().eq(GameRentalDetail::getGameId, "#{gameId}"))
+                                .wrapper(JoinWrappers.<GameRentalDetail>lambdaQuery()
+                                        .select(GameRentalDetail::getGameId, GameRentalDetail::getGameSize)
+                                        .eq(GameRentalDetail::getGameId, "#{gameId}"))
                                 .id("111")
                                 .property(GameRentalInfo::getGameRentalDetails)
                                 .column(GameRentalInfo::getId)
@@ -64,7 +66,7 @@ public class CommonController extends BaseController {
 //                                .paramName("search")
 //                                .end()
                                 .build())
-                        .eq(GameRentalInfo::getId, 1L)
+                        .eq(GameRentalInfo::getId, 1627561102696390658L)
 //                .joinEq(Game::getChineseName, 1L)
         );
         if (gameRentalInfo2 != null && gameRentalInfo2.getGameRentalDetails()!= null) {

@@ -163,8 +163,7 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
 
     @Override
     public String getSqlSegment() {
-        String sqlSegment = expression.getSqlSegment();
-        return sqlSegment + lastSql.getStringValue();
+        return expression.getSqlSegment() + lastSql.getStringValue();
     }
 
     public String getJoinSqlSelect() {
