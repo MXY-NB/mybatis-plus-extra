@@ -56,7 +56,7 @@ public class JoinInterceptor2 implements Interceptor {
                         if (CollectionUtils.isNotEmpty(collectionResultMaps)) {
                             for (CollectionResultMap collectionResultMap : collectionResultMaps) {
                                 MappedStatement mappedStatement = ms.getConfiguration().getMappedStatement("com.iv.ersr.game.mapper.GameRentalDetailMapper.joinSelectList");
-                                Map<String, Object> parameter = MapUtil.<String, Object>builder().put(Constants.WRAPPER, collectionResultMap.getWrapper()).build();
+                                Map<String, Object> parameter = MapUtil.<String, Object>builder().put(Constants.WRAPPER, null).build();
                                 assert executor != null;
                                 List<Object> query = executor.query(mappedStatement, parameter, RowBounds.DEFAULT, new DefaultResultHandler());
                                 ReflectUtil.setFieldValue(res, "gameRentalDetails", query);

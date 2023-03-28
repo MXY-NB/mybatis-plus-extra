@@ -2,12 +2,10 @@ package com.iv.ersr.common.controller;
 
 import cn.hutool.json.JSONUtil;
 import com.iv.ersr.common.entity.Response;
-import com.iv.ersr.game.entity.GameRentalDetail;
 import com.iv.ersr.game.entity.GameRentalInfo;
 import com.iv.ersr.game.mapper.GameRentalInfoMapper;
 import com.iv.ersr.game.service.IGameRentalDetailService;
 import com.iv.ersr.game.service.IGameRentalInfoService;
-import com.iv.ersr.mybatisplus.core.entity.CollectionResultMap;
 import com.iv.ersr.mybatisplus.core.toolkit.JoinWrappers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,22 +48,8 @@ public class CommonController extends BaseController {
 //                .select(GameRentalInfo::getId)
 //                .last("LIMIT 10")
 //        );
-        JoinWrappers.<GameRentalDetail>lambdaQuery().eq(GameRentalDetail::getGameId, "#{gameId}");
         GameRentalInfo gameRentalInfo2 = gameRentalInfoService.joinGetOne(JoinWrappers.<GameRentalInfo>lambdaQuery()
                         .select(GameRentalInfo::getId, GameRentalInfo::getChineseName)
-                        .coll(CollectionResultMap.builder()
-                                .wrapper(JoinWrappers.<GameRentalDetail>lambdaQuery()
-                                        .select(GameRentalDetail::getGameId, GameRentalDetail::getGameSize)
-                                        .eq(GameRentalDetail::getGameId, "#{gameId}"))
-                                .id("111")
-                                .property(GameRentalInfo::getGameRentalDetails)
-                                .column(GameRentalInfo::getId)
-                                .param(GameRentalDetail::getGameId)
-                                .end()
-//                                .columnName("chinese_name")
-//                                .paramName("search")
-//                                .end()
-                                .build())
                         .eq(GameRentalInfo::getId, 1627561102696390658L)
 //                .joinEq(Game::getChineseName, 1L)
         );

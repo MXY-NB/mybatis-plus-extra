@@ -1,7 +1,6 @@
 package com.iv.ersr.mybatisplus.core.entity;
 
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
-import com.iv.ersr.mybatisplus.core.conditions.query.JoinLambdaQueryWrapper;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -21,11 +20,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CollectionResultMap {
-
-    /**
-     * 子查询
-     */
-    private JoinLambdaQueryWrapper<?> wrapper;
 
     /**
      * 子查询的id

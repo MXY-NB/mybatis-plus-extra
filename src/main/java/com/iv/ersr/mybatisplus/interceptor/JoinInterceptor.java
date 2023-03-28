@@ -93,16 +93,20 @@ public class JoinInterceptor implements Interceptor {
         List<CollectionResultMap> collectionResultMaps = joinLambdaQueryWrapper.getCollectionResultMaps();
 //        if (CollectionUtils.isNotEmpty(collectionResultMaps)) {
 //            for (CollectionResultMap collectionResultMap : collectionResultMaps) {
-//                MappedStatement mappedStatement = ms.getConfiguration().getMappedStatement("com.iv.ersr.game.mapper.GameRentalDetailMapper.joinSelectList");
-//                BoundSql boundSql = mappedStatement.getBoundSql(MapUtil.<String, Object>builder().put(Constants.WRAPPER, collectionResultMap.getWrapper()).build());
-//                String format = String.format(boundSql.getSql(), collectionResultMap.getWrapper().getMyExpressionParams().toArray());
-//                ms.getConfiguration().addMappedStatement(new MappedStatement.Builder(mappedStatement.getConfiguration(), collectionResultMap.getId(),
-//                        new DynamicSqlSource(mappedStatement.getConfiguration(), new TextSqlNode(format)),
-//                        mappedStatement.getSqlCommandType())
-//                        .resultMaps(CollUtil.newArrayList(new ResultMap.Builder(ms.getConfiguration(), "com.iv.ersr.game.mapper.GameRentalInfoMapper.mybatis-plus_GameRentalDetail", GameRentalDetail.class, new ArrayList<>(), true).build()))
-//                        .build());
 //                StringBuilder stringBuilder = new StringBuilder();
 //                List<ResultMapping> composites = new ArrayList<>();
+//                for (FieldMapping fieldMapping : collectionResultMap.getFieldMappings()) {
+//                    stringBuilder.append(fieldMapping.getParamName() + "=" + fieldMapping.getColumnName()).append(StringPool.COMMA);
+//                    composites.add(new ResultMapping.Builder(ms.getConfiguration(),
+//                            fieldMapping.getParamName(), fieldMapping.getColumnName(), Object.class)
+//                            .build());
+//                }
+//                String collect = CharSequenceUtil.subBefore(stringBuilder.toString(), StringPool.COMMA, true);
+//                ResultMapping builder = new ResultMapping.Builder(ms.getConfiguration(),
+//                        collectionResultMap.getPropertyName(), "{" + collect + "}", List.class)
+//                        .nestedQueryId(collectionResultMap.getId())
+//                        .composites(composites).build();
+//                newResultMappings.add(builder);
 //            }
 //        }
         return new ResultMap.Builder(ms.getConfiguration(), resultMap.getId(), resultMap.getType(), newResultMappings, true).build();
