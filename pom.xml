@@ -10,8 +10,8 @@
     <url>https://gitee.com/qingyu-mo/mybatis-plus-extra</url>
     <licenses>
         <license>
-            <name>The Apache Software License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <name>Mulan Permissive Software License，Version 2</name>
+            <url>https://license.coscl.org.cn/MulanPSL2</url>
         </license>
     </licenses>
     <developers>
@@ -35,9 +35,6 @@
     <profiles>
         <profile>
             <id>oss</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <build>
                 <plugins>
                     <plugin>
@@ -56,6 +53,9 @@
         </profile>
         <profile>
             <id>release</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <build>
                 <plugins>
                     <plugin>

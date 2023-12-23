@@ -63,12 +63,7 @@ public abstract class AbstractJoinWrapper<T, Children extends AbstractJoinWrappe
     /**
      * join语句
      */
-    protected SharedString sqlJoin;
-
-    /**
-     * join语句
-     */
-    protected List<SharedString> sqlJoinOn;
+    protected LinkedList<SharedString> sqlJoinList;
 
     /**
      * join的class别名map
@@ -106,8 +101,7 @@ public abstract class AbstractJoinWrapper<T, Children extends AbstractJoinWrappe
     @Override
     protected void initNeed() {
         super.initNeed();
-        sqlJoin = SharedString.emptyString();
-        sqlJoinOn = new ArrayList<>();
+        sqlJoinList = new LinkedList<>();
         joinClassAliasMap = new HashMap<>(16);
         joinNumber = 1;
         joinClassColumnMap = new HashMap<>(16);
@@ -326,7 +320,7 @@ public abstract class AbstractJoinWrapper<T, Children extends AbstractJoinWrappe
     }
 
     protected <J> Children joinAddCondition(boolean condition, SFunction<J, ?> column, SqlKeyword sqlKeyword, Object val) {
-        return maybeDo(condition, () -> appendSqlSegments(joinColumnToSqlSegment(column), sqlKeyword, ()->formatParam(null, val)));
+        return maybeDo(condition, () -> appendSqlSegments(joinColumnToSqlSegment(column), sqlKeyword, () -> formatParam(null, val)));
     }
 
     @Override
@@ -532,13 +526,13 @@ public abstract class AbstractJoinWrapper<T, Children extends AbstractJoinWrappe
 
     @Override
     public Children jsonContain(boolean condition, SFunction<T, ?> column, Collection<?> coll) {
-        return maybeDo(condition, ()->appendSqlSegments(columnToSqlSegment(ConstantPlus.JSON_CONTAIN, columnToString(column)),
+        return maybeDo(condition, () -> appendSqlSegments(columnToSqlSegment(ConstantPlus.JSON_CONTAIN, columnToString(column)),
                 inExpression(coll), strToSqlSegment(StringPool.RIGHT_BRACKET)));
     }
 
     @Override
     public Children jsonContainAny(boolean condition, SFunction<T, ?> column, Collection<?> coll) {
-        return maybeDo(condition, ()->appendSqlSegments(columnToSqlSegment(ConstantPlus.JSON_OVERLAPS, columnToString(column)),
+        return maybeDo(condition, () -> appendSqlSegments(columnToSqlSegment(ConstantPlus.JSON_OVERLAPS, columnToString(column)),
                 inExpression(coll), strToSqlSegment(StringPool.RIGHT_BRACKET)));
     }
 
@@ -614,94 +608,94 @@ public abstract class AbstractJoinWrapper<T, Children extends AbstractJoinWrappe
 
     @Override
     public Children groupByMonth(boolean condition, SFunction<T, ?> column) {
-        return maybeDo(condition, ()->appendSqlSegments(GROUP_BY, strToSqlSegment(JoinSqlScriptUtil.getDateFormatSql(columnToString(column)))));
+        return maybeDo(condition, () -> appendSqlSegments(GROUP_BY, strToSqlSegment(JoinSqlScriptUtil.getDateFormatSql(columnToString(column)))));
     }
 
     @Override
     public <J> Children jGroupByMonth(boolean condition, SFunction<J, ?> column) {
-        return maybeDo(condition, ()->appendSqlSegments(GROUP_BY, strToSqlSegment(JoinSqlScriptUtil.getDateFormatSql(joinColumnToString(column)))));
+        return maybeDo(condition, () -> appendSqlSegments(GROUP_BY, strToSqlSegment(JoinSqlScriptUtil.getDateFormatSql(joinColumnToString(column)))));
     }
 
     @Override
     public Children jHaving(boolean condition, Consumer<Children> consumer) {
-        return maybeDo(condition, ()->appendSqlSegments(HAVING, ()->getInstance(consumer).getSqlSegment()));
+        return maybeDo(condition, () -> appendSqlSegments(HAVING, () -> getInstance(consumer).getSqlSegment()));
     }
 
     // ======================= JoinMethod ======================== //
 
     @Override
     public Children joinOn(boolean condition, Consumer<Children> consumer) {
-        return maybeDo(condition, ()-> sqlJoinOn.add(new SharedString(getInstance(consumer).getSqlSegment())));
+        return maybeDo(condition, () -> appendJoinSql(getInstance(consumer).getSqlSegment()));
     }
 
     @Override
     public <J> Children joinOn(boolean condition, SFunction<T, ?> column, SFunction<J, ?> column2) {
-        return maybeDo(condition, ()-> sqlJoinOn.add(new SharedString(columnToString(column) + ConstantPlus.EQUALS_C + joinColumnToString(column2))));
+        return maybeDo(condition, () -> appendJoinSql(columnToString(column) + ConstantPlus.EQUALS_C + joinColumnToString(column2)));
     }
 
     @Override
     public <J> Children jJoinOn(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2) {
-        return maybeDo(condition, ()-> sqlJoinOn.add(new SharedString(joinColumnToString(column) + ConstantPlus.EQUALS_C + joinColumnToString(column2))));
+        return maybeDo(condition, () -> appendJoinSql(joinColumnToString(column) + ConstantPlus.EQUALS_C + joinColumnToString(column2)));
     }
 
     @Override
     public <J> Children innerJoin(boolean condition, SFunction<T, ?> column, SFunction<J, ?> column2, String alias) {
-        return maybeDo(condition, ()->appendJoinSql(ConstantPlus.INNER_JOIN, column, true, column2, alias));
+        return maybeDo(condition, () -> appendJoinSql(ConstantPlus.INNER_JOIN, column, true, column2, alias));
     }
 
     @Override
     public <J> Children jInnerJoin(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2, String alias) {
-        return maybeDo(condition, ()->appendJoinSql(ConstantPlus.INNER_JOIN, column, false, column2, alias));
+        return maybeDo(condition, () -> appendJoinSql(ConstantPlus.INNER_JOIN, column, false, column2, alias));
     }
 
     @Override
     public <J> Children innerJoin(boolean condition, SFunction<T, ?> column, Class<J> entityClass, Consumer<JoinLambdaQueryWrapper<J>> consumer, String alias, String joinOn) {
-        return maybeDo(condition, ()->appendJoinSql(ConstantPlus.INNER_JOIN, column, true, entityClass, consumer, alias, joinOn));
+        return maybeDo(condition, () -> appendJoinSql(ConstantPlus.INNER_JOIN, column, true, entityClass, consumer, alias, joinOn));
     }
 
     @Override
     public <J> Children jInnerJoin(boolean condition, SFunction<J, ?> column, Class<J> entityClass, Consumer<JoinLambdaQueryWrapper<J>> consumer, String alias, String joinOn) {
-        return maybeDo(condition, ()->appendJoinSql(ConstantPlus.INNER_JOIN, column, false, entityClass, consumer, alias, joinOn));
+        return maybeDo(condition, () -> appendJoinSql(ConstantPlus.INNER_JOIN, column, false, entityClass, consumer, alias, joinOn));
     }
 
     @Override
     public <J> Children leftJoin(boolean condition, SFunction<T, ?> column, SFunction<J, ?> column2, String alias) {
-        return maybeDo(condition, ()->appendJoinSql(ConstantPlus.LEFT_JOIN, column, true, column2, alias));
+        return maybeDo(condition, () -> appendJoinSql(ConstantPlus.LEFT_JOIN, column, true, column2, alias));
     }
 
     @Override
     public <J> Children jLeftJoin(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2, String alias) {
-        return maybeDo(condition, ()->appendJoinSql(ConstantPlus.LEFT_JOIN, column, false, column2, alias));
+        return maybeDo(condition, () -> appendJoinSql(ConstantPlus.LEFT_JOIN, column, false, column2, alias));
     }
 
     @Override
     public <J> Children leftJoin(boolean condition, SFunction<T, ?> column, Class<J> entityClass, Consumer<JoinLambdaQueryWrapper<J>> consumer, String alias, String joinOn) {
-        return maybeDo(condition, ()->appendJoinSql(ConstantPlus.LEFT_JOIN, column, true, entityClass, consumer, alias, joinOn));
+        return maybeDo(condition, () -> appendJoinSql(ConstantPlus.LEFT_JOIN, column, true, entityClass, consumer, alias, joinOn));
     }
 
     @Override
     public <J> Children jLeftJoin(boolean condition, SFunction<J, ?> column, Class<J> entityClass, Consumer<JoinLambdaQueryWrapper<J>> consumer, String alias, String joinOn) {
-        return maybeDo(condition, ()->appendJoinSql(ConstantPlus.LEFT_JOIN, column, false, entityClass, consumer, alias, joinOn));
+        return maybeDo(condition, () -> appendJoinSql(ConstantPlus.LEFT_JOIN, column, false, entityClass, consumer, alias, joinOn));
     }
 
     @Override
     public <J> Children rightJoin(boolean condition, SFunction<T, ?> column, SFunction<J, ?> column2, String alias) {
-        return maybeDo(condition, ()->appendJoinSql(ConstantPlus.RIGHT_JOIN, column, true, column2, alias));
+        return maybeDo(condition, () -> appendJoinSql(ConstantPlus.RIGHT_JOIN, column, true, column2, alias));
     }
 
     @Override
     public <J> Children jRightJoin(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2, String alias) {
-        return maybeDo(condition, ()->appendJoinSql(ConstantPlus.RIGHT_JOIN, column, false, column2, alias));
+        return maybeDo(condition, () -> appendJoinSql(ConstantPlus.RIGHT_JOIN, column, false, column2, alias));
     }
 
     @Override
     public <J> Children rightJoin(boolean condition, SFunction<T, ?> column, Class<J> entityClass, Consumer<JoinLambdaQueryWrapper<J>> consumer, String alias, String joinOn) {
-        return maybeDo(condition, ()->appendJoinSql(ConstantPlus.RIGHT_JOIN, column, true, entityClass, consumer, alias, joinOn));
+        return maybeDo(condition, () -> appendJoinSql(ConstantPlus.RIGHT_JOIN, column, true, entityClass, consumer, alias, joinOn));
     }
 
     @Override
     public <J> Children jRightJoin(boolean condition, SFunction<J, ?> column, Class<J> entityClass, Consumer<JoinLambdaQueryWrapper<J>> consumer, String alias, String joinOn) {
-        return maybeDo(condition, ()->appendJoinSql(ConstantPlus.RIGHT_JOIN, column, false, entityClass, consumer, alias, joinOn));
+        return maybeDo(condition, () -> appendJoinSql(ConstantPlus.RIGHT_JOIN, column, false, entityClass, consumer, alias, joinOn));
     }
 
     /**
@@ -738,22 +732,28 @@ public abstract class AbstractJoinWrapper<T, Children extends AbstractJoinWrappe
         Exceptions.t(tableInfo == null, "请在对应实体类上加上TableName注解！");
         String joinTableName = tableInfo.getTableName();
         String sql = String.format(sqlExcerpt, joinTableName, alias);
-        sqlJoin.setStringValue(StringPool.NEWLINE + sql + columnToString(column, isMainTable) + ConstantPlus.EQUALS_C + joinColumnToString(joinTableField));
+        sqlJoinList.add(new SharedString(sql + columnToString(column, isMainTable) + ConstantPlus.EQUALS_C + joinColumnToString(joinTableField)));
+    }
+
+    protected <J> void appendJoinSql(String sqlJoinOn) {
+        if (!sqlJoinList.isEmpty()) {
+            sqlJoinList.getLast().setStringValue(sqlJoinList.getLast().getStringValue() + ConstantPlus.AND_C + sqlJoinOn);
+        }
     }
 
     protected <J> void appendJoinSql(String sqlExcerpt, SFunction<?, ?> column, boolean isMainTable, Class<J> entityClass, Consumer<JoinLambdaQueryWrapper<J>> consumer, String alias, String joinOn) {
         String finalAlias = getAlias(alias);
-        sqlJoin.setStringValue(StringPool.NEWLINE + String.format(sqlExcerpt,
+        sqlJoinList.add(new SharedString(String.format(sqlExcerpt,
                 addChildSelect(entityClass, consumer), finalAlias) +
                 columnToString(column, isMainTable) +
-                ConstantPlus.EQUALS_C + finalAlias + StringPool.DOT + joinOn);
+                ConstantPlus.EQUALS_C + finalAlias + StringPool.DOT + joinOn));
     }
 
     public String getSqlJoin() {
-        if (CollUtil.isEmpty(sqlJoinOn)) {
-            return sqlJoin.getStringValue();
+        if (CollUtil.isEmpty(sqlJoinList)) {
+            return StringPool.EMPTY;
         } else {
-            return sqlJoin.getStringValue() + ConstantPlus.AND_C + sqlJoinOn.stream().map(SharedString::getStringValue).collect(joining(ConstantPlus.AND_C));
+            return StringPool.NEWLINE + sqlJoinList.stream().map(SharedString::getStringValue).collect(joining(StringPool.NEWLINE));
         }
     }
 
@@ -778,8 +778,7 @@ public abstract class AbstractJoinWrapper<T, Children extends AbstractJoinWrappe
     @Override
     public void clear() {
         super.clear();
-        sqlJoin.toNull();
-        sqlJoinOn.clear();
+        sqlJoinList.clear();
         joinClassAliasMap.clear();
         joinNumber = 1;
         joinClassColumnMap.clear();

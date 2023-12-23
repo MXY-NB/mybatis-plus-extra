@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.qingyu.mo.exception.Exceptions;
 import org.apache.ibatis.reflection.property.PropertyNamer;
 
+import java.io.Serializable;
 import java.lang.invoke.CallSite;
 import java.lang.invoke.LambdaMetafactory;
 import java.lang.invoke.MethodHandles;
@@ -22,7 +23,7 @@ import java.lang.reflect.Field;
  * @author qingyu-mo
  * @since 2023-03-26
  */
-public final class LambdaUtil {
+public final class LambdaUtil implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
