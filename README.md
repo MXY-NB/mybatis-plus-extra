@@ -10,7 +10,8 @@
 
 <p align="center">
 	<a target="_blank" href="https://central.sonatype.com/artifact/io.gitee.qingyu-mo/mybatis-plus-extra">
-		<img src="https://img.shields.io/maven-central/v/cn.hutool/hutool-all.svg?label=Maven%20Central" />
+		<img src="https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fs01.oss.sonatype.org%2Fservice%2Flocal%2Frepo_groups%2Fpublic%2Fcontent%2Fio%2Fgitee%2Fqingyu-mo%2Fmybatis-plus-extra%2Fmaven-metadata.xml&label=Maven%20Central
+" />
 	</a>
 	<a target="_blank" href="https://license.coscl.org.cn/MulanPSL2">
 		<img src="https://img.shields.io/:license-MulanPSL2-blue.svg" />
@@ -32,7 +33,7 @@
 ## 📚简介
 
 `MyBatis-Plus-Extra`在mybatis-plus的基础上进行扩展，增加了多表查询，函数查询(例如：sum)，子查询，
-json字段查询(有待完善，现在只有两种方法)。同时也增加了真正的批量插入，批量更新
+json字段查询(有待完善，现在只有两种方法)。同时也增加了真正的批量插入，批量更新。
 
 -------------------------------------------------------------------------------
 
@@ -151,19 +152,18 @@ xxxService.joinDeletedList(JoinWrappers...); // 使用了逻辑删除但又想�
 
 ### 🐞提供bug反馈或建议
 
-提交问题反馈请说明正在使用的JDK版本呢、Hutool版本和相关依赖库版本。
+提交问题反馈请说明正在使用的JDK版本、mybatis-plus版本和相关依赖库版本。
 
 - [Gitee issue](https://gitee.com/qingyu-mo/mybatis-plus-extra/issues)
 
-
 ### 🧬贡献代码的步骤
 
-1. 在Gitee或者Github上fork项目到自己的repo
-2. 把fork过去的项目也就是你的项目clone到你的本地
-3. 修改代码（记得一定要修改develop分支）
-4. commit后push到自己的库（develop分支）
+1. 在Gitee上fork项目到自己的repo。
+2. 把fork过去的项目也就是你的项目clone到你的本地。
+3. 修改代码（记得一定要修改develop分支）。
+4. commit后push到自己的库（develop分支）。
 5. 登录Gitee在你首页可以看到一个 pull request 按钮，点击它，填写一些说明信息，然后提交即可。
-6. 等待维护者合并
+6. 等待维护者合并。
 
 ### 📐PR遵照的原则
 
@@ -171,4 +171,3 @@ xxxService.joinDeletedList(JoinWrappers...); // 使用了逻辑删除但又想�
 
 1. 注释完备，尤其每个新增的方法应按照Java文档规范标明方法说明、参数说明、返回值说明等信息，如果愿意，也可以加上你的大名。
 2. 我们如果关闭了你的issue或pr，请不要诧异，这是我们保持问题处理整洁的一种方式，你依旧可以继续讨论，当有讨论结果时我们会重新打开。
-
