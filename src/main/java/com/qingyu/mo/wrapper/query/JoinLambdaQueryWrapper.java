@@ -192,7 +192,8 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
      * @return this
      */
     @Override
-    public JoinLambdaQueryWrapper<T> selectSumOne(SFunction<T, ?> column) {
+    public JoinLambdaQueryWrapper<T> selectSumOne(SFunction<T, ?> column, String alias) {
+        appendSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.SUM_AS_IF_NULL, columnToString(column), alias)));
         appendSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.SUM_AS_IF_NULL, columnToString(column), "sumValue")));
         return typedThis;
     }
@@ -203,8 +204,8 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
      * @return this
      */
     @Override
-    public <J> JoinLambdaQueryWrapper<T> jSelectSumOne(SFunction<J, ?> column) {
-        appendJoinSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.SUM_AS_IF_NULL, joinColumnToString(column), "sumValue")));
+    public <J> JoinLambdaQueryWrapper<T> jSelectSumOne(SFunction<J, ?> column, String alias) {
+        appendJoinSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.SUM_AS_IF_NULL, joinColumnToString(column), alias)));
         return typedThis;
     }
 
@@ -214,8 +215,8 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
      * @return this
      */
     @Override
-    public JoinLambdaQueryWrapper<T> selectSumAddOne(SFunction<T, ?> column, SFunction<T, ?> column2) {
-        appendSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.SUM_ADD_AS_IF_NULL, columnToString(column), columnToString(column2), "sumValue")));
+    public JoinLambdaQueryWrapper<T> selectSumAddOne(SFunction<T, ?> column, SFunction<T, ?> column2, String alias) {
+        appendSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.SUM_ADD_AS_IF_NULL, columnToString(column), columnToString(column2), alias)));
         return typedThis;
     }
 
@@ -225,8 +226,8 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
      * @return this
      */
     @Override
-    public <J> JoinLambdaQueryWrapper<T> selectSumAddJOne(SFunction<T, ?> column, SFunction<J, ?> column2) {
-        appendSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.SUM_ADD_AS_IF_NULL, columnToString(column), joinColumnToString(column2), "sumValue")));
+    public <J> JoinLambdaQueryWrapper<T> selectSumAddJOne(SFunction<T, ?> column, SFunction<J, ?> column2, String alias) {
+        appendSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.SUM_ADD_AS_IF_NULL, columnToString(column), joinColumnToString(column2), alias)));
         return typedThis;
     }
 
@@ -236,8 +237,8 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
      * @return this
      */
     @Override
-    public <J> JoinLambdaQueryWrapper<T> jSelectSumAddOne(SFunction<J, ?> column, SFunction<T, ?> column2) {
-        appendSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.SUM_ADD_AS_IF_NULL, joinColumnToString(column), columnToString(column2), "sumValue")));
+    public <J> JoinLambdaQueryWrapper<T> jSelectSumAddOne(SFunction<J, ?> column, SFunction<T, ?> column2, String alias) {
+        appendSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.SUM_ADD_AS_IF_NULL, joinColumnToString(column), columnToString(column2), alias)));
         return typedThis;
     }
 
@@ -247,8 +248,8 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
      * @return this
      */
     @Override
-    public <J> JoinLambdaQueryWrapper<T> jSelectSumAddJOne(SFunction<J, ?> column, SFunction<J, ?> column2) {
-        appendSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.SUM_ADD_AS_IF_NULL, joinColumnToString(column), joinColumnToString(column2), "sumValue")));
+    public <J> JoinLambdaQueryWrapper<T> jSelectSumAddJOne(SFunction<J, ?> column, SFunction<J, ?> column2, String alias) {
+        appendSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.SUM_ADD_AS_IF_NULL, joinColumnToString(column), joinColumnToString(column2), alias)));
         return typedThis;
     }
 
@@ -258,8 +259,8 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
      * @return this
      */
     @Override
-    public JoinLambdaQueryWrapper<T> selectSumSubOne(SFunction<T, ?> column, SFunction<T, ?> column2) {
-        appendSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.SUM_SUB_AS_IF_NULL, columnToString(column), columnToString(column2), "sumValue")));
+    public JoinLambdaQueryWrapper<T> selectSumSubOne(SFunction<T, ?> column, SFunction<T, ?> column2, String alias) {
+        appendSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.SUM_SUB_AS_IF_NULL, columnToString(column), columnToString(column2), alias)));
         return typedThis;
     }
 
@@ -269,8 +270,8 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
      * @return this
      */
     @Override
-    public <J> JoinLambdaQueryWrapper<T> selectSumSubJOne(SFunction<T, ?> column, SFunction<J, ?> column2) {
-        appendSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.SUM_SUB_AS_IF_NULL, columnToString(column), joinColumnToString(column2), "sumValue")));
+    public <J> JoinLambdaQueryWrapper<T> selectSumSubJOne(SFunction<T, ?> column, SFunction<J, ?> column2, String alias) {
+        appendSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.SUM_SUB_AS_IF_NULL, columnToString(column), joinColumnToString(column2), alias)));
         return typedThis;
     }
 
@@ -280,8 +281,8 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
      * @return this
      */
     @Override
-    public <J> JoinLambdaQueryWrapper<T> jSelectSumSubOne(SFunction<J, ?> column, SFunction<T, ?> column2) {
-        appendSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.SUM_SUB_AS_IF_NULL, joinColumnToString(column), columnToString(column2), "sumValue")));
+    public <J> JoinLambdaQueryWrapper<T> jSelectSumSubOne(SFunction<J, ?> column, SFunction<T, ?> column2, String alias) {
+        appendSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.SUM_SUB_AS_IF_NULL, joinColumnToString(column), columnToString(column2), alias)));
         return typedThis;
     }
 
@@ -291,8 +292,8 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
      * @return this
      */
     @Override
-    public <J> JoinLambdaQueryWrapper<T> jSelectSumSubJOne(SFunction<J, ?> column, SFunction<J, ?> column2) {
-        appendSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.SUM_SUB_AS_IF_NULL, joinColumnToString(column), joinColumnToString(column2), "sumValue")));
+    public <J> JoinLambdaQueryWrapper<T> jSelectSumSubJOne(SFunction<J, ?> column, SFunction<J, ?> column2, String alias) {
+        appendSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.SUM_SUB_AS_IF_NULL, joinColumnToString(column), joinColumnToString(column2), alias)));
         return typedThis;
     }
 
@@ -302,8 +303,8 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
      * @return this
      */
     @Override
-    public JoinLambdaQueryWrapper<T> selectMaxOne(SFunction<T, ?> column) {
-        appendSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.MAX_AS, columnToString(column), "maxValue")));
+    public JoinLambdaQueryWrapper<T> selectMaxOne(SFunction<T, ?> column, String alias) {
+        appendSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.MAX_AS, columnToString(column), alias)));
         return typedThis;
     }
 
@@ -313,8 +314,8 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
      * @return this
      */
     @Override
-    public <J> JoinLambdaQueryWrapper<T> jSelectMaxOne(SFunction<J, ?> column) {
-        appendSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.MAX_AS, joinColumnToString(column), "maxValue")));
+    public <J> JoinLambdaQueryWrapper<T> jSelectMaxOne(SFunction<J, ?> column, String alias) {
+        appendSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.MAX_AS, joinColumnToString(column), alias)));
         return typedThis;
     }
 
@@ -348,13 +349,11 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
      */
     @Override
     public <J> JoinLambdaQueryWrapper<T> jSum(boolean condition, boolean needIfNull, SFunction<J, ?> column, String alias) {
-        return maybeDo(condition, () -> {
-            appendJoinSelectSqlSegments(strToSqlSegment(String.format(
-                    needIfNull ? ConstantPlus.SUM_AS_IF_NULL : ConstantPlus.SUM_AS,
-                    joinColumnToString(column),
-                    CharSequenceUtil.isEmpty(alias) ? joinColumnToString(true, column) : alias
-            )));
-        });
+        return maybeDo(condition, () -> appendJoinSelectSqlSegments(strToSqlSegment(String.format(
+                needIfNull ? ConstantPlus.SUM_AS_IF_NULL : ConstantPlus.SUM_AS,
+                joinColumnToString(column),
+                CharSequenceUtil.isEmpty(alias) ? joinColumnToString(true, column) : alias
+        ))));
     }
 
     /**

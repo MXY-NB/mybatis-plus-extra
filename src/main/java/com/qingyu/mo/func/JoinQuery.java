@@ -17,7 +17,7 @@ import java.util.function.Consumer;
  * @author qingyu-mo
  * @since 2023-03-17
  */
-@SuppressWarnings("all")
+@SuppressWarnings("unused")
 public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
@@ -97,7 +97,19 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * @see com.qingyu.mo.mapper.BaseMapperPlus#getMapValue
      * 配合一起使用
      */
-    Children selectSumOne(R column);
+    default Children selectSumOne(R column) {
+        return selectSumOne(column, "sumValue");
+    }
+
+    /**
+     * 只查询sum(column)
+     * @param column 字段
+     * @param alias 别名
+     * @return children
+     * @see com.qingyu.mo.mapper.BaseMapperPlus#getMapValue
+     * 配合一起使用
+     */
+    Children selectSumOne(R column, String alias);
 
     /**
      * 只查询sum(column)
@@ -106,7 +118,19 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * @see com.qingyu.mo.mapper.BaseMapperPlus#getMapValue
      * 配合一起使用
      */
-    <J> Children jSelectSumOne(SFunction<J, ?> column);
+    default <J> Children jSelectSumOne(SFunction<J, ?> column) {
+        return jSelectSumOne(column, "sumValue");
+    }
+
+    /**
+     * 只查询sum(column)
+     * @param column 字段
+     * @param alias 别名
+     * @return children
+     * @see com.qingyu.mo.mapper.BaseMapperPlus#getMapValue
+     * 配合一起使用
+     */
+    <J> Children jSelectSumOne(SFunction<J, ?> column, String alias);
 
     /**
      * 只查询sum(column) + sum(column2)
@@ -116,7 +140,20 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * @see com.qingyu.mo.mapper.BaseMapperPlus#getMapValue
      * 配合一起使用
      */
-    Children selectSumAddOne(R column, R column2);
+    default Children selectSumAddOne(R column, R column2) {
+        return selectSumAddOne(column, column2, "sumValue");
+    }
+
+    /**
+     * 只查询sum(column) + sum(column2)
+     * @param column 被减数
+     * @param column2 减数
+     * @param alias 别名
+     * @return children
+     * @see com.qingyu.mo.mapper.BaseMapperPlus#getMapValue
+     * 配合一起使用
+     */
+    Children selectSumAddOne(R column, R column2, String alias);
 
     /**
      * 只查询sum(column) + sum(column2)
@@ -126,7 +163,20 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * @see com.qingyu.mo.mapper.BaseMapperPlus#getMapValue
      * 配合一起使用
      */
-    <J> Children selectSumAddJOne(R column, SFunction<J, ?> column2);
+    default <J> Children selectSumAddJOne(R column, SFunction<J, ?> column2) {
+        return selectSumAddJOne(column, column2, "sumValue");
+    }
+
+    /**
+     * 只查询sum(column) + sum(column2)
+     * @param column 被减数
+     * @param column2 减数
+     * @param alias 别名
+     * @return children
+     * @see com.qingyu.mo.mapper.BaseMapperPlus#getMapValue
+     * 配合一起使用
+     */
+    <J> Children selectSumAddJOne(R column, SFunction<J, ?> column2, String alias);
 
     /**
      * 只查询sum(column) + sum(column2)
@@ -136,7 +186,20 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * @see com.qingyu.mo.mapper.BaseMapperPlus#getMapValue
      * 配合一起使用
      */
-    <J> Children jSelectSumAddOne(SFunction<J, ?> column, R column2);
+    default <J> Children jSelectSumAddOne(SFunction<J, ?> column, R column2) {
+        return jSelectSumAddOne(column, column2, "sumValue");
+    }
+
+    /**
+     * 只查询sum(column) + sum(column2)
+     * @param column 被减数
+     * @param column2 减数
+     * @param alias 别名
+     * @return children
+     * @see com.qingyu.mo.mapper.BaseMapperPlus#getMapValue
+     * 配合一起使用
+     */
+    <J> Children jSelectSumAddOne(SFunction<J, ?> column, R column2, String alias);
 
     /**
      * 只查询sum(column) + sum(column2)
@@ -146,7 +209,19 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * @see com.qingyu.mo.mapper.BaseMapperPlus#getMapValue
      * 配合一起使用
      */
-    <J> Children jSelectSumAddJOne(SFunction<J, ?> column, SFunction<J, ?> column2);
+    default <J> Children jSelectSumAddJOne(SFunction<J, ?> column, SFunction<J, ?> column2) {
+        return jSelectSumAddJOne(column, column2, "sumValue");
+    }
+
+    /**
+     * 只查询sum(column) + sum(column2)
+     * @param column 被减数
+     * @param column2 减数
+     * @return children
+     * @see com.qingyu.mo.mapper.BaseMapperPlus#getMapValue
+     * 配合一起使用
+     */
+    <J> Children jSelectSumAddJOne(SFunction<J, ?> column, SFunction<J, ?> column2, String alias);
 
     /**
      * 只查询sum(column) - sum(column2)
@@ -156,7 +231,9 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * @see com.qingyu.mo.mapper.BaseMapperPlus#getMapValue
      * 配合一起使用
      */
-    Children selectSumSubOne(R column, R column2);
+    default Children selectSumSubOne(R column, R column2) {
+        return selectSumSubOne(column, column2, "sumValue");
+    }
 
     /**
      * 只查询sum(column) - sum(column2)
@@ -166,7 +243,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * @see com.qingyu.mo.mapper.BaseMapperPlus#getMapValue
      * 配合一起使用
      */
-    <J> Children selectSumSubJOne(R column, SFunction<J, ?> column2);
+    Children selectSumSubOne(R column, R column2, String alias);
 
     /**
      * 只查询sum(column) - sum(column2)
@@ -176,7 +253,9 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * @see com.qingyu.mo.mapper.BaseMapperPlus#getMapValue
      * 配合一起使用
      */
-    <J> Children jSelectSumSubOne(SFunction<J, ?> column, R column2);
+    default <J> Children selectSumSubJOne(R column, SFunction<J, ?> column2) {
+        return selectSumSubJOne(column, column2, "sumValue");
+    }
 
     /**
      * 只查询sum(column) - sum(column2)
@@ -186,7 +265,51 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * @see com.qingyu.mo.mapper.BaseMapperPlus#getMapValue
      * 配合一起使用
      */
-    <J> Children jSelectSumSubJOne(SFunction<J, ?> column, SFunction<J, ?> column2);
+    <J> Children selectSumSubJOne(R column, SFunction<J, ?> column2, String alias);
+
+    /**
+     * 只查询sum(column) - sum(column2)
+     * @param column 被减数
+     * @param column2 减数
+     * @return children
+     * @see com.qingyu.mo.mapper.BaseMapperPlus#getMapValue
+     * 配合一起使用
+     */
+    default <J> Children jSelectSumSubOne(SFunction<J, ?> column, R column2) {
+        return jSelectSumSubOne(column, column2, "sumValue");
+    }
+
+    /**
+     * 只查询sum(column) - sum(column2)
+     * @param column 被减数
+     * @param column2 减数
+     * @return children
+     * @see com.qingyu.mo.mapper.BaseMapperPlus#getMapValue
+     * 配合一起使用
+     */
+    <J> Children jSelectSumSubOne(SFunction<J, ?> column, R column2, String alias);
+
+    /**
+     * 只查询sum(column) - sum(column2)
+     * @param column 被减数
+     * @param column2 减数
+     * @return children
+     * @see com.qingyu.mo.mapper.BaseMapperPlus#getMapValue
+     * 配合一起使用
+     */
+    default <J> Children jSelectSumSubJOne(SFunction<J, ?> column, SFunction<J, ?> column2) {
+        return jSelectSumSubJOne(column, column2, "sumValue");
+    }
+
+    /**
+     * 只查询sum(column) - sum(column2)
+     * @param column 被减数
+     * @param column2 减数
+     * @return children
+     * @see com.qingyu.mo.mapper.BaseMapperPlus#getMapValue
+     * 配合一起使用
+     */
+    <J> Children jSelectSumSubJOne(SFunction<J, ?> column, SFunction<J, ?> column2, String alias);
 
     /**
      * 只查询max(column)
@@ -195,7 +318,19 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * @see com.qingyu.mo.mapper.BaseMapperPlus#getMapValue
      * 配合一起使用
      */
-    Children selectMaxOne(R column);
+    default Children selectMaxOne(R column) {
+        return selectMaxOne(column, "maxValue");
+    }
+
+    /**
+     * 只查询max(column)
+     * @param column 字段
+     * @param alias 别名
+     * @return children
+     * @see com.qingyu.mo.mapper.BaseMapperPlus#getMapValue
+     * 配合一起使用
+     */
+    Children selectMaxOne(R column, String alias);
 
     /**
      * 只查询max(column)
@@ -204,7 +339,19 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * @see com.qingyu.mo.mapper.BaseMapperPlus#getMapValue
      * 配合一起使用
      */
-    <J> Children jSelectMaxOne(SFunction<J, ?> column);
+    default <J> Children jSelectMaxOne(SFunction<J, ?> column) {
+        return jSelectMaxOne(column, "maxValue");
+    }
+
+    /**
+     * 只查询max(column)
+     * @param column 字段
+     * @param alias 别名
+     * @return children
+     * @see com.qingyu.mo.mapper.BaseMapperPlus#getMapValue
+     * 配合一起使用
+     */
+    <J> Children jSelectMaxOne(SFunction<J, ?> column, String alias);
 
     /**
      * sum(column)

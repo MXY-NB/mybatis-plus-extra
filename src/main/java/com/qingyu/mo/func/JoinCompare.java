@@ -14,6 +14,7 @@ import java.util.Collection;
  * @author qingyu-mo
  * @since 2023-12-19
  */
+@SuppressWarnings("unused")
 public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
@@ -364,7 +365,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
      * @param val 值
      * @return children
      */
-    default <J> Children sumEq(R column, Object val) {
+    default Children sumEq(R column, Object val) {
         return sumEq(true, column, val);
     }
 
@@ -400,7 +401,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
      * @param val 值
      * @return children
      */
-    default <J> Children sumNe(R column, Object val) {
+    default Children sumNe(R column, Object val) {
         return sumNe(true, column, val);
     }
 
@@ -436,7 +437,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
      * @param val 值
      * @return children
      */
-    default <J> Children sumGt(R column, Object val) {
+    default Children sumGt(R column, Object val) {
         return sumGt(true, column, val);
     }
 
@@ -472,7 +473,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
      * @param val 值
      * @return children
      */
-    default <J> Children sumGe(R column, Object val) {
+    default Children sumGe(R column, Object val) {
         return sumGe(true, column, val);
     }
 
@@ -508,7 +509,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
      * @param val 值
      * @return children
      */
-    default <J> Children sumLt(R column, Object val) {
+    default Children sumLt(R column, Object val) {
         return sumLt(true, column, val);
     }
 
@@ -544,7 +545,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
      * @param val 值
      * @return children
      */
-    default <J> Children sumLe(R column, Object val) {
+    default Children sumLe(R column, Object val) {
         return sumLe(true, column, val);
     }
 
@@ -796,7 +797,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
      * @param val 值
      * @return children
      */
-    default <J> Children eqSum(Object val, R column) {
+    default Children eqSum(Object val, R column) {
         return eqSum(true, val, column);
     }
 
@@ -832,7 +833,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
      * @param val 值
      * @return children
      */
-    default <J> Children neSum(Object val, R column) {
+    default Children neSum(Object val, R column) {
         return neSum(true, val, column);
     }
 
@@ -868,7 +869,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
      * @param val 值
      * @return children
      */
-    default <J> Children gtSum(Object val, R column) {
+    default Children gtSum(Object val, R column) {
         return gtSum(true, val, column);
     }
 
@@ -904,7 +905,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
      * @param val 值
      * @return children
      */
-    default <J> Children geSum(Object val, R column) {
+    default Children geSum(Object val, R column) {
         return geSum(true, val, column);
     }
 
@@ -940,7 +941,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
      * @param val 值
      * @return children
      */
-    default <J> Children ltSum(Object val, R column) {
+    default Children ltSum(Object val, R column) {
         return ltSum(true, val, column);
     }
 
@@ -976,7 +977,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
      * @param val 值
      * @return children
      */
-    default <J> Children leSum(Object val, R column) {
+    default Children leSum(Object val, R column) {
         return leSum(true, val, column);
     }
 
