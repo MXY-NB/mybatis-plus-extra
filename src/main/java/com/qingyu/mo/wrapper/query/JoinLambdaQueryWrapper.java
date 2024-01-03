@@ -194,6 +194,7 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
     @Override
     public JoinLambdaQueryWrapper<T> selectSumOne(SFunction<T, ?> column, String alias) {
         appendSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.SUM_AS_IF_NULL, columnToString(column), alias)));
+        appendSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.SUM_AS_IF_NULL, columnToString(column), "sumValue")));
         return typedThis;
     }
 
