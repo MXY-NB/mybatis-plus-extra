@@ -14,6 +14,7 @@ import java.util.function.Consumer;
  * @author qingyu-mo
  * @since 2023-03-17
  */
+@SuppressWarnings("unused")
 public interface JoinMethod<Children, R> extends Serializable {
 
     /**
