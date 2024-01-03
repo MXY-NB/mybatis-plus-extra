@@ -122,7 +122,7 @@ public interface JoinMethod<Children, R> extends Serializable {
      * @param column2 字段
      * @return children
      */
-    default <J> Children jInnerJoin(SFunction<J, ?> column, SFunction<J, ?> column2) {
+    default <J, K> Children jInnerJoin(SFunction<J, ?> column, SFunction<K, ?> column2) {
         return jInnerJoin(true, column, column2);
     }
 
@@ -133,7 +133,7 @@ public interface JoinMethod<Children, R> extends Serializable {
      * @param column2 字段
      * @return children
      */
-    default <J> Children jInnerJoin(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2) {
+    default <J, K> Children jInnerJoin(boolean condition, SFunction<J, ?> column, SFunction<K, ?> column2) {
         return jInnerJoin(condition, column, column2, null);
     }
 
@@ -144,7 +144,7 @@ public interface JoinMethod<Children, R> extends Serializable {
      * @param alias 关联的表别名
      * @return children
      */
-    default <J> Children jInnerJoin(SFunction<J, ?> column, SFunction<J, ?> column2, String alias) {
+    default <J, K> Children jInnerJoin(SFunction<J, ?> column, SFunction<K, ?> column2, String alias) {
         return jInnerJoin(true, column, column2, alias);
     }
 
@@ -156,7 +156,7 @@ public interface JoinMethod<Children, R> extends Serializable {
      * @param alias 关联的表别名
      * @return children
      */
-    <J> Children jInnerJoin(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2, String alias);
+    <J, K> Children jInnerJoin(boolean condition, SFunction<J, ?> column, SFunction<K, ?> column2, String alias);
 
     /**
      * inner join 处理
@@ -286,7 +286,7 @@ public interface JoinMethod<Children, R> extends Serializable {
      * @param column2 字段
      * @return children
      */
-    default <J> Children jLeftJoin(SFunction<J, ?> column, SFunction<J, ?> column2) {
+    default <J, K> Children jLeftJoin(SFunction<J, ?> column, SFunction<K, ?> column2) {
         return jLeftJoin(true, column, column2);
     }
 
@@ -297,7 +297,7 @@ public interface JoinMethod<Children, R> extends Serializable {
      * @param column2 字段
      * @return children
      */
-    default <J> Children jLeftJoin(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2) {
+    default <J, K> Children jLeftJoin(boolean condition, SFunction<J, ?> column, SFunction<K, ?> column2) {
         return jLeftJoin(condition, column, column2, null);
     }
 
@@ -308,7 +308,7 @@ public interface JoinMethod<Children, R> extends Serializable {
      * @param alias 关联的表别名
      * @return children
      */
-    default <J> Children jLeftJoin(SFunction<J, ?> column, SFunction<J, ?> column2, String alias) {
+    default <J, K> Children jLeftJoin(SFunction<J, ?> column, SFunction<K, ?> column2, String alias) {
         return jLeftJoin(true, column, column2, alias);
     }
 
@@ -320,7 +320,7 @@ public interface JoinMethod<Children, R> extends Serializable {
      * @param alias 关联的表别名
      * @return children
      */
-    <J> Children jLeftJoin(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2, String alias);
+    <J, K> Children jLeftJoin(boolean condition, SFunction<J, ?> column, SFunction<K, ?> column2, String alias);
 
     /**
      * left join 处理
@@ -461,7 +461,7 @@ public interface JoinMethod<Children, R> extends Serializable {
      * @param column2 字段
      * @return children
      */
-    default <J> Children jRightJoin(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2) {
+    default <J, K> Children jRightJoin(boolean condition, SFunction<J, ?> column, SFunction<K, ?> column2) {
         return jRightJoin(condition, column, column2, null);
     }
 
@@ -472,7 +472,7 @@ public interface JoinMethod<Children, R> extends Serializable {
      * @param alias 关联的表别名
      * @return children
      */
-    default <J> Children jRightJoin(SFunction<J, ?> column, SFunction<J, ?> column2, String alias) {
+    default <J, K> Children jRightJoin(SFunction<J, ?> column, SFunction<K, ?> column2, String alias) {
         return jRightJoin(true, column, column2, alias);
     }
 
@@ -484,7 +484,7 @@ public interface JoinMethod<Children, R> extends Serializable {
      * @param alias 关联的表别名
      * @return children
      */
-    <J> Children jRightJoin(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2, String alias);
+    <J, K> Children jRightJoin(boolean condition, SFunction<J, ?> column, SFunction<K, ?> column2, String alias);
 
     /**
      * right join 处理

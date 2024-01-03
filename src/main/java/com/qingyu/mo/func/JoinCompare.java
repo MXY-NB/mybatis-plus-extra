@@ -14,7 +14,7 @@ import java.util.Collection;
  * @author qingyu-mo
  * @since 2023-12-19
  */
-public interface JoinCompare<Children, R> extends Serializable {
+public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * 等于 =
@@ -377,7 +377,7 @@ public interface JoinCompare<Children, R> extends Serializable {
     Children sumEq(boolean condition, R column, Object val);
 
     /**
-     * sum(字段) 等于 = sum(字段)
+     * sum(字段) 等于 = 字段
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -387,7 +387,7 @@ public interface JoinCompare<Children, R> extends Serializable {
     }
 
     /**
-     * sum(字段) 等于 = sum(字段)
+     * sum(字段) 等于 = 字段
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -413,7 +413,7 @@ public interface JoinCompare<Children, R> extends Serializable {
     Children sumNe(boolean condition, R column, Object val);
 
     /**
-     * sum(字段) 不等于 <> sum(字段)
+     * sum(字段) 不等于 <> 字段
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -423,7 +423,7 @@ public interface JoinCompare<Children, R> extends Serializable {
     }
 
     /**
-     * sum(字段) 不等于 <> sum(字段)
+     * sum(字段) 不等于 <> 字段
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -449,7 +449,7 @@ public interface JoinCompare<Children, R> extends Serializable {
     Children sumGt(boolean condition, R column, Object val);
 
     /**
-     * sum(字段) 大于 > sum(字段)
+     * sum(字段) 大于 > 字段
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -459,7 +459,7 @@ public interface JoinCompare<Children, R> extends Serializable {
     }
 
     /**
-     * sum(字段) 大于 > sum(字段)
+     * sum(字段) 大于 > 字段
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -485,7 +485,7 @@ public interface JoinCompare<Children, R> extends Serializable {
     Children sumGe(boolean condition, R column, Object val);
 
     /**
-     * sum(字段) 大于等于 >= sum(字段)
+     * sum(字段) 大于等于 >= 字段
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -495,7 +495,7 @@ public interface JoinCompare<Children, R> extends Serializable {
     }
 
     /**
-     * sum(字段) 大于等于 >= sum(字段)
+     * sum(字段) 大于等于 >= 字段
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -521,7 +521,7 @@ public interface JoinCompare<Children, R> extends Serializable {
     Children sumLt(boolean condition, R column, Object val);
 
     /**
-     * sum(字段) 小于 < sum(字段)
+     * sum(字段) 小于 < 字段
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -531,7 +531,7 @@ public interface JoinCompare<Children, R> extends Serializable {
     }
 
     /**
-     * sum(字段) 小于 < sum(字段)
+     * sum(字段) 小于 < 字段
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -557,7 +557,7 @@ public interface JoinCompare<Children, R> extends Serializable {
     Children sumLe(boolean condition, R column, Object val);
 
     /**
-     * sum(字段) 小于等于 <= sum(字段)
+     * sum(字段) 小于等于 <= 字段
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -567,7 +567,7 @@ public interface JoinCompare<Children, R> extends Serializable {
     }
 
     /**
-     * sum(字段) 小于等于 <= sum(字段)
+     * sum(字段) 小于等于 <= 字段
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -593,7 +593,7 @@ public interface JoinCompare<Children, R> extends Serializable {
     <J> Children jSumEq(boolean condition, SFunction<J, ?> column, Object val);
 
     /**
-     * sum(字段) 等于 = sum(字段)
+     * sum(字段) 等于 = 字段
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -603,7 +603,7 @@ public interface JoinCompare<Children, R> extends Serializable {
     }
 
     /**
-     * sum(字段) 等于 = sum(字段)
+     * sum(字段) 等于 = 字段
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -629,7 +629,7 @@ public interface JoinCompare<Children, R> extends Serializable {
     <J> Children jSumNe(boolean condition, SFunction<J, ?> column, Object val);
 
     /**
-     * sum(字段) 不等于 <> sum(字段)
+     * sum(字段) 不等于 <> 字段
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -639,7 +639,7 @@ public interface JoinCompare<Children, R> extends Serializable {
     }
 
     /**
-     * sum(字段) 不等于 <> sum(字段)
+     * sum(字段) 不等于 <> 字段
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -665,7 +665,7 @@ public interface JoinCompare<Children, R> extends Serializable {
     <J> Children jSumGt(boolean condition, SFunction<J, ?> column, Object val);
 
     /**
-     * sum(字段) 大于 > sum(字段)
+     * sum(字段) 大于 > 字段
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -675,7 +675,7 @@ public interface JoinCompare<Children, R> extends Serializable {
     }
 
     /**
-     * sum(字段) 大于 > sum(字段)
+     * sum(字段) 大于 > 字段
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -701,7 +701,7 @@ public interface JoinCompare<Children, R> extends Serializable {
     <J> Children jSumGe(boolean condition, SFunction<J, ?> column, Object val);
 
     /**
-     * sum(字段) 大于等于 >= sum(字段)
+     * sum(字段) 大于等于 >= 字段
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -711,7 +711,7 @@ public interface JoinCompare<Children, R> extends Serializable {
     }
 
     /**
-     * sum(字段) 大于等于 >= sum(字段)
+     * sum(字段) 大于等于 >= 字段
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -737,7 +737,7 @@ public interface JoinCompare<Children, R> extends Serializable {
     <J> Children jSumLt(boolean condition, SFunction<J, ?> column, Object val);
 
     /**
-     * sum(字段) 小于 < sum(字段)
+     * sum(字段) 小于 < 字段
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -747,7 +747,7 @@ public interface JoinCompare<Children, R> extends Serializable {
     }
 
     /**
-     * sum(字段) 小于 < sum(字段)
+     * sum(字段) 小于 < 字段
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -773,7 +773,7 @@ public interface JoinCompare<Children, R> extends Serializable {
     <J> Children jSumLe(boolean condition, SFunction<J, ?> column, Object val);
 
     /**
-     * sum(字段) 小于等于 <= sum(字段)
+     * sum(字段) 小于等于 <= 字段
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -783,12 +783,444 @@ public interface JoinCompare<Children, R> extends Serializable {
     }
 
     /**
-     * sum(字段) 小于等于 <= sum(字段)
+     * sum(字段) 小于等于 <= 字段
      * @param column 字段
      * @param column2 字段
      * @return children
      */
     <J> Children jSumLe(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2);
+
+    /**
+     * 等于 = sum(字段)
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    default <J> Children eqSum(Object val, R column) {
+        return eqSum(true, val, column);
+    }
+
+    /**
+     * 等于 = sum(字段)
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    Children eqSum(boolean condition, Object val, R column);
+
+    /**
+     * 字段 等于 = sum(字段)
+     * @param column 字段
+     * @param column2 字段
+     * @return children
+     */
+    default <J> Children eqSum(SFunction<T, ?> column, SFunction<J, ?> column2) {
+        return eqSum(true, column, column2);
+    }
+
+    /**
+     * 字段 等于 = sum(字段)
+     * @param column 字段
+     * @param column2 字段
+     * @return children
+     */
+    <J> Children eqSum(boolean condition, SFunction<T, ?> column, SFunction<J, ?> column2);
+
+    /**
+     * 不等于 <> sum(字段)
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    default <J> Children neSum(Object val, R column) {
+        return neSum(true, val, column);
+    }
+
+    /**
+     * 不等于 <> sum(字段)
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    Children neSum(boolean condition, Object val, R column);
+
+    /**
+     * 字段 不等于 <> sum(字段)
+     * @param column 字段
+     * @param column2 字段
+     * @return children
+     */
+    default <J> Children neSum(SFunction<T, ?> column, SFunction<J, ?> column2) {
+        return neSum(true, column, column2);
+    }
+
+    /**
+     * 字段 不等于 <> sum(字段)
+     * @param column 字段
+     * @param column2 字段
+     * @return children
+     */
+    <J> Children neSum(boolean condition, SFunction<T, ?> column, SFunction<J, ?> column2);
+
+    /**
+     * 大于 > sum(字段)
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    default <J> Children gtSum(Object val, R column) {
+        return gtSum(true, val, column);
+    }
+
+    /**
+     * 大于 > sum(字段)
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    Children gtSum(boolean condition, Object val, R column);
+
+    /**
+     * 字段 大于 > sum(字段)
+     * @param column 字段
+     * @param column2 字段
+     * @return children
+     */
+    default <J> Children gtSum(SFunction<T, ?> column, SFunction<J, ?> column2) {
+        return gtSum(true, column, column2);
+    }
+
+    /**
+     * 字段 大于 > sum(字段)
+     * @param column 字段
+     * @param column2 字段
+     * @return children
+     */
+    <J> Children gtSum(boolean condition, SFunction<T, ?> column, SFunction<J, ?> column2);
+
+    /**
+     * 大于等于 >= sum(字段)
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    default <J> Children geSum(Object val, R column) {
+        return geSum(true, val, column);
+    }
+
+    /**
+     * 大于等于 >= sum(字段)
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    Children geSum(boolean condition, Object val, R column);
+
+    /**
+     * 字段 大于等于 >= sum(字段)
+     * @param column 字段
+     * @param column2 字段
+     * @return children
+     */
+    default <J> Children geSum(SFunction<T, ?> column, SFunction<J, ?> column2) {
+        return geSum(true, column, column2);
+    }
+
+    /**
+     * 字段 大于等于 >= sum(字段)
+     * @param column 字段
+     * @param column2 字段
+     * @return children
+     */
+    <J> Children geSum(boolean condition, SFunction<T, ?> column, SFunction<J, ?> column2);
+
+    /**
+     * 小于 < sum(字段)
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    default <J> Children ltSum(Object val, R column) {
+        return ltSum(true, val, column);
+    }
+
+    /**
+     * 小于 < sum(字段)
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    Children ltSum(boolean condition, Object val, R column);
+
+    /**
+     * 字段 小于 < sum(字段)
+     * @param column 字段
+     * @param column2 字段
+     * @return children
+     */
+    default <J> Children ltSum(SFunction<T, ?> column, SFunction<J, ?> column2) {
+        return ltSum(true, column, column2);
+    }
+
+    /**
+     * 字段 小于 < sum(字段)
+     * @param column 字段
+     * @param column2 字段
+     * @return children
+     */
+    <J> Children ltSum(boolean condition, SFunction<T, ?> column, SFunction<J, ?> column2);
+
+    /**
+     * 小于等于 <= sum(字段)
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    default <J> Children leSum(Object val, R column) {
+        return leSum(true, val, column);
+    }
+
+    /**
+     * 小于等于 <= sum(字段)
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    Children leSum(boolean condition, Object val, R column);
+
+    /**
+     * 字段 小于等于 <= sum(字段)
+     * @param column 字段
+     * @param column2 字段
+     * @return children
+     */
+    default <J> Children leSum(SFunction<T, ?> column, SFunction<J, ?> column2) {
+        return leSum(true, column, column2);
+    }
+
+    /**
+     * 字段 小于等于 <= sum(字段)
+     * @param column 字段
+     * @param column2 字段
+     * @return children
+     */
+    <J> Children leSum(boolean condition, SFunction<T, ?> column, SFunction<J, ?> column2);
+
+    /**
+     * 等于 = sum(字段)
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    default <J> Children jEqSum(Object val, SFunction<J, ?> column) {
+        return jEqSum(true, val, column);
+    }
+
+    /**
+     * 等于 = sum(字段)
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    <J> Children jEqSum(boolean condition, Object val, SFunction<J, ?> column);
+
+    /**
+     * 字段 等于 = sum(字段)
+     * @param column 字段
+     * @param column2 字段
+     * @return children
+     */
+    default <J> Children jEqSum(SFunction<J, ?> column, SFunction<J, ?> column2) {
+        return jEqSum(true, column, column2);
+    }
+
+    /**
+     * 字段 等于 = sum(字段)
+     * @param column 字段
+     * @param column2 字段
+     * @return children
+     */
+    <J> Children jEqSum(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2);
+
+    /**
+     * 不等于 <> sum(字段)
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    default <J> Children jNeSum(Object val, SFunction<J, ?> column) {
+        return jNeSum(true, val, column);
+    }
+
+    /**
+     * 不等于 <> sum(字段)
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    <J> Children jNeSum(boolean condition, Object val, SFunction<J, ?> column);
+
+    /**
+     * 字段 不等于 <> sum(字段)
+     * @param column 字段
+     * @param column2 字段
+     * @return children
+     */
+    default <J> Children jNeSum(SFunction<J, ?> column, SFunction<J, ?> column2) {
+        return jNeSum(true, column, column2);
+    }
+
+    /**
+     * 字段 不等于 <> sum(字段)
+     * @param column 字段
+     * @param column2 字段
+     * @return children
+     */
+    <J> Children jNeSum(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2);
+
+    /**
+     * 大于 > sum(字段)
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    default <J> Children jGtSum(Object val, SFunction<J, ?> column) {
+        return jGtSum(true, val, column);
+    }
+
+    /**
+     * 大于 > sum(字段)
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    <J> Children jGtSum(boolean condition, Object val, SFunction<J, ?> column);
+
+    /**
+     * 字段 大于 > sum(字段)
+     * @param column 字段
+     * @param column2 字段
+     * @return children
+     */
+    default <J> Children jGtSum(SFunction<J, ?> column, SFunction<J, ?> column2) {
+        return jGtSum(true, column, column2);
+    }
+
+    /**
+     * 字段 大于 > sum(字段)
+     * @param column 字段
+     * @param column2 字段
+     * @return children
+     */
+    <J> Children jGtSum(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2);
+
+    /**
+     * 大于等于 >= sum(字段)
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    default <J> Children jGeSum(Object val, SFunction<J, ?> column) {
+        return jGeSum(true, val, column);
+    }
+
+    /**
+     * 大于等于 >= sum(字段)
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    <J> Children jGeSum(boolean condition, Object val, SFunction<J, ?> column);
+
+    /**
+     * 字段 大于等于 >= sum(字段)
+     * @param column 字段
+     * @param column2 字段
+     * @return children
+     */
+    default <J> Children jGeSum(SFunction<J, ?> column, SFunction<J, ?> column2) {
+        return jGeSum(true, column, column2);
+    }
+
+    /**
+     * 字段 大于等于 >= sum(字段)
+     * @param column 字段
+     * @param column2 字段
+     * @return children
+     */
+    <J> Children jGeSum(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2);
+
+    /**
+     * 小于 < sum(字段)
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    default <J> Children jLtSum(Object val, SFunction<J, ?> column) {
+        return jLtSum(true, val, column);
+    }
+
+    /**
+     * 小于 < sum(字段)
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    <J> Children jLtSum(boolean condition, Object val, SFunction<J, ?> column);
+
+    /**
+     * 字段 小于 < sum(字段)
+     * @param column 字段
+     * @param column2 字段
+     * @return children
+     */
+    default <J> Children jLtSum(SFunction<J, ?> column, SFunction<J, ?> column2) {
+        return jLtSum(true, column, column2);
+    }
+
+    /**
+     * 字段 小于 < sum(字段)
+     * @param column 字段
+     * @param column2 字段
+     * @return children
+     */
+    <J> Children jLtSum(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2);
+
+    /**
+     * 小于等于 <= sum(字段)
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    default <J> Children jLeSum(Object val, SFunction<J, ?> column) {
+        return jLeSum(true, val, column);
+    }
+
+    /**
+     * 小于等于 <= sum(字段)
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    <J> Children jLeSum(boolean condition, Object val, SFunction<J, ?> column);
+
+    /**
+     * 字段 小于等于 <= sum(字段)
+     * @param column 字段
+     * @param column2 字段
+     * @return children
+     */
+    default <J> Children jLeSum(SFunction<J, ?> column, SFunction<J, ?> column2) {
+        return jLeSum(true, column, column2);
+    }
+
+    /**
+     * 字段 小于等于 <= sum(字段)
+     * @param column 字段
+     * @param column2 字段
+     * @return children
+     */
+    <J> Children jLeSum(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2);
 
     /**
      * BETWEEN 值1 AND 值2
