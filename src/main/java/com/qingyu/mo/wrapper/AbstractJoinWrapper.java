@@ -43,7 +43,7 @@ import static java.util.stream.Collectors.joining;
  */
 public abstract class AbstractJoinWrapper<T, Children extends AbstractJoinWrapper<T, Children>>
         extends AbstractWrapper<T, SFunction<T, ?>, Children>
-        implements JoinCompare<Children, SFunction<T, ?>>, JoinFunc<Children, SFunction<T, ?>>, JoinMethod<Children, SFunction<T, ?>> {
+        implements JoinCompare<Children, SFunction<T, ?>, T>, JoinFunc<Children, SFunction<T, ?>>, JoinMethod<Children, SFunction<T, ?>> {
 
     /**
      * 查询字段
@@ -178,6 +178,7 @@ public abstract class AbstractJoinWrapper<T, Children extends AbstractJoinWrappe
         return columnsToString(false, columns);
     }
 
+    @Override
     protected final String columnsToString(List<SFunction<T, ?>> columns) {
         return columnsToString(false, columns);
     }
@@ -359,138 +360,274 @@ public abstract class AbstractJoinWrapper<T, Children extends AbstractJoinWrappe
 
     @Override
     public Children sumEq(boolean condition, SFunction<T, ?> column, Object val) {
-        return addSumCondition(condition, column, EQ, val);
+        return addSumBeforeCondition(condition, column, EQ, val);
     }
 
     @Override
     public <J> Children sumEq(boolean condition, SFunction<T, ?> column, SFunction<J, ?> column2) {
-        return addSumCondition(condition, column, EQ, column2);
+        return addSumBeforeCondition(condition, column, EQ, column2);
     }
 
     @Override
     public Children sumNe(boolean condition, SFunction<T, ?> column, Object val) {
-        return addSumCondition(condition, column, NE, val);
+        return addSumBeforeCondition(condition, column, NE, val);
     }
 
     @Override
     public <J> Children sumNe(boolean condition, SFunction<T, ?> column, SFunction<J, ?> column2) {
-        return addSumCondition(condition, column, NE, column2);
+        return addSumBeforeCondition(condition, column, NE, column2);
     }
 
     @Override
     public Children sumGt(boolean condition, SFunction<T, ?> column, Object val) {
-        return addSumCondition(condition, column, GT, val);
+        return addSumBeforeCondition(condition, column, GT, val);
     }
 
     @Override
     public <J> Children sumGt(boolean condition, SFunction<T, ?> column, SFunction<J, ?> column2) {
-        return addSumCondition(condition, column, GT, column2);
+        return addSumBeforeCondition(condition, column, GT, column2);
     }
 
     @Override
     public Children sumGe(boolean condition, SFunction<T, ?> column, Object val) {
-        return addSumCondition(condition, column, GE, val);
+        return addSumBeforeCondition(condition, column, GE, val);
     }
 
     @Override
     public <J> Children sumGe(boolean condition, SFunction<T, ?> column, SFunction<J, ?> column2) {
-        return addSumCondition(condition, column, GE, column2);
+        return addSumBeforeCondition(condition, column, GE, column2);
     }
 
     @Override
     public Children sumLt(boolean condition, SFunction<T, ?> column, Object val) {
-        return addSumCondition(condition, column, LT, val);
+        return addSumBeforeCondition(condition, column, LT, val);
     }
 
     @Override
     public <J> Children sumLt(boolean condition, SFunction<T, ?> column, SFunction<J, ?> column2) {
-        return addSumCondition(condition, column, LT, column2);
+        return addSumBeforeCondition(condition, column, LT, column2);
     }
 
     @Override
     public Children sumLe(boolean condition, SFunction<T, ?> column, Object val) {
-        return addSumCondition(condition, column, LE, val);
+        return addSumBeforeCondition(condition, column, LE, val);
     }
 
     @Override
     public <J> Children sumLe(boolean condition, SFunction<T, ?> column, SFunction<J, ?> column2) {
-        return addSumCondition(condition, column, LE, column2);
+        return addSumBeforeCondition(condition, column, LE, column2);
     }
 
-    protected Children addSumCondition(boolean condition, SFunction<T, ?> column, SqlKeyword sqlKeyword, Object val) {
-        return maybeDo(condition, () -> appendSqlSegments(columnToSqlSegment(ConstantPlus.SUM_IF_NULL, columnsToString(column)), sqlKeyword, paramToSqlSegment(val)));
+    protected Children addSumBeforeCondition(boolean condition, SFunction<T, ?> column, SqlKeyword sqlKeyword, Object val) {
+        return maybeDo(condition, () -> appendSqlSegments(columnToSqlSegment(ConstantPlus.SUM_IF_NULL, columnToString(column)), sqlKeyword, paramToSqlSegment(val)));
     }
 
-    protected <J> Children addSumCondition(boolean condition, SFunction<T, ?> column, SqlKeyword sqlKeyword, SFunction<J, ?> column2) {
-        return maybeDo(condition, () -> appendSqlSegments(columnToSqlSegment(ConstantPlus.SUM_IF_NULL, columnsToString(column)), sqlKeyword, joinColumnToSqlSegment(column2)));
+    protected <J> Children addSumBeforeCondition(boolean condition, SFunction<T, ?> column, SqlKeyword sqlKeyword, SFunction<J, ?> column2) {
+        return maybeDo(condition, () -> appendSqlSegments(columnToSqlSegment(ConstantPlus.SUM_IF_NULL, columnToString(column)), sqlKeyword, joinColumnToSqlSegment(column2)));
     }
 
     @Override
     public <J> Children jSumEq(boolean condition, SFunction<J, ?> column, Object val) {
-        return joinAddSumCondition(condition, column, EQ, val);
+        return joinAddSumBeforeCondition(condition, column, EQ, val);
     }
 
     @Override
     public <J> Children jSumEq(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2) {
-        return joinAddSumCondition(condition, column, EQ, column2);
+        return joinAddSumBeforeCondition(condition, column, EQ, column2);
     }
 
     @Override
     public <J> Children jSumNe(boolean condition, SFunction<J, ?> column, Object val) {
-        return joinAddSumCondition(condition, column, NE, val);
+        return joinAddSumBeforeCondition(condition, column, NE, val);
     }
 
     @Override
     public <J> Children jSumNe(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2) {
-        return joinAddSumCondition(condition, column, NE, column2);
+        return joinAddSumBeforeCondition(condition, column, NE, column2);
     }
 
     @Override
     public <J> Children jSumGt(boolean condition, SFunction<J, ?> column, Object val) {
-        return joinAddSumCondition(condition, column, GT, val);
+        return joinAddSumBeforeCondition(condition, column, GT, val);
     }
 
     @Override
     public <J> Children jSumGt(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2) {
-        return joinAddSumCondition(condition, column, GT, column2);
+        return joinAddSumBeforeCondition(condition, column, GT, column2);
     }
 
     @Override
     public <J> Children jSumGe(boolean condition, SFunction<J, ?> column, Object val) {
-        return joinAddSumCondition(condition, column, GE, val);
+        return joinAddSumBeforeCondition(condition, column, GE, val);
     }
 
     @Override
     public <J> Children jSumGe(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2) {
-        return joinAddSumCondition(condition, column, GE, column2);
+        return joinAddSumBeforeCondition(condition, column, GE, column2);
     }
 
     @Override
     public <J> Children jSumLt(boolean condition, SFunction<J, ?> column, Object val) {
-        return joinAddSumCondition(condition, column, LT, val);
+        return joinAddSumBeforeCondition(condition, column, LT, val);
     }
 
     @Override
     public <J> Children jSumLt(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2) {
-        return joinAddSumCondition(condition, column, LT, column2);
+        return joinAddSumBeforeCondition(condition, column, LT, column2);
     }
 
     @Override
     public <J> Children jSumLe(boolean condition, SFunction<J, ?> column, Object val) {
-        return joinAddSumCondition(condition, column, LE, val);
+        return joinAddSumBeforeCondition(condition, column, LE, val);
     }
 
     @Override
     public <J> Children jSumLe(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2) {
-        return joinAddSumCondition(condition, column, LE, column2);
+        return joinAddSumBeforeCondition(condition, column, LE, column2);
     }
 
-    protected <J> Children joinAddSumCondition(boolean condition, SFunction<J, ?> column, SqlKeyword sqlKeyword, Object val) {
+    protected <J> Children joinAddSumBeforeCondition(boolean condition, SFunction<J, ?> column, SqlKeyword sqlKeyword, Object val) {
         return maybeDo(condition, () -> appendSqlSegments(columnToSqlSegment(ConstantPlus.SUM_IF_NULL, joinColumnToString(column)), sqlKeyword, paramToSqlSegment(val)));
     }
 
-    protected <J> Children joinAddSumCondition(boolean condition, SFunction<J, ?> column, SqlKeyword sqlKeyword, SFunction<J, ?> column2) {
+    protected <J> Children joinAddSumBeforeCondition(boolean condition, SFunction<J, ?> column, SqlKeyword sqlKeyword, SFunction<J, ?> column2) {
         return maybeDo(condition, () -> appendSqlSegments(columnToSqlSegment(ConstantPlus.SUM_IF_NULL, joinColumnToString(column)), sqlKeyword, joinColumnToSqlSegment(column2)));
+    }
+
+    @Override
+    public Children eqSum(boolean condition, Object val, SFunction<T, ?> column) {
+        return addSumAfterCondition(condition, column, EQ, val);
+    }
+
+    @Override
+    public <J> Children eqSum(boolean condition, SFunction<T, ?> column, SFunction<J, ?> column2) {
+        return addSumAfterCondition(condition, column, EQ, column2);
+    }
+
+    @Override
+    public Children neSum(boolean condition, Object val, SFunction<T, ?> column) {
+        return addSumAfterCondition(condition, column, NE, val);
+    }
+
+    @Override
+    public <J> Children neSum(boolean condition, SFunction<T, ?> column, SFunction<J, ?> column2) {
+        return addSumAfterCondition(condition, column, NE, column2);
+    }
+
+    @Override
+    public Children gtSum(boolean condition, Object val, SFunction<T, ?> column) {
+        return addSumAfterCondition(condition, column, GT, val);
+    }
+
+    @Override
+    public <J> Children gtSum(boolean condition, SFunction<T, ?> column, SFunction<J, ?> column2) {
+        return addSumAfterCondition(condition, column, GT, column2);
+    }
+
+    @Override
+    public Children geSum(boolean condition, Object val, SFunction<T, ?> column) {
+        return addSumAfterCondition(condition, column, GE, val);
+    }
+
+    @Override
+    public <J> Children geSum(boolean condition, SFunction<T, ?> column, SFunction<J, ?> column2) {
+        return addSumAfterCondition(condition, column, GE, column2);
+    }
+
+    @Override
+    public Children ltSum(boolean condition, Object val, SFunction<T, ?> column) {
+        return addSumAfterCondition(condition, column, LT, val);
+    }
+
+    @Override
+    public <J> Children ltSum(boolean condition, SFunction<T, ?> column, SFunction<J, ?> column2) {
+        return addSumAfterCondition(condition, column, LT, column2);
+    }
+
+    @Override
+    public Children leSum(boolean condition, Object val, SFunction<T, ?> column) {
+        return addSumAfterCondition(condition, column, LE, val);
+    }
+
+    @Override
+    public <J> Children leSum(boolean condition, SFunction<T, ?> column, SFunction<J, ?> column2) {
+        return addSumAfterCondition(condition, column, LE, column2);
+    }
+
+    protected Children addSumAfterCondition(boolean condition, SFunction<T, ?> column, SqlKeyword sqlKeyword, Object val) {
+        return maybeDo(condition, () -> appendSqlSegments(paramToSqlSegment(val), sqlKeyword, columnToSqlSegment(ConstantPlus.SUM_IF_NULL, columnToString(column))));
+    }
+
+    protected <J> Children addSumAfterCondition(boolean condition, SFunction<T, ?> column, SqlKeyword sqlKeyword, SFunction<J, ?> column2) {
+        return maybeDo(condition, () -> appendSqlSegments(columnToSqlSegment(column), sqlKeyword, columnToSqlSegment(ConstantPlus.SUM_IF_NULL, joinColumnToString(column2))));
+    }
+
+    @Override
+    public <J> Children jEqSum(boolean condition, Object val, SFunction<J, ?> column) {
+        return joinAddSumAfterCondition(condition, column, EQ, val);
+    }
+
+    @Override
+    public <J> Children jEqSum(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2) {
+        return joinAddSumAfterCondition(condition, column, EQ, column2);
+    }
+
+    @Override
+    public <J> Children jNeSum(boolean condition, Object val, SFunction<J, ?> column) {
+        return joinAddSumAfterCondition(condition, column, NE, val);
+    }
+
+    @Override
+    public <J> Children jNeSum(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2) {
+        return joinAddSumAfterCondition(condition, column, NE, column2);
+    }
+
+    @Override
+    public <J> Children jGtSum(boolean condition, Object val, SFunction<J, ?> column) {
+        return joinAddSumAfterCondition(condition, column, GT, val);
+    }
+
+    @Override
+    public <J> Children jGtSum(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2) {
+        return joinAddSumAfterCondition(condition, column, GT, column2);
+    }
+
+    @Override
+    public <J> Children jGeSum(boolean condition, Object val, SFunction<J, ?> column) {
+        return joinAddSumAfterCondition(condition, column, GE, val);
+    }
+
+    @Override
+    public <J> Children jGeSum(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2) {
+        return joinAddSumAfterCondition(condition, column, GE, column2);
+    }
+
+    @Override
+    public <J> Children jLtSum(boolean condition, Object val, SFunction<J, ?> column) {
+        return joinAddSumAfterCondition(condition, column, LT, val);
+    }
+
+    @Override
+    public <J> Children jLtSum(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2) {
+        return joinAddSumAfterCondition(condition, column, LT, column2);
+    }
+
+    @Override
+    public <J> Children jLeSum(boolean condition, Object val, SFunction<J, ?> column) {
+        return joinAddSumAfterCondition(condition, column, LE, val);
+    }
+
+    @Override
+    public <J> Children jLeSum(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2) {
+        return joinAddSumAfterCondition(condition, column, LE, column2);
+    }
+
+    protected <J> Children joinAddSumAfterCondition(boolean condition, SFunction<J, ?> column, SqlKeyword sqlKeyword, Object val) {
+        return maybeDo(condition, () -> appendSqlSegments(paramToSqlSegment(val), sqlKeyword, columnToSqlSegment(ConstantPlus.SUM_IF_NULL, joinColumnToString(column))));
+    }
+
+    protected <J> Children joinAddSumAfterCondition(boolean condition, SFunction<J, ?> column, SqlKeyword sqlKeyword, SFunction<J, ?> column2) {
+        return maybeDo(condition, () -> appendSqlSegments(joinColumnToSqlSegment(column), sqlKeyword, columnToSqlSegment(ConstantPlus.SUM_IF_NULL, joinColumnToString(column2))));
     }
 
     @Override
@@ -644,7 +781,7 @@ public abstract class AbstractJoinWrapper<T, Children extends AbstractJoinWrappe
     }
 
     @Override
-    public <J> Children jInnerJoin(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2, String alias) {
+    public <J, K> Children jInnerJoin(boolean condition, SFunction<J, ?> column, SFunction<K, ?> column2, String alias) {
         return maybeDo(condition, () -> appendJoinSql(ConstantPlus.INNER_JOIN, column, false, column2, alias));
     }
 
@@ -664,7 +801,7 @@ public abstract class AbstractJoinWrapper<T, Children extends AbstractJoinWrappe
     }
 
     @Override
-    public <J> Children jLeftJoin(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2, String alias) {
+    public <J, K> Children jLeftJoin(boolean condition, SFunction<J, ?> column, SFunction<K, ?> column2, String alias) {
         return maybeDo(condition, () -> appendJoinSql(ConstantPlus.LEFT_JOIN, column, false, column2, alias));
     }
 
@@ -684,7 +821,7 @@ public abstract class AbstractJoinWrapper<T, Children extends AbstractJoinWrappe
     }
 
     @Override
-    public <J> Children jRightJoin(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2, String alias) {
+    public <J, K> Children jRightJoin(boolean condition, SFunction<J, ?> column, SFunction<K, ?> column2, String alias) {
         return maybeDo(condition, () -> appendJoinSql(ConstantPlus.RIGHT_JOIN, column, false, column2, alias));
     }
 

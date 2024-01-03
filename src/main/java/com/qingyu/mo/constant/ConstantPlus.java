@@ -11,8 +11,11 @@ import com.baomidou.mybatisplus.core.toolkit.Constants;
  * @since 2023-12-19
  */
 public interface ConstantPlus extends Constants {
-
     String VARIABLE = "%s";
+
+    String ADD = " + ";
+
+    String SUB = " - ";
 
     String OR = "OR";
 
@@ -34,19 +37,19 @@ public interface ConstantPlus extends Constants {
 
     String SUM_AS_IF_NULL = SUM_IF_NULL + AS + VARIABLE;
 
-    String SUM_ADD = SUM + " + " + SUM;
+    String SUM_ADD = SUM + ADD + SUM;
 
     String SUM_ADD_AS = LEFT_BRACKET + SUM_ADD + RIGHT_BRACKET + AS + VARIABLE;
 
-    String SUM_ADD_IF_NULL = "IFNULL" + LEFT_BRACKET + SUM_ADD + COMMA + "0" + RIGHT_BRACKET;
+    String SUM_ADD_IF_NULL = SUM_IF_NULL + ADD + SUM_IF_NULL;
 
     String SUM_ADD_AS_IF_NULL = SUM_ADD_IF_NULL + AS + VARIABLE;
 
-    String SUM_SUB = SUM + " - " + SUM;
+    String SUM_SUB = SUM + SUB + SUM;
 
     String SUM_SUB_AS = LEFT_BRACKET + SUM_SUB + RIGHT_BRACKET + AS + VARIABLE;
 
-    String SUM_SUB_IF_NULL = "IFNULL" + LEFT_BRACKET + SUM_SUB + COMMA + "0" + RIGHT_BRACKET;
+    String SUM_SUB_IF_NULL = SUM_IF_NULL + SUB + SUM_IF_NULL;
 
     String SUM_SUB_AS_IF_NULL = SUM_SUB_IF_NULL + AS + VARIABLE;
 

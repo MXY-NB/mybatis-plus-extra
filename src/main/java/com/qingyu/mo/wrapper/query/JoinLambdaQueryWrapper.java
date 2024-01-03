@@ -193,7 +193,7 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
      */
     @Override
     public JoinLambdaQueryWrapper<T> selectSumOne(SFunction<T, ?> column) {
-        appendSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.SUM_AS_IF_NULL, joinColumnToString(column), "sumValue")));
+        appendSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.SUM_AS_IF_NULL, columnToString(column), "sumValue")));
         return typedThis;
     }
 
@@ -369,7 +369,7 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
     @Override
     public JoinLambdaQueryWrapper<T> sumAdd(boolean condition, boolean needIfNull, SFunction<T, ?> column, SFunction<T, ?> column2, String alias) {
         return maybeDo(condition, () -> {
-            appendNoSelectSqlSegments(strToSqlSegment(columnToString(true, column)));
+            appendNoSelectSqlSegments(strToSqlSegment(alias));
             appendJoinSelectSqlSegments(strToSqlSegment(String.format(
                     needIfNull ? ConstantPlus.SUM_ADD_AS_IF_NULL : ConstantPlus.SUM_ADD_AS,
                     columnToString(column), columnToString(column2),
@@ -390,7 +390,7 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
     @Override
     public <J> JoinLambdaQueryWrapper<T> sumAddJ(boolean condition, boolean needIfNull, SFunction<T, ?> column, SFunction<J, ?> column2, String alias) {
         return maybeDo(condition, () -> {
-            appendNoSelectSqlSegments(strToSqlSegment(columnToString(true, column)));
+            appendNoSelectSqlSegments(strToSqlSegment(alias));
             appendJoinSelectSqlSegments(strToSqlSegment(String.format(
                     needIfNull ? ConstantPlus.SUM_ADD_AS_IF_NULL : ConstantPlus.SUM_ADD_AS,
                     columnToString(column), joinColumnToString(column2),
@@ -411,7 +411,7 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
     @Override
     public JoinLambdaQueryWrapper<T> sumSub(boolean condition, boolean needIfNull, SFunction<T, ?> column, SFunction<T, ?> column2, String alias) {
         return maybeDo(condition, () -> {
-            appendNoSelectSqlSegments(strToSqlSegment(columnToString(true, column)));
+            appendNoSelectSqlSegments(strToSqlSegment(alias));
             appendJoinSelectSqlSegments(strToSqlSegment(String.format(
                     needIfNull ? ConstantPlus.SUM_SUB_AS_IF_NULL : ConstantPlus.SUM_SUB_AS,
                     columnToString(column), columnToString(column2),
@@ -432,7 +432,7 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
     @Override
     public <J> JoinLambdaQueryWrapper<T> sumSubJ(boolean condition, boolean needIfNull, SFunction<T, ?> column, SFunction<J, ?> column2, String alias) {
         return maybeDo(condition, () -> {
-            appendNoSelectSqlSegments(strToSqlSegment(columnToString(true, column)));
+            appendNoSelectSqlSegments(strToSqlSegment(alias));
             appendJoinSelectSqlSegments(strToSqlSegment(String.format(
                     needIfNull ? ConstantPlus.SUM_SUB_AS_IF_NULL : ConstantPlus.SUM_SUB_AS,
                     columnToString(column), joinColumnToString(column2),
@@ -453,7 +453,7 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
     @Override
     public <J> JoinLambdaQueryWrapper<T> jSumAdd(boolean condition, boolean needIfNull, SFunction<J, ?> column, SFunction<T, ?> column2, String alias) {
         return maybeDo(condition, () -> {
-            appendNoSelectSqlSegments(strToSqlSegment(joinColumnsToString(true, column)));
+            appendNoSelectSqlSegments(strToSqlSegment(alias));
             appendJoinSelectSqlSegments(strToSqlSegment(String.format(
                     needIfNull ? ConstantPlus.SUM_ADD_AS_IF_NULL : ConstantPlus.SUM_ADD_AS,
                     joinColumnToString(column), columnToString(column2),
@@ -474,7 +474,7 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
     @Override
     public <J> JoinLambdaQueryWrapper<T> jSumAddJ(boolean condition, boolean needIfNull, SFunction<J, ?> column, SFunction<J, ?> column2, String alias) {
         return maybeDo(condition, () -> {
-            appendNoSelectSqlSegments(strToSqlSegment(joinColumnsToString(true, column)));
+            appendNoSelectSqlSegments(strToSqlSegment(alias));
             appendJoinSelectSqlSegments(strToSqlSegment(String.format(
                     needIfNull ? ConstantPlus.SUM_ADD_AS_IF_NULL : ConstantPlus.SUM_ADD_AS,
                     joinColumnToString(column), joinColumnToString(column2),
@@ -495,7 +495,7 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
     @Override
     public <J> JoinLambdaQueryWrapper<T> jSumSub(boolean condition, boolean needIfNull, SFunction<J, ?> column, SFunction<T, ?> column2, String alias) {
         return maybeDo(condition, () -> {
-            appendNoSelectSqlSegments(strToSqlSegment(joinColumnsToString(true, column)));
+            appendNoSelectSqlSegments(strToSqlSegment(alias));
             appendJoinSelectSqlSegments(strToSqlSegment(String.format(
                     needIfNull ? ConstantPlus.SUM_SUB_AS_IF_NULL : ConstantPlus.SUM_SUB_AS,
                     joinColumnToString(column), columnToString(column2),
@@ -516,7 +516,7 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
     @Override
     public <J> JoinLambdaQueryWrapper<T> jSumSubJ(boolean condition, boolean needIfNull, SFunction<J, ?> column, SFunction<J, ?> column2, String alias) {
         return maybeDo(condition, () -> {
-            appendNoSelectSqlSegments(strToSqlSegment(joinColumnsToString(true, column)));
+            appendNoSelectSqlSegments(strToSqlSegment(alias));
             appendJoinSelectSqlSegments(strToSqlSegment(String.format(
                     needIfNull ? ConstantPlus.SUM_SUB_AS_IF_NULL : ConstantPlus.SUM_SUB_AS,
                     joinColumnToString(column), joinColumnToString(column2),
@@ -590,6 +590,7 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
      * @param alias 别名
      * @return children
      */
+    @Override
     public JoinLambdaQueryWrapper<T> ifTo(boolean condition, Consumer<JoinLambdaQueryWrapper<T>> consumer, Object trueValue, Object falseValue, String alias) {
         return maybeDo(condition, ()->appendJoinSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.IF,
                 getInstance(consumer).getSqlSegment(), trueValue, falseValue, alias))));
@@ -604,6 +605,7 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
      * @param alias 别名
      * @return children
      */
+    @Override
     public JoinLambdaQueryWrapper<T> ifTo(boolean condition, SFunction<T, ?> column, Object trueValue, Object falseValue, String alias) {
         return maybeDo(condition, ()->appendJoinSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.IF, columnToString(column), trueValue, falseValue, alias))));
     }
@@ -617,6 +619,7 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
      * @param alias 别名
      * @return children
      */
+    @Override
     public <J> JoinLambdaQueryWrapper<T> jIfTo(boolean condition, SFunction<J, ?> column, Object trueValue, Object falseValue, String alias) {
         return maybeDo(condition, ()->appendJoinSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.IF, joinColumnToString(column), trueValue, falseValue, alias))));
     }
