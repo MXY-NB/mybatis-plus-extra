@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.gitee.qingyu-mo</groupId>
     <artifactId>mybatis-plus-extra</artifactId>
-    <version>1.0.5</version>
+    <version>1.0.6</version>
     <name>mybatis-plus-extra</name>
     <description>mybatis-plus-extra</description>
     <url>https://gitee.com/qingyu-mo/mybatis-plus-extra</url>

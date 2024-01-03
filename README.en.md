@@ -46,7 +46,7 @@ Add the following content to the dependencies of pom.xml in the project:
 <dependency>
     <groupId>io.gitee.qingyu-mo</groupId>
     <artifactId>mybatis-plus-extra</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.6</version>
 </dependency>
 ```
 

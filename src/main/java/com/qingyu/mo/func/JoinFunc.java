@@ -18,6 +18,7 @@ import java.util.function.Consumer;
  * @author qingyu-mo
  * @since 2023-12-19
  */
+@SuppressWarnings("unused")
 public interface JoinFunc<Children, R> extends Serializable {
 
     /**

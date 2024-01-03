@@ -17,6 +17,7 @@ import java.lang.reflect.InvocationTargetException;
  */
 public final class ClassUtil {
 
+    @SuppressWarnings("unchecked")
     public static <T> T newInstance(Class<T> clazz, Object... params) {
         try {
             if (params.length == 0) {
@@ -29,7 +30,7 @@ public final class ClassUtil {
                 if (constructor == null) {
                     throw new InstantiationException("No constructor matched parameter types.");
                 } else {
-                    return (T) constructor.invoke(params);
+                    return (T) constructor.invokeWithArguments(params);
                 }
             }
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
