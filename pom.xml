@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.gitee.qingyu-mo</groupId>
     <artifactId>mybatis-plus-extra</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.5</version>
     <name>mybatis-plus-extra</name>
     <description>mybatis-plus-extra</description>
     <url>https://gitee.com/qingyu-mo/mybatis-plus-extra</url>
@@ -137,7 +137,7 @@
             <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
         <repository>
-            <id>oss</id>
+            <id>release</id>
             <url>https://s01.oss.sonatype.org/content/repositories/releases/</url>
         </repository>
     </distributionManagement>
@@ -151,7 +151,7 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>5.8.23</version>
+            <version>5.8.24</version>
             <scope>compile</scope>
             <optional>true</optional>
         </dependency>
