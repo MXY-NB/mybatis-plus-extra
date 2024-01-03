@@ -25,7 +25,7 @@ import java.lang.reflect.Field;
  */
 public final class LambdaUtil implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final int serialVersionUID = 1;
 
     /**
      * 获取一个sfunction的字段名称
