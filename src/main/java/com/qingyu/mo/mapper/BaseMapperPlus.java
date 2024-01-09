@@ -148,6 +148,18 @@ public interface BaseMapperPlus<T> extends BaseMapper<T> {
     }
 
     /**
+     * 删除（根据ID或实体 批量删除）
+     *
+     * @param idList 主键ID列表或实体列表(不能为 null 以及 empty)
+     */
+    default int batchDeleteByIds(Collection<?> idList) {
+        if (CollUtil.isEmpty(idList)) {
+            return 0;
+        }
+        return deleteBatchIds(idList);
+    }
+
+    /**
      * 批量插入
      * @param list 实体列表
      * @param batchSize 一次性插入数量

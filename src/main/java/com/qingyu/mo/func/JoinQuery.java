@@ -319,7 +319,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * 配合一起使用
      */
     default Children selectMaxOne(R column) {
-        return selectMaxOne(column, "maxValue");
+        return selectMaxOne(column, "maxOne");
     }
 
     /**
@@ -340,7 +340,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * 配合一起使用
      */
     default <J> Children jSelectMaxOne(SFunction<J, ?> column) {
-        return jSelectMaxOne(column, "maxValue");
+        return jSelectMaxOne(column, "maxOne");
     }
 
     /**
