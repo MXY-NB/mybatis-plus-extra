@@ -31,7 +31,7 @@ public interface JoinMethod<Children, R> extends Serializable {
      * <p>
      * 例: joinOn(i -&gt; i.jEq("name", "李白").jNe("status", "活着"))
      * </p>
-     * @param condition 执行条件
+     * @param condition 执行条件j
      * @param consumer  消费函数
      * @return children
      */
@@ -161,7 +161,7 @@ public interface JoinMethod<Children, R> extends Serializable {
 
     /**
      * inner join 处理
-     * <p>注意只有内部有 entity 才能使用该方法</p>
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 字段
      * @param entityClass 子查询主表实体类
      * @param consumer 关联的子查询
@@ -174,7 +174,7 @@ public interface JoinMethod<Children, R> extends Serializable {
 
     /**
      * inner join 处理
-     * <p>注意只有内部有 entity 才能使用该方法</p>
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 字段
      * @param entityClass 子查询主表实体类
@@ -188,7 +188,7 @@ public interface JoinMethod<Children, R> extends Serializable {
 
     /**
      * inner join 处理
-     * <p>注意只有内部有 entity 才能使用该方法</p>
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 字段
      * @param entityClass 子查询主表实体类
@@ -201,7 +201,7 @@ public interface JoinMethod<Children, R> extends Serializable {
 
     /**
      * inner join 处理
-     * <p>注意只有内部有 entity 才能使用该方法</p>
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 字段
      * @param entityClass 子查询主表实体类
      * @param consumer 关联的子查询
@@ -214,7 +214,7 @@ public interface JoinMethod<Children, R> extends Serializable {
 
     /**
      * inner join 处理
-     * <p>注意只有内部有 entity 才能使用该方法</p>
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 字段
      * @param entityClass 子查询主表实体类
@@ -228,7 +228,7 @@ public interface JoinMethod<Children, R> extends Serializable {
 
     /**
      * inner join 处理
-     * <p>注意只有内部有 entity 才能使用该方法</p>
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 字段
      * @param entityClass 子查询主表实体类
@@ -325,7 +325,7 @@ public interface JoinMethod<Children, R> extends Serializable {
 
     /**
      * left join 处理
-     * <p>注意只有内部有 entity 才能使用该方法</p>
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 字段
      * @param entityClass 子查询主表实体类
      * @param consumer 关联的子查询
@@ -338,7 +338,7 @@ public interface JoinMethod<Children, R> extends Serializable {
 
     /**
      * left join 处理
-     * <p>注意只有内部有 entity 才能使用该方法</p>
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 字段
      * @param entityClass 子查询主表实体类
@@ -352,7 +352,7 @@ public interface JoinMethod<Children, R> extends Serializable {
 
     /**
      * left join 处理
-     * <p>注意只有内部有 entity 才能使用该方法</p>
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 字段
      * @param entityClass 子查询主表实体类
@@ -365,7 +365,7 @@ public interface JoinMethod<Children, R> extends Serializable {
 
     /**
      * left join 处理
-     * <p>注意只有内部有 entity 才能使用该方法</p>
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 字段
      * @param entityClass 子查询主表实体类
      * @param consumer 关联的子查询
@@ -378,7 +378,7 @@ public interface JoinMethod<Children, R> extends Serializable {
 
     /**
      * left join 处理
-     * <p>注意只有内部有 entity 才能使用该方法</p>
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 字段
      * @param entityClass 子查询主表实体类
@@ -392,7 +392,7 @@ public interface JoinMethod<Children, R> extends Serializable {
 
     /**
      * left join 处理
-     * <p>注意只有内部有 entity 才能使用该方法</p>
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 字段
      * @param entityClass 子查询主表实体类
@@ -489,7 +489,7 @@ public interface JoinMethod<Children, R> extends Serializable {
 
     /**
      * right join 处理
-     * <p>注意只有内部有 entity 才能使用该方法</p>
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 字段
      * @param entityClass 子查询主表实体类
      * @param consumer 关联的子查询
@@ -502,7 +502,7 @@ public interface JoinMethod<Children, R> extends Serializable {
 
     /**
      * right join 处理
-     * <p>注意只有内部有 entity 才能使用该方法</p>
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 字段
      * @param entityClass 子查询主表实体类
@@ -516,7 +516,7 @@ public interface JoinMethod<Children, R> extends Serializable {
 
     /**
      * right join 处理
-     * <p>注意只有内部有 entity 才能使用该方法</p>
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 字段
      * @param entityClass 子查询主表实体类
@@ -529,7 +529,7 @@ public interface JoinMethod<Children, R> extends Serializable {
 
     /**
      * right join 处理
-     * <p>注意只有内部有 entity 才能使用该方法</p>
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 字段
      * @param entityClass 子查询主表实体类
      * @param consumer 关联的子查询
@@ -542,7 +542,7 @@ public interface JoinMethod<Children, R> extends Serializable {
 
     /**
      * right join 处理
-     * <p>注意只有内部有 entity 才能使用该方法</p>
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 字段
      * @param entityClass 子查询主表实体类
@@ -556,7 +556,7 @@ public interface JoinMethod<Children, R> extends Serializable {
 
     /**
      * right join 处理
-     * <p>注意只有内部有 entity 才能使用该方法</p>
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 字段
      * @param entityClass 子查询主表实体类

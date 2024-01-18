@@ -1,10 +1,12 @@
 package com.qingyu.mo.func;
 
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
+import com.qingyu.mo.wrapper.query.JoinLambdaQueryWrapper;
 
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.function.Consumer;
 
 /**
  * 查询条件封装
@@ -35,6 +37,16 @@ public interface JoinCompare<Children, R, T> extends Serializable {
      * @return children
      */
     <J> Children eq(boolean condition, R column, SFunction<J, ?> column2);
+
+    /**
+     * (子查询) 等于 = val
+     * <p>注意只有内部有 entity 才能使用该方法</p>
+     * @param entityClass 子查询主表
+     * @param consumer 子查询
+     * @param val 值
+     * @return children
+     */
+    <J> Children eq(Class<J> entityClass, Consumer<JoinLambdaQueryWrapper<J>> consumer, Object val);
 
     /**
      * 不等于 <>
@@ -216,7 +228,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
     default <J> Children jGt(SFunction<J, ?> column, Object val) {
         return jGt(true, column, val);
     }
-    
+
     /**
      * 大于 >
      * @param condition 执行条件
@@ -225,7 +237,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
      * @return children
      */
     <J> Children jGt(boolean condition, SFunction<J, ?> column, Object val);
-    
+
     /**
      * 大于 >
      * @param column 字段
@@ -371,6 +383,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * sum(字段) 等于 =
+     * @param condition 执行条件
      * @param column 字段
      * @param val 值
      * @return children
@@ -389,6 +402,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * sum(字段) 等于 = 字段
+     * @param condition 执行条件
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -407,6 +421,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * sum(字段) 不等于 <>
+     * @param condition 执行条件
      * @param column 字段
      * @param val 值
      * @return children
@@ -425,6 +440,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * sum(字段) 不等于 <> 字段
+     * @param condition 执行条件
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -443,6 +459,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * sum(字段) 大于 >
+     * @param condition 执行条件
      * @param column 字段
      * @param val 值
      * @return children
@@ -461,6 +478,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * sum(字段) 大于 > 字段
+     * @param condition 执行条件
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -479,6 +497,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * sum(字段) 大于等于 >=
+     * @param condition 执行条件
      * @param column 字段
      * @param val 值
      * @return children
@@ -497,6 +516,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * sum(字段) 大于等于 >= 字段
+     * @param condition 执行条件
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -515,6 +535,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * sum(字段) 小于 <
+     * @param condition 执行条件
      * @param column 字段
      * @param val 值
      * @return children
@@ -533,6 +554,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * sum(字段) 小于 < 字段
+     * @param condition 执行条件
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -551,6 +573,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * sum(字段) 小于等于 <=
+     * @param condition 执行条件
      * @param column 字段
      * @param val 值
      * @return children
@@ -569,6 +592,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * sum(字段) 小于等于 <= 字段
+     * @param condition 执行条件
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -587,6 +611,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * sum(字段) 等于 =
+     * @param condition 执行条件
      * @param column 字段
      * @param val 值
      * @return children
@@ -605,6 +630,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * sum(字段) 等于 = 字段
+     * @param condition 执行条件
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -623,6 +649,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * sum(字段) 不等于 <>
+     * @param condition 执行条件
      * @param column 字段
      * @param val 值
      * @return children
@@ -641,6 +668,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * sum(字段) 不等于 <> 字段
+     * @param condition 执行条件
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -659,6 +687,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * sum(字段) 大于 >
+     * @param condition 执行条件
      * @param column 字段
      * @param val 值
      * @return children
@@ -677,6 +706,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * sum(字段) 大于 > 字段
+     * @param condition 执行条件
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -695,6 +725,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * sum(字段) 大于等于 >=
+     * @param condition 执行条件
      * @param column 字段
      * @param val 值
      * @return children
@@ -713,6 +744,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * sum(字段) 大于等于 >= 字段
+     * @param condition 执行条件
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -731,6 +763,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * sum(字段) 小于 <
+     * @param condition 执行条件
      * @param column 字段
      * @param val 值
      * @return children
@@ -749,6 +782,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * sum(字段) 小于 < 字段
+     * @param condition 执行条件
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -767,6 +801,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * sum(字段) 小于等于 <=
+     * @param condition 执行条件
      * @param column 字段
      * @param val 值
      * @return children
@@ -785,6 +820,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * sum(字段) 小于等于 <= 字段
+     * @param condition 执行条件
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -803,6 +839,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * 等于 = sum(字段)
+     * @param condition 执行条件
      * @param column 字段
      * @param val 值
      * @return children
@@ -821,6 +858,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * 字段 等于 = sum(字段)
+     * @param condition 执行条件
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -839,6 +877,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * 不等于 <> sum(字段)
+     * @param condition 执行条件
      * @param column 字段
      * @param val 值
      * @return children
@@ -857,6 +896,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * 字段 不等于 <> sum(字段)
+     * @param condition 执行条件
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -875,6 +915,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * 大于 > sum(字段)
+     * @param condition 执行条件
      * @param column 字段
      * @param val 值
      * @return children
@@ -893,6 +934,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * 字段 大于 > sum(字段)
+     * @param condition 执行条件
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -911,6 +953,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * 大于等于 >= sum(字段)
+     * @param condition 执行条件
      * @param column 字段
      * @param val 值
      * @return children
@@ -929,6 +972,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * 字段 大于等于 >= sum(字段)
+     * @param condition 执行条件
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -947,6 +991,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * 小于 < sum(字段)
+     * @param condition 执行条件
      * @param column 字段
      * @param val 值
      * @return children
@@ -965,6 +1010,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * 字段 小于 < sum(字段)
+     * @param condition 执行条件
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -983,6 +1029,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * 小于等于 <= sum(字段)
+     * @param condition 执行条件
      * @param column 字段
      * @param val 值
      * @return children
@@ -1001,6 +1048,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * 字段 小于等于 <= sum(字段)
+     * @param condition 执行条件
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -1019,6 +1067,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * 等于 = sum(字段)
+     * @param condition 执行条件
      * @param column 字段
      * @param val 值
      * @return children
@@ -1037,6 +1086,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * 字段 等于 = sum(字段)
+     * @param condition 执行条件
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -1055,6 +1105,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * 不等于 <> sum(字段)
+     * @param condition 执行条件
      * @param column 字段
      * @param val 值
      * @return children
@@ -1073,6 +1124,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * 字段 不等于 <> sum(字段)
+     * @param condition 执行条件
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -1091,6 +1143,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * 大于 > sum(字段)
+     * @param condition 执行条件
      * @param column 字段
      * @param val 值
      * @return children
@@ -1109,6 +1162,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * 字段 大于 > sum(字段)
+     * @param condition 执行条件
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -1127,6 +1181,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * 大于等于 >= sum(字段)
+     * @param condition 执行条件
      * @param column 字段
      * @param val 值
      * @return children
@@ -1145,6 +1200,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * 字段 大于等于 >= sum(字段)
+     * @param condition 执行条件
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -1163,6 +1219,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * 小于 < sum(字段)
+     * @param condition 执行条件
      * @param column 字段
      * @param val 值
      * @return children
@@ -1181,6 +1238,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * 字段 小于 < sum(字段)
+     * @param condition 执行条件
      * @param column 字段
      * @param column2 字段
      * @return children
@@ -1199,6 +1257,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * 小于等于 <= sum(字段)
+     * @param condition 执行条件
      * @param column 字段
      * @param val 值
      * @return children
@@ -1217,11 +1276,164 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * 字段 小于等于 <= sum(字段)
+     * @param condition 执行条件
      * @param column 字段
      * @param column2 字段
      * @return children
      */
     <J> Children jLeSum(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2);
+
+    /**
+     * count(字段) 大于 > val
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    default Children countGt(SFunction<T, ?> column, Object val) {
+        return countGt(true, column, val);
+    }
+
+    /**
+     * count(字段) 大于 > val
+     * @param condition 执行条件
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    Children countGt(boolean condition, SFunction<T, ?> column, Object val);
+
+    /**
+     * count(字段) 大于等于 >= val
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    default Children countGe(SFunction<T, ?> column, Object val) {
+        return countGe(true, column, val);
+    }
+
+    /**
+     * count(字段) 大于等于 >= val
+     * @param condition 执行条件
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    Children countGe(boolean condition, SFunction<T, ?> column, Object val);
+
+    /**
+     * count(字段) 小于 <= val
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    default Children countLt(SFunction<T, ?> column, Object val) {
+        return countLt(true, column, val);
+    }
+
+    /**
+     * count(字段) 小于 <= val
+     * @param condition 执行条件
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    Children countLt(boolean condition, SFunction<T, ?> column, Object val);
+
+    /**
+     * count(字段) 小于等于 <= val
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    default Children countLe(SFunction<T, ?> column, Object val) {
+        return countLe(true, column, val);
+    }
+
+    /**
+     * count(字段) 小于等于 <= val
+     * @param condition 执行条件
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    Children countLe(boolean condition, SFunction<T, ?> column, Object val);
+
+    /**
+     * count(字段) 大于 > val
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    default <J> Children jCountGt(SFunction<J, ?> column, Object val) {
+        return jCountGt(true, column, val);
+    }
+
+    /**
+     * count(字段) 大于 > val
+     * @param condition 执行条件
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    <J> Children jCountGt(boolean condition, SFunction<J, ?> column, Object val);
+
+    /**
+     * count(字段) 大于 > val
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    default <J> Children jCountGe(SFunction<J, ?> column, Object val) {
+        return jCountGe(true, column, val);
+    }
+
+    /**
+     * count(字段) 大于 > val
+     * @param condition 执行条件
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    <J> Children jCountGe(boolean condition, SFunction<J, ?> column, Object val);
+
+    /**
+     * count(字段) 大于 > val
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    default <J> Children jCountLt(SFunction<J, ?> column, Object val) {
+        return jCountLt(true, column, val);
+    }
+
+    /**
+     * count(字段) 大于 > val
+     * @param condition 执行条件
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    <J> Children jCountLt(boolean condition, SFunction<J, ?> column, Object val);
+
+    /**
+     * count(字段) 大于 > val
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    default <J> Children jCountLe(SFunction<J, ?> column, Object val) {
+        return jCountLe(true, column, val);
+    }
+
+    /**
+     * count(字段) 大于 > val
+     * @param condition 执行条件
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    <J> Children jCountLe(boolean condition, SFunction<J, ?> column, Object val);
 
     /**
      * BETWEEN 值1 AND 值2
