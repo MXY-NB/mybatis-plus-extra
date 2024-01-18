@@ -262,6 +262,12 @@ public abstract class AbstractJoinWrapper<T, Children extends AbstractJoinWrappe
     }
 
     @Override
+    public <J> Children eq(Class<J> entityClass, Consumer<JoinLambdaQueryWrapper<J>> consumer, Object val) {
+        appendSqlSegments(() -> addChildSelect(entityClass, consumer), EQ, paramToSqlSegment(val));
+        return typedThis;
+    }
+
+    @Override
     public <J> Children ne(boolean condition, SFunction<T, ?> column, SFunction<J, ?> column2) {
         return addCondition(condition, column, NE, column2);
     }
@@ -628,6 +634,54 @@ public abstract class AbstractJoinWrapper<T, Children extends AbstractJoinWrappe
 
     protected <J> Children joinAddSumAfterCondition(boolean condition, SFunction<J, ?> column, SqlKeyword sqlKeyword, SFunction<J, ?> column2) {
         return maybeDo(condition, () -> appendSqlSegments(joinColumnToSqlSegment(column), sqlKeyword, columnToSqlSegment(ConstantPlus.SUM_IF_NULL, joinColumnToString(column2))));
+    }
+
+    @Override
+    public Children countGt(boolean condition, SFunction<T, ?> column, Object val) {
+        return addCountCondition(condition, column, GT, val);
+    }
+
+    @Override
+    public Children countGe(boolean condition, SFunction<T, ?> column, Object val) {
+        return addCountCondition(condition, column, GE, val);
+    }
+
+    @Override
+    public Children countLt(boolean condition, SFunction<T, ?> column, Object val) {
+        return addCountCondition(condition, column, LT, val);
+    }
+
+    @Override
+    public Children countLe(boolean condition, SFunction<T, ?> column, Object val) {
+        return addCountCondition(condition, column, LE, val);
+    }
+
+    protected Children addCountCondition(boolean condition, SFunction<T, ?> column, SqlKeyword sqlKeyword, Object val) {
+        return maybeDo(condition, () -> appendSqlSegments(strToSqlSegment(String.format(ConstantPlus.COUNT, columnToString(column))), sqlKeyword, paramToSqlSegment(val)));
+    }
+
+    @Override
+    public <J> Children jCountGt(boolean condition, SFunction<J, ?> column, Object val) {
+        return jAddCountCondition(condition, column, GT, val);
+    }
+
+    @Override
+    public <J> Children jCountGe(boolean condition, SFunction<J, ?> column, Object val) {
+        return jAddCountCondition(condition, column, GE, val);
+    }
+
+    @Override
+    public <J> Children jCountLt(boolean condition, SFunction<J, ?> column, Object val) {
+        return jAddCountCondition(condition, column, LT, val);
+    }
+
+    @Override
+    public <J> Children jCountLe(boolean condition, SFunction<J, ?> column, Object val) {
+        return jAddCountCondition(condition, column, LE, val);
+    }
+
+    protected <J> Children jAddCountCondition(boolean condition, SFunction<J, ?> column, SqlKeyword sqlKeyword, Object val) {
+        return maybeDo(condition, () -> appendSqlSegments(strToSqlSegment(String.format(ConstantPlus.COUNT, joinColumnToString(column))), sqlKeyword, paramToSqlSegment(val)));
     }
 
     @Override

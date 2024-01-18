@@ -46,7 +46,7 @@ json字段查询(有待完善，现在只有两种方法)。同时也增加了�
 <dependency>
     <groupId>io.gitee.qingyu-mo</groupId>
     <artifactId>mybatis-plus-extra</artifactId>
-    <version>1.0.6</version>
+    <version>1.0.6.1</version>
 </dependency>
 ```
 

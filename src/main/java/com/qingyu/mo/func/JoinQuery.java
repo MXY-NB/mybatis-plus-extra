@@ -82,7 +82,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * 子查询
-     * <p>注意只有内部有 entity 才能使用该方法</p>
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param entityClass 子查询主表
      * @param consumer 子查询
      * @param alias 别名
@@ -319,7 +319,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * 配合一起使用
      */
     default Children selectMaxOne(R column) {
-        return selectMaxOne(column, "maxValue");
+        return selectMaxOne(column, "maxOne");
     }
 
     /**
@@ -340,7 +340,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * 配合一起使用
      */
     default <J> Children jSelectMaxOne(SFunction<J, ?> column) {
-        return jSelectMaxOne(column, "maxValue");
+        return jSelectMaxOne(column, "maxOne");
     }
 
     /**
@@ -355,6 +355,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 字段
      * @return children
      */
@@ -364,6 +365,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 字段
      * @return children
@@ -374,6 +376,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 字段
      * @param aliasField 别名字段
      * @return children
@@ -384,6 +387,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 字段
      * @param alias 别名
      * @return children
@@ -394,6 +398,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 字段
      * @param alias 别名
@@ -405,6 +410,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column), 0)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 字段
      * @return children
      */
@@ -414,6 +420,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column), 0)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 字段
      * @return children
@@ -424,6 +431,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column), 0)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 字段
      * @param aliasField 别名字段
      * @return children
@@ -434,6 +442,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column), 0)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 字段
      * @param alias 别名
      * @return children
@@ -444,6 +453,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column), 0)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 字段
      * @param alias 别名
@@ -455,6 +465,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * 执行sum函数
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param needIfNull 是否用IFNULL包裹
      * @param column 字段
@@ -465,6 +476,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 字段
      * @return children
      */
@@ -474,6 +486,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 字段
      * @return children
@@ -484,6 +497,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 字段
      * @param aliasField 别名字段
      * @return children
@@ -494,6 +508,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 字段
      * @param alias 别名
      * @return children
@@ -504,6 +519,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 字段
      * @param alias 别名
@@ -515,6 +531,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column), 0)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 字段
      * @return children
      */
@@ -524,6 +541,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column), 0)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 字段
      * @return children
@@ -534,6 +552,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column), 0)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 字段
      * @param aliasField 别名字段
      * @return children
@@ -544,6 +563,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column), 0)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 字段
      * @param alias 别名
      * @return children
@@ -554,6 +574,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column), 0)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 字段
      * @param alias 别名
@@ -565,6 +586,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * 执行sum函数
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param needIfNull 是否用IFNULL包裹
      * @param column 字段
@@ -575,8 +597,9 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) + sum(column2)
-     * @param column 被减数
-     * @param column2 减数
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
+     * @param column 被加数
+     * @param column2 加数
      * @param aliasField 别名字段
      * @return children
      */
@@ -586,9 +609,10 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) + sum(column2)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
-     * @param column 被减数
-     * @param column2 减数
+     * @param column 被加数
+     * @param column2 加数
      * @param aliasField 别名字段
      * @return children
      */
@@ -598,8 +622,9 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) + sum(column2)
-     * @param column 被减数
-     * @param column2 减数
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
+     * @param column 被加数
+     * @param column2 加数
      * @param alias 别名
      * @return children
      */
@@ -609,9 +634,10 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) + sum(column2)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
-     * @param column 被减数
-     * @param column2 减数
+     * @param column 被加数
+     * @param column2 加数
      * @param alias 别名
      * @return children
      */
@@ -621,8 +647,9 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column) + sum(column2), 0)
-     * @param column 被减数
-     * @param column2 减数
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
+     * @param column 被加数
+     * @param column2 加数
      * @param aliasField 别名字段
      * @return children
      */
@@ -632,9 +659,10 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column) + sum(column2), 0)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
-     * @param column 被减数
-     * @param column2 减数
+     * @param column 被加数
+     * @param column2 加数
      * @param aliasField 别名字段
      * @return children
      */
@@ -644,8 +672,9 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column) + sum(column2), 0)
-     * @param column 被减数
-     * @param column2 减数
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
+     * @param column 被加数
+     * @param column2 加数
      * @param alias 别名
      * @return children
      */
@@ -655,9 +684,10 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column) + sum(column2), 0)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
-     * @param column 被减数
-     * @param column2 减数
+     * @param column 被加数
+     * @param column2 加数
      * @param alias 别名
      * @return children
      */
@@ -667,10 +697,11 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * 执行sum函数相加
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param needIfNull 是否用IFNULL包裹
-     * @param column 被减数
-     * @param column2 减数
+     * @param column 被加数
+     * @param column2 加数
      * @param alias 别名
      * @return children
      */
@@ -678,8 +709,9 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) + sum(column2)
-     * @param column 被减数
-     * @param column2 减数
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
+     * @param column 被加数
+     * @param column2 加数
      * @param aliasField 别名字段
      * @return children
      */
@@ -689,9 +721,10 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) + sum(column2)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
-     * @param column 被减数
-     * @param column2 减数
+     * @param column 被加数
+     * @param column2 加数
      * @param aliasField 别名字段
      * @return children
      */
@@ -701,8 +734,9 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) + sum(column2)
-     * @param column 被减数
-     * @param column2 减数
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
+     * @param column 被加数
+     * @param column2 加数
      * @param alias 别名
      * @return children
      */
@@ -712,9 +746,10 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) + sum(column2)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
-     * @param column 被减数
-     * @param column2 减数
+     * @param column 被加数
+     * @param column2 加数
      * @param alias 别名
      * @return children
      */
@@ -724,8 +759,9 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column) + sum(column2), 0)
-     * @param column 被减数
-     * @param column2 减数
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
+     * @param column 被加数
+     * @param column2 加数
      * @param aliasField 别名字段
      * @return children
      */
@@ -735,9 +771,10 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column) + sum(column2), 0)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
-     * @param column 被减数
-     * @param column2 减数
+     * @param column 被加数
+     * @param column2 加数
      * @param aliasField 别名字段
      * @return children
      */
@@ -747,8 +784,9 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column) + sum(column2), 0)
-     * @param column 被减数
-     * @param column2 减数
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
+     * @param column 被加数
+     * @param column2 加数
      * @param alias 别名
      * @return children
      */
@@ -758,9 +796,10 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column) + sum(column2), 0)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
-     * @param column 被减数
-     * @param column2 减数
+     * @param column 被加数
+     * @param column2 加数
      * @param alias 别名
      * @return children
      */
@@ -770,10 +809,11 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * 执行sum函数相加
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param needIfNull 是否用IFNULL包裹
-     * @param column 被减数
-     * @param column2 减数
+     * @param column 被加数
+     * @param column2 加数
      * @param alias 别名
      * @return children
      */
@@ -781,6 +821,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) - sum(column2)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 被减数
      * @param column2 减数
      * @param aliasField 别名字段
@@ -792,6 +833,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) - sum(column2)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 被减数
      * @param column2 减数
@@ -804,6 +846,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) - sum(column2)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 被减数
      * @param column2 减数
      * @param alias 别名
@@ -815,6 +858,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) - sum(column2)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 被减数
      * @param column2 减数
@@ -827,6 +871,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) - sum(column2)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 被减数
      * @param column2 减数
      * @param aliasField 别名字段
@@ -838,6 +883,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) - sum(column2)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 被减数
      * @param column2 减数
@@ -850,6 +896,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) - sum(column2)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 被减数
      * @param column2 减数
      * @param alias 别名
@@ -861,6 +908,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column) - sum(column2), 0)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 被减数
      * @param column2 减数
@@ -873,6 +921,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * 执行sum函数相减
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param needIfNull 是否用IFNULL包裹
      * @param column 被减数
@@ -884,6 +933,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) - sum(column2)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 被减数
      * @param column2 减数
      * @param aliasField 别名字段
@@ -895,6 +945,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) - sum(column2)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 被减数
      * @param column2 减数
@@ -907,6 +958,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) - sum(column2)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 被减数
      * @param column2 减数
      * @param alias 别名
@@ -918,6 +970,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) - sum(column2)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 被减数
      * @param column2 减数
@@ -930,6 +983,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column) - sum(column2), 0)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 被减数
      * @param column2 减数
      * @param aliasField 别名字段
@@ -941,6 +995,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column) - sum(column2), 0)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 被减数
      * @param column2 减数
@@ -953,6 +1008,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column) - sum(column2), 0)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 被减数
      * @param column2 减数
      * @param alias 别名
@@ -964,6 +1020,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column) - sum(column2), 0)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 被减数
      * @param column2 减数
@@ -976,6 +1033,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * 执行sum函数相减
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param needIfNull 是否用IFNULL包裹
      * @param column 被减数
@@ -987,8 +1045,9 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) + sum(column2)
-     * @param column 被减数
-     * @param column2 减数
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
+     * @param column 被加数
+     * @param column2 加数
      * @param aliasField 别名字段
      * @return children
      */
@@ -998,9 +1057,10 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) + sum(column2)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
-     * @param column 被减数
-     * @param column2 减数
+     * @param column 被加数
+     * @param column2 加数
      * @param aliasField 别名字段
      * @return children
      */
@@ -1010,8 +1070,9 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) + sum(column2)
-     * @param column 被减数
-     * @param column2 减数
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
+     * @param column 被加数
+     * @param column2 加数
      * @param alias 别名
      * @return children
      */
@@ -1021,9 +1082,10 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) + sum(column2)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
-     * @param column 被减数
-     * @param column2 减数
+     * @param column 被加数
+     * @param column2 加数
      * @param alias 别名
      * @return children
      */
@@ -1033,8 +1095,9 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column) + sum(column2), 0)
-     * @param column 被减数
-     * @param column2 减数
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
+     * @param column 被加数
+     * @param column2 加数
      * @param aliasField 别名字段
      * @return children
      */
@@ -1044,9 +1107,10 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column) + sum(column2), 0)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
-     * @param column 被减数
-     * @param column2 减数
+     * @param column 被加数
+     * @param column2 加数
      * @param aliasField 别名字段
      * @return children
      */
@@ -1056,8 +1120,9 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column) + sum(column2), 0)
-     * @param column 被减数
-     * @param column2 减数
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
+     * @param column 被加数
+     * @param column2 加数
      * @param alias 别名
      * @return children
      */
@@ -1067,9 +1132,10 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column) + sum(column2), 0)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
-     * @param column 被减数
-     * @param column2 减数
+     * @param column 被加数
+     * @param column2 加数
      * @param alias 别名
      * @return children
      */
@@ -1079,10 +1145,11 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * 执行sum函数相加
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param needIfNull 是否用IFNULL包裹
-     * @param column 被减数
-     * @param column2 减数
+     * @param column 被加数
+     * @param column2 加数
      * @param alias 别名
      * @return children
      */
@@ -1090,8 +1157,9 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) + sum(column2)
-     * @param column 被减数
-     * @param column2 减数
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
+     * @param column 被加数
+     * @param column2 加数
      * @param aliasField 别名字段
      * @return children
      */
@@ -1101,9 +1169,10 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) + sum(column2)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
-     * @param column 被减数
-     * @param column2 减数
+     * @param column 被加数
+     * @param column2 加数
      * @param aliasField 别名字段
      * @return children
      */
@@ -1113,8 +1182,9 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) + sum(column2)
-     * @param column 被减数
-     * @param column2 减数
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
+     * @param column 被加数
+     * @param column2 加数
      * @param alias 别名
      * @return children
      */
@@ -1124,9 +1194,10 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) + sum(column2)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
-     * @param column 被减数
-     * @param column2 减数
+     * @param column 被加数
+     * @param column2 加数
      * @param alias 别名
      * @return children
      */
@@ -1136,8 +1207,9 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column) + sum(column2), 0)
-     * @param column 被减数
-     * @param column2 减数
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
+     * @param column 被加数
+     * @param column2 加数
      * @param aliasField 别名字段
      * @return children
      */
@@ -1147,9 +1219,10 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column) + sum(column2), 0)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
-     * @param column 被减数
-     * @param column2 减数
+     * @param column 被加数
+     * @param column2 加数
      * @param aliasField 别名字段
      * @return children
      */
@@ -1159,8 +1232,9 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column) + sum(column2), 0)
-     * @param column 被减数
-     * @param column2 减数
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
+     * @param column 被加数
+     * @param column2 加数
      * @param alias 别名
      * @return children
      */
@@ -1170,9 +1244,10 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column) + sum(column2), 0)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
-     * @param column 被减数
-     * @param column2 减数
+     * @param column 被加数
+     * @param column2 加数
      * @param alias 别名
      * @return children
      */
@@ -1182,10 +1257,11 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * 执行sum函数相加
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param needIfNull 是否用IFNULL包裹
-     * @param column 被减数
-     * @param column2 减数
+     * @param column 被加数
+     * @param column2 加数
      * @param alias 别名
      * @return children
      */
@@ -1193,6 +1269,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) - sum(column2)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 被减数
      * @param column2 减数
      * @param aliasField 别名字段
@@ -1204,6 +1281,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) - sum(column2)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 被减数
      * @param column2 减数
@@ -1216,6 +1294,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) - sum(column2)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 被减数
      * @param column2 减数
      * @param alias 别名
@@ -1227,6 +1306,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) - sum(column2)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 被减数
      * @param column2 减数
@@ -1239,6 +1319,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column) - sum(column2), 0)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 被减数
      * @param column2 减数
      * @param aliasField 别名字段
@@ -1250,6 +1331,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column) - sum(column2), 0)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 被减数
      * @param column2 减数
@@ -1262,6 +1344,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column) - sum(column2), 0)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 被减数
      * @param column2 减数
      * @param alias 别名
@@ -1273,6 +1356,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column) - sum(column2), 0)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 被减数
      * @param column2 减数
@@ -1285,6 +1369,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * 执行sum函数相减
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param needIfNull 是否用IFNULL包裹
      * @param column 被减数
@@ -1296,6 +1381,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) - sum(column2)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 被减数
      * @param column2 减数
      * @param aliasField 别名字段
@@ -1307,6 +1393,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) - sum(column2)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 被减数
      * @param column2 减数
@@ -1319,6 +1406,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) - sum(column2)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 被减数
      * @param column2 减数
      * @param alias 别名
@@ -1330,6 +1418,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * sum(column) - sum(column2)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 被减数
      * @param column2 减数
@@ -1342,6 +1431,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column) - sum(column2), 0)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 被减数
      * @param column2 减数
      * @param aliasField 别名字段
@@ -1353,6 +1443,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column) - sum(column2), 0)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 被减数
      * @param column2 减数
@@ -1365,6 +1456,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column) - sum(column2), 0)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 被减数
      * @param column2 减数
      * @param alias 别名
@@ -1376,6 +1468,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * IFNULL(sum(column) - sum(column2), 0)
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param column 被减数
      * @param column2 减数
@@ -1388,6 +1481,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
 
     /**
      * 执行sum函数相减
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param condition 执行条件
      * @param needIfNull 是否用IFNULL包裹
      * @param column 被减数
@@ -1403,7 +1497,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * @param column2 字段
      * @return children
      */
-    default Children ifNull(R column, R column2) {
+    default Children ifNull(R column, SFunction<T, ?> column2) {
         return ifNull(true, column, column2);
     }
 
@@ -1414,7 +1508,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * @param column2 字段
      * @return children
      */
-    Children ifNull(boolean condition, R column, R column2);
+    Children ifNull(boolean condition, R column, SFunction<T, ?> column2);
 
     /**
      * ifNull(column, column2)
@@ -1441,7 +1535,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * @param column2 字段
      * @return children
      */
-    default <J> Children jIfNull(SFunction<J, ?> column, R column2) {
+    default <J> Children jIfNull(SFunction<J, ?> column, SFunction<T, ?> column2) {
         return jIfNull(true, column, column2);
     }
 
@@ -1452,7 +1546,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * @param column2 字段
      * @return children
      */
-    <J> Children jIfNull(boolean condition, SFunction<J, ?> column, R column2);
+    <J> Children jIfNull(boolean condition, SFunction<J, ?> column, SFunction<T, ?> column2);
 
     /**
      * ifNull(column, column2)
@@ -1472,6 +1566,88 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * @return children
      */
     <J> Children jIfNullJ(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2);
+
+    /**
+     * ifNull(column, val)
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    default Children ifNull(SFunction<T, ?> column, Object val) {
+        return ifNull(column, val, LambdaUtil.toUnderlinePropertyName(column));
+    }
+
+    /**
+     * ifNull(column, val)
+     * @param column 字段
+     * @param val 值
+     * @param aliasField 别名字段
+     * @return children
+     */
+    default Children ifNull(SFunction<T, ?> column, Object val, SFunction<T, ?> aliasField) {
+        return ifNull(column, val, LambdaUtil.toUnderlinePropertyName(aliasField));
+    }
+
+    /**
+     * ifNull(column, val)
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    default Children ifNull(SFunction<T, ?> column, Object val, String alias) {
+        return ifNull(true, column, val, alias);
+    }
+
+    /**
+     * ifNull(column, val)
+     * @param condition 执行条件
+     * @param column 字段
+     * @param val 字段
+     * @return children
+     */
+    Children ifNull(boolean condition, SFunction<T, ?> column, Object val, String alias);
+
+    /**
+     * ifNull(column, val)
+     * @param column 字段
+     * @param val 值
+     * @return children
+     */
+    default <J> Children jIfNull(SFunction<J, ?> column, Object val) {
+        return jIfNull(column, val, LambdaUtil.toUnderlinePropertyName(column));
+    }
+
+    /**
+     * ifNull(column, val)
+     * @param column 字段
+     * @param val 值
+     * @param aliasField 别名字段
+     * @return children
+     */
+    default <J> Children jIfNull(SFunction<J, ?> column, Object val, SFunction<T, ?> aliasField) {
+        return jIfNull(column, val, LambdaUtil.toUnderlinePropertyName(aliasField));
+    }
+
+    /**
+     * ifNull(column, val)
+     * @param column 字段
+     * @param val 值
+     * @param alias 别名
+     * @return children
+     */
+    default <J> Children jIfNull(SFunction<J, ?> column, Object val, String alias) {
+        return jIfNull(true, column, val, alias);
+    }
+
+    /**
+     * ifNull(column, val)
+     * @param condition 执行条件
+     * @param column 字段
+     * @param val 字段
+     * @param alias 别名
+     * @return children
+     */
+    <J> Children jIfNull(boolean condition, SFunction<J, ?> column, Object val, String alias);
 
     /**
      * if(consumer, trueValue, falseValue)
@@ -1616,4 +1792,62 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * @return children
      */
     <J> Children jIfTo(boolean condition, SFunction<J, ?> column, Object trueValue, Object falseValue, String alias);
+
+    /**
+     * count(字段) as alias
+     * @param column 字段
+     * @param aliasField 别名字段
+     * @return children
+     */
+    default Children count(SFunction<T, ?> column, SFunction<T, ?> aliasField) {
+        return count(column, LambdaUtil.toUnderlinePropertyName(aliasField));
+    }
+
+    /**
+     * count(字段) as alias
+     * @param column 字段
+     * @param alias 别名
+     * @return children
+     */
+    default Children count(SFunction<T, ?> column, String alias) {
+        return count(true, column, alias);
+    }
+
+    /**
+     * count(字段) as alias
+     * @param condition 执行条件
+     * @param column 字段
+     * @param alias 别名
+     * @return children
+     */
+    Children count(boolean condition, SFunction<T, ?> column, String alias);
+
+    /**
+     * count(字段) as alias
+     * @param column 字段
+     * @param aliasField 别名字段
+     * @return children
+     */
+    default <J> Children jCount(SFunction<J, ?> column, SFunction<T, ?> aliasField) {
+        return jCount(column, LambdaUtil.toUnderlinePropertyName(aliasField));
+    }
+
+    /**
+     * count(字段) as alias
+     * @param column 字段
+     * @param alias 别名
+     * @return children
+     */
+    default <J> Children jCount(SFunction<J, ?> column, String alias) {
+        return jCount(true, column, alias);
+    }
+
+    /**
+     * count(字段) as alias
+     * @param condition 执行条件
+     * @param column 字段
+     * @param alias 别名
+     * @return children
+     */
+    <J> Children jCount(boolean condition, SFunction<J, ?> column, String alias);
 }

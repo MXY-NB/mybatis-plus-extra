@@ -58,7 +58,12 @@ public enum SqlMethod {
     /**
      * 物理删除记录
      */
-    PHYSICAL_DELETE("physicalDelete", "根据 entity 条件物理删除记录", "<script>\nDELETE FROM %s %s %s\n</script>");
+    PHYSICAL_DELETE("physicalDelete", "根据 entity 条件物理删除记录", "<script>\nDELETE FROM %s %s %s\n</script>"),
+
+    /**
+     * 物理删除记录
+     */
+    PHYSICAL_DELETE_BY_ID("physicalDeleteById", "根据 id 物理删除记录", "<script>\nDELETE FROM %s WHERE %s=#{%s}\n</script>");
 
     /**
      * 名称

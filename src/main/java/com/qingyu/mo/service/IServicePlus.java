@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.qingyu.mo.mapper.BaseMapperPlus;
 import com.qingyu.mo.toolkit.JoinWrappers;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
@@ -52,10 +53,19 @@ public interface IServicePlus<T> extends IService<T> {
     /**
      * 根据 Wrapper 条件，删除记录
      * @param queryWrapper 条件包装
-     * @return int
+     * @return boolean
      */
-    default int physicalRemove(Wrapper<T> queryWrapper) {
-        return getBaseMapper().physicalDelete(queryWrapper);
+    default boolean physicalRemove(Wrapper<T> queryWrapper) {
+        return SqlHelper.retBool(getBaseMapper().physicalDelete(queryWrapper));
+    }
+
+    /**
+     * 根据 Wrapper 条件，删除记录
+     * @param id 主键ID
+     * @return boolean
+     */
+    default boolean physicalRemoveById(Serializable id) {
+        return SqlHelper.retBool(getBaseMapper().physicalDeleteById(id));
     }
 
     /**

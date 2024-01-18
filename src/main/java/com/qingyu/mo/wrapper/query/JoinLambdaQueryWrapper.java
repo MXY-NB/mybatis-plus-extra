@@ -174,7 +174,7 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
 
     /**
      * 子查询
-     * <p>注意只有内部有 entity 才能使用该方法</p>
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param entityClass 子查询主表
      * @param consumer 子查询
      * @param alias 别名
@@ -194,7 +194,6 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
     @Override
     public JoinLambdaQueryWrapper<T> selectSumOne(SFunction<T, ?> column, String alias) {
         appendSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.SUM_AS_IF_NULL, columnToString(column), alias)));
-        appendSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.SUM_AS_IF_NULL, columnToString(column), "sumValue")));
         return typedThis;
     }
 
@@ -330,11 +329,11 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
     @Override
     public JoinLambdaQueryWrapper<T> sum(boolean condition, boolean needIfNull, SFunction<T, ?> column, String alias) {
         return maybeDo(condition, () -> {
-            appendNoSelectSqlSegments(strToSqlSegment(columnToString(true, column)));
+            String finalAlias = CharSequenceUtil.isEmpty(alias) ? columnToString(true, column) : alias;
+            appendNoSelectSqlSegments(strToSqlSegment(finalAlias));
             appendJoinSelectSqlSegments(strToSqlSegment(String.format(
                     needIfNull ? ConstantPlus.SUM_AS_IF_NULL : ConstantPlus.SUM_AS,
-                    columnToString(column),
-                    CharSequenceUtil.isEmpty(alias) ? columnToString(true, column) : alias
+                    columnToString(column), finalAlias
             )));
         });
     }
@@ -349,19 +348,23 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
      */
     @Override
     public <J> JoinLambdaQueryWrapper<T> jSum(boolean condition, boolean needIfNull, SFunction<J, ?> column, String alias) {
-        return maybeDo(condition, () -> appendJoinSelectSqlSegments(strToSqlSegment(String.format(
-                needIfNull ? ConstantPlus.SUM_AS_IF_NULL : ConstantPlus.SUM_AS,
-                joinColumnToString(column),
-                CharSequenceUtil.isEmpty(alias) ? joinColumnToString(true, column) : alias
-        ))));
+        return maybeDo(condition, () -> {
+            String finalAlias = CharSequenceUtil.isEmpty(alias) ? joinColumnToString(true, column) : alias;
+            appendNoSelectSqlSegments(strToSqlSegment(finalAlias));
+            appendJoinSelectSqlSegments(strToSqlSegment(String.format(
+                    needIfNull ? ConstantPlus.SUM_AS_IF_NULL : ConstantPlus.SUM_AS,
+                    joinColumnToString(column), finalAlias
+
+            )));
+        });
     }
 
     /**
      * 执行sum函数相加
      * @param condition 执行条件
      * @param needIfNull 是否用IFNULL包裹
-     * @param column 被减数
-     * @param column2 减数
+     * @param column 被加数
+     * @param column2 加数
      * @param alias 别名
      * @return this
      */
@@ -381,8 +384,8 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
      * 执行sum函数相加
      * @param condition 执行条件
      * @param needIfNull 是否用IFNULL包裹
-     * @param column 被减数
-     * @param column2 减数
+     * @param column 被加数
+     * @param column2 加数
      * @param alias 别名
      * @return this
      */
@@ -444,8 +447,8 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
      * 执行sum函数相加
      * @param condition 执行条件
      * @param needIfNull 是否用IFNULL包裹
-     * @param column 被减数
-     * @param column2 减数
+     * @param column 被加数
+     * @param column2 加数
      * @param alias 别名
      * @return this
      */
@@ -465,8 +468,8 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
      * 执行sum函数相加
      * @param condition 执行条件
      * @param needIfNull 是否用IFNULL包裹
-     * @param column 被减数
-     * @param column2 减数
+     * @param column 被加数
+     * @param column2 加数
      * @param alias 别名
      * @return this
      */
@@ -581,6 +584,33 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
     }
 
     /**
+     * ifNull(column, val)
+     * @param condition 执行条件
+     * @param column 字段
+     * @param val 字段
+     * @return children
+     */
+    @Override
+    public JoinLambdaQueryWrapper<T> ifNull(boolean condition, SFunction<T, ?> column, Object val, String alias) {
+        return maybeDo(condition, () -> appendJoinSelectSqlSegments(() -> String.format(ConstantPlus.IF_NULL,
+                joinColumnToString(column), paramToSqlSegment(val).getSqlSegment(), alias)));
+    }
+
+    /**
+     * ifNull(column, val)
+     * @param condition 执行条件
+     * @param column 字段
+     * @param val 字段
+     * @param alias 别名
+     * @return children
+     */
+    @Override
+    public <J> JoinLambdaQueryWrapper<T> jIfNull(boolean condition, SFunction<J, ?> column, Object val, String alias) {
+        return maybeDo(condition, () -> appendJoinSelectSqlSegments(() -> String.format(ConstantPlus.IF_NULL,
+                joinColumnToString(column), paramToSqlSegment(val).getSqlSegment(), alias)));
+    }
+
+    /**
      * if(consumer, trueValue, falseValue)
      * @param condition 执行条件
      * @param consumer 消费函数
@@ -621,6 +651,33 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
     @Override
     public <J> JoinLambdaQueryWrapper<T> jIfTo(boolean condition, SFunction<J, ?> column, Object trueValue, Object falseValue, String alias) {
         return maybeDo(condition, ()->appendJoinSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.IF, joinColumnToString(column), trueValue, falseValue, alias))));
+    }
+
+    /**
+     * count(字段) as alias
+     * @param condition 执行条件
+     * @param column 字段
+     * @param alias 别名
+     * @return children
+     */
+    @Override
+    public JoinLambdaQueryWrapper<T> count(boolean condition, SFunction<T, ?> column, String alias) {
+        return maybeDo(condition, () -> {
+            appendNoSelectSqlSegments(strToSqlSegment(alias));
+            appendSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.COUNT_AS, columnToString(column), alias)));
+        });
+    }
+
+    /**
+     * count(字段) as alias
+     * @param condition 执行条件
+     * @param column 字段
+     * @param alias 别名
+     * @return children
+     */
+    @Override
+    public <J> JoinLambdaQueryWrapper<T> jCount(boolean condition, SFunction<J, ?> column, String alias) {
+        return maybeDo(condition, () -> appendSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.COUNT_AS, joinColumnToString(column), alias))));
     }
 
     /**

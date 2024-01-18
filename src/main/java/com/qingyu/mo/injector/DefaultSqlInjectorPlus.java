@@ -31,6 +31,7 @@ public class DefaultSqlInjectorPlus extends DefaultSqlInjector {
         methodList.add(new JoinSelectPage());
         methodList.add(new JoinSelectMaps());
         methodList.add(new PhysicalDelete());
+        methodList.add(new PhysicalDeleteById());
         return methodList;
     }
 }
