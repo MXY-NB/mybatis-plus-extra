@@ -240,7 +240,7 @@ public interface JoinFunc<Children, R> extends Serializable {
 
     /**
      * 字段 IN (子查询)
-     * <p>注意只有内部有 entity 才能使用该方法</p>
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 字段
      * @param entityClass 子查询主表
      * @param consumer 子查询
@@ -250,7 +250,7 @@ public interface JoinFunc<Children, R> extends Serializable {
 
     /**
      * 字段 NOT IN (子查询)
-     * <p>注意只有内部有 entity 才能使用该方法</p>
+     * <p>注意：只有内部有 entity 才能使用该方法</p>
      * @param column 字段
      * @param entityClass 子查询主表
      * @param consumer 子查询

@@ -19,6 +19,10 @@ public interface ConstantPlus extends Constants {
 
     String OR = "OR";
 
+    String COUNT = "COUNT" + LEFT_BRACKET + VARIABLE + RIGHT_BRACKET;
+
+    String COUNT_AS = COUNT + AS + VARIABLE;
+
     String AND_C = SPACE + AND + SPACE;
 
     String WHERE_C = SPACE + WHERE + SPACE;

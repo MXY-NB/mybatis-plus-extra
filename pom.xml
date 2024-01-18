@@ -4,9 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.gitee.qingyu-mo</groupId>
     <artifactId>mybatis-plus-extra</artifactId>
-    <version>1.0.6</version>
+    <version>1.0.6.1</version>
     <name>mybatis-plus-extra</name>
-    <description>mybatis-plus-extra</description>
+    <description>懒人福音，进一步增强mybatis-plus的功能，增加了多表查询/函数查询(例如：sum)/子查询/json字段查询等功能，并实现真正的批量插入，批量更新</description>
     <url>https://gitee.com/qingyu-mo/mybatis-plus-extra</url>
     <licenses>
         <license>
@@ -151,7 +151,7 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>5.8.24</version>
+            <version>5.8.25</version>
             <scope>compile</scope>
             <optional>true</optional>
         </dependency>

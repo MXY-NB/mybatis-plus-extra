@@ -12,6 +12,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -58,6 +59,13 @@ public interface BaseMapperPlus<T> extends BaseMapper<T> {
      * @return int
      */
     int physicalDelete(@Param(Constants.WRAPPER) Wrapper<T> queryWrapper);
+
+    /**
+     * 根据 ID 物理删除
+     * @param id 主键ID
+     * @return int
+     */
+    int physicalDeleteById(Serializable id);
 
     /**
      * 多表查询列表
@@ -152,7 +160,7 @@ public interface BaseMapperPlus<T> extends BaseMapper<T> {
      *
      * @param idList 主键ID列表或实体列表(不能为 null 以及 empty)
      */
-    default int batchDeleteByIds(Collection<?> idList) {
+    default int deleteByIds(Collection<?> idList) {
         if (CollUtil.isEmpty(idList)) {
             return 0;
         }
