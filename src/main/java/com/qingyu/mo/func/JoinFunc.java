@@ -565,6 +565,23 @@ public interface JoinFunc<Children, R> extends Serializable {
     <J> Children jGroupByMonth(boolean condition, SFunction<J, ?> column);
 
     /**
+     * GROUP BY 字段
+     * @param columns 需要查询的表字段
+     * @return children
+     */
+    default <J> Children jGroup(SFunction<J, ?>... columns) {
+        return jGroup(true, columns);
+    }
+
+    /**
+     * GROUP BY 字段
+     * @param condition 执行条件
+     * @param columns 需要查询的表字段
+     * @return children
+     */
+    <J> Children jGroup(boolean condition, SFunction<J, ?>... columns);
+
+    /**
      * HAVING
      * @param consumer 消费函数
      * @return children

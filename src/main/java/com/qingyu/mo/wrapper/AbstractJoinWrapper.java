@@ -808,6 +808,12 @@ public abstract class AbstractJoinWrapper<T, Children extends AbstractJoinWrappe
     }
 
     @Override
+    @SafeVarargs
+    public final <J> Children jGroup(boolean condition, SFunction<J, ?>... columns) {
+        return maybeDo(condition, () -> appendSqlSegments(GROUP_BY, strToSqlSegment(joinColumnsToString(columns))));
+    }
+
+    @Override
     public Children jHaving(boolean condition, Consumer<Children> consumer) {
         return maybeDo(condition, () -> appendSqlSegments(HAVING, () -> getInstance(consumer).getSqlSegment()));
     }
