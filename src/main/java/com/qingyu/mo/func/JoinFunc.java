@@ -16,7 +16,7 @@ import java.util.function.Consumer;
  * <p>对mybatis-plus的Func进行扩展</p>
  *
  * @author qingyu-mo
- * @since 2023-12-19
+ * @since 1.0.6.2
  */
 @SuppressWarnings("unused")
 public interface JoinFunc<Children, R> extends Serializable {
@@ -569,6 +569,7 @@ public interface JoinFunc<Children, R> extends Serializable {
      * @param columns 需要查询的表字段
      * @return children
      */
+    @SuppressWarnings("unchecked")
     default <J> Children jGroup(SFunction<J, ?>... columns) {
         return jGroup(true, columns);
     }
@@ -579,6 +580,7 @@ public interface JoinFunc<Children, R> extends Serializable {
      * @param columns 需要查询的表字段
      * @return children
      */
+    @SuppressWarnings("unchecked")
     <J> Children jGroup(boolean condition, SFunction<J, ?>... columns);
 
     /**
@@ -592,6 +594,7 @@ public interface JoinFunc<Children, R> extends Serializable {
 
     /**
      * HAVING
+     * @param condition 执行条件
      * @param consumer 消费函数
      * @return children
      */

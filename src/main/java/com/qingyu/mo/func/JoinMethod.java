@@ -12,7 +12,7 @@ import java.util.function.Consumer;
  * </p>
  *
  * @author qingyu-mo
- * @since 2023-03-17
+ * @since 1.0.6.2
  */
 @SuppressWarnings("unused")
 public interface JoinMethod<Children, R> extends Serializable {

@@ -18,10 +18,10 @@ import java.util.function.Predicate;
  * </p>
  *
  * @author qingyu-mo
- * @since 1.0.6.2
+ * @since 2023-12-19
  */
 @Setter
-public class UpdateBatchById extends AbstractMethodPlus {
+public class UpdateByIdWithNull extends AbstractMethodPlus {
 
     /**
      * 字段筛选条件
@@ -33,8 +33,8 @@ public class UpdateBatchById extends AbstractMethodPlus {
      * 默认方法名
      * @param predicate 字段筛选条件
      */
-    public UpdateBatchById(Predicate<TableFieldInfo> predicate) {
-        this(SqlMethod.UPDATE_BATCH_BY_ID.getMethod(), predicate);
+    public UpdateByIdWithNull(Predicate<TableFieldInfo> predicate) {
+        this(SqlMethod.UPDATE_BY_ID_WITH_NULL.getMethod(), predicate);
     }
 
     /**
@@ -42,20 +42,19 @@ public class UpdateBatchById extends AbstractMethodPlus {
      * @param name 方法名
      * @param predicate 字段筛选条件
      */
-    public UpdateBatchById(String name, Predicate<TableFieldInfo> predicate) {
+    public UpdateByIdWithNull(String name, Predicate<TableFieldInfo> predicate) {
         super(name);
         this.predicate = predicate;
     }
 
     @Override
     public MappedStatement injectMappedStatement(Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
-        SqlMethod sqlMethod = SqlMethod.UPDATE_BATCH_BY_ID;
-        setTableInfo(tableInfo);
-        final String additional = (tableInfo.isWithVersion() ? NEWLINE + getTable().getBatchVersionOli(ITEM) : EMPTY) + tableInfo.getLogicDeleteSql(true, true);
-        String setSql = sqlSet(predicate, tableInfo,
-                tableInfo.isWithLogicDelete(), false, ITEM, ITEM_DOT, false);
-        String sqlResult = String.format(sqlMethod.getSql(), tableInfo.getTableName(), setSql, tableInfo.getKeyColumn(), ITEM_DOT + tableInfo.getKeyProperty(), additional);
-        SqlSource sqlSource = languageDriver.createSqlSource(configuration, sqlResult, modelClass);
+        SqlMethod sqlMethod = SqlMethod.UPDATE_BY_ID_WITH_NULL;
+        final String additional = optlockVersion(tableInfo) + tableInfo.getLogicDeleteSql(true, true);
+        String sql = String.format(sqlMethod.getSql(), tableInfo.getTableName(),
+                sqlSet(predicate, tableInfo, tableInfo.isWithLogicDelete(), false, ENTITY, ENTITY_DOT, true),
+                tableInfo.getKeyColumn(), ENTITY_DOT + tableInfo.getKeyProperty(), additional);
+        SqlSource sqlSource = languageDriver.createSqlSource(configuration, sql, modelClass);
         // 第三个参数必须和RootMapper的自定义方法名一致
         return this.addUpdateMappedStatement(mapperClass, modelClass, methodName, sqlSource);
     }

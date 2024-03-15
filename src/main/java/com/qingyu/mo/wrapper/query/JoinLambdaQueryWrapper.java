@@ -1,16 +1,14 @@
 package com.qingyu.mo.wrapper.query;
 
-import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.text.CharSequenceUtil;
-import cn.hutool.core.text.StrPool;
+import cn.hutool.core.util.ArrayUtil;
 import com.baomidou.mybatisplus.core.conditions.SharedString;
 import com.baomidou.mybatisplus.core.conditions.query.Query;
 import com.baomidou.mybatisplus.core.conditions.segments.MergeSegments;
 import com.baomidou.mybatisplus.core.metadata.TableFieldInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
-import com.baomidou.mybatisplus.core.toolkit.ArrayUtils;
-import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.support.ColumnCache;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.qingyu.mo.constant.ConstantPlus;
@@ -32,7 +30,7 @@ import java.util.function.Predicate;
  * </p>
  *
  * @author qingyu-mo
- * @since 2023-03-17
+ * @since 1.0.6.2
  */
 public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, JoinLambdaQueryWrapper<T>>
     implements Query<JoinLambdaQueryWrapper<T>, T, SFunction<T, ?>>, JoinQuery<JoinLambdaQueryWrapper<T>, T, SFunction<T, ?>> {
@@ -104,8 +102,8 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
         }
         Exceptions.t(entityClass == null, "对象类为空！");
         TableInfo tableInfo = TableInfoHelper.getTableInfo(entityClass);
-        appendSelectSqlSegments(strToSqlSegment(masterTableAlias + StrPool.DOT + tableInfo.getKeySqlSelect()));
-        tableInfo.getFieldList().stream().filter(predicate).forEach(i->appendSelectSqlSegments(strToSqlSegment(masterTableAlias + StrPool.DOT + i.getSqlSelect())));
+        appendSelectSqlSegments(strToSqlSegment(masterTableAlias + StringPool.DOT + tableInfo.getKeySqlSelect()));
+        tableInfo.getFieldList().stream().filter(predicate).forEach(i->appendSelectSqlSegments(strToSqlSegment(masterTableAlias + StringPool.DOT + i.getSqlSelect())));
         return typedThis;
     }
 
@@ -115,7 +113,7 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
      */
     @Override
     public JoinLambdaQueryWrapper<T> jSelect() {
-        if (MapUtil.isNotEmpty(joinClassAliasMap)) {
+        if (!joinClassAliasMap.isEmpty()) {
             joinClassAliasMap.forEach((clz, alias) -> joinAllColumns(clz, alias).forEach(this::appendJoinSelectSqlSegments));
         }
         return typedThis;
@@ -129,24 +127,50 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
     @SafeVarargs
     @Override
     public final <J> JoinLambdaQueryWrapper<T> jSelect(SFunction<J, ?>... columns) {
-        if (ArrayUtils.isNotEmpty(columns)) {
-            appendJoinSelectSqlSegments(strToSqlSegment(joinColumnsToString(columns)));
-        }
-        return typedThis;
+        return jSelect(true, columns);
     }
 
     /**
      * JOIN SELECT 部分 SQL 设置
+     * @param condition 执行条件
+     * @param columns 查询字段
+     * @return this
+     */
+    @SafeVarargs
+    @Override
+    public final <J> JoinLambdaQueryWrapper<T> jSelect(boolean condition, SFunction<J, ?>... columns) {
+        if (ArrayUtil.isEmpty(columns)) {
+            return typedThis;
+        }
+        return maybeDo(condition, ()->appendJoinSelectSqlSegments(strToSqlSegment(joinColumnsToString(columns))));
+    }
+
+    /**
+     * JOIN SELECT 部分 SQL 设置
+     * <p>内部有 entity 才能使用该方法</p>
+     * @param condition 执行条件
      * @param column 查询字段
      * @param alias 别名
      * @return this
      */
     @Override
-    public <J> JoinLambdaQueryWrapper<T> jSelect(SFunction<J, ?> column, String alias) {
-        if (ObjectUtils.isNotEmpty(column)) {
+    public <J> JoinLambdaQueryWrapper<T> jSelect(boolean condition, SFunction<J, ?> column, String alias) {
+        return maybeDo(condition, ()->{
+            appendNoSelectSqlSegments(strToSqlSegment(alias));
             appendJoinSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.AS_C, joinColumnToString(column, alias), alias)));
-        }
-        return typedThis;
+        });
+    }
+
+    /**
+     * 查询排除columns
+     * <p>注意只有查询主表全部字段时(即未使用select方法)才会生效，生效时内部有 entity 才能使用该方法</p>
+     * @param columns 排除字段
+     * @return this
+     */
+    @Override
+    @SafeVarargs
+    public final JoinLambdaQueryWrapper<T> noSelect(SFunction<T, ?>... columns) {
+        return noSelect(true, columns);
     }
 
     /**
@@ -663,7 +687,8 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
     @Override
     public JoinLambdaQueryWrapper<T> count(boolean condition, SFunction<T, ?> column, String alias) {
         return maybeDo(condition, () -> {
-            appendNoSelectSqlSegments(strToSqlSegment(alias));
+            String finalAlias = CharSequenceUtil.isEmpty(alias) ? columnToString(true, column) : alias;
+            appendNoSelectSqlSegments(strToSqlSegment(finalAlias));
             appendSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.COUNT_AS, columnToString(column), alias)));
         });
     }
@@ -677,7 +702,10 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
      */
     @Override
     public <J> JoinLambdaQueryWrapper<T> jCount(boolean condition, SFunction<J, ?> column, String alias) {
-        return maybeDo(condition, () -> appendSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.COUNT_AS, joinColumnToString(column), alias))));
+        return maybeDo(condition, () -> appendJoinSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.COUNT_AS,
+                joinColumnToString(column),
+                CharSequenceUtil.isEmpty(alias) ? joinColumnToString(true, column) : alias
+        ))));
     }
 
     /**

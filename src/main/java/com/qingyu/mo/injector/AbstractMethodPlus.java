@@ -23,7 +23,7 @@ import static java.util.stream.Collectors.joining;
  * </p>
  *
  * @author qingyu-mo
- * @since 2023-03-26
+ * @since 1.0.6.2
  */
 public abstract class AbstractMethodPlus extends AbstractMethod implements ConstantPlus {
 

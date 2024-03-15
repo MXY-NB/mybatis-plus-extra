@@ -13,16 +13,17 @@ import java.lang.reflect.InvocationTargetException;
  * </p>
  *
  * @author qingyu-mo
- * @since 2023-03-26
+ * @since 1.0.6.2
  */
 public final class ClassUtil {
+
+    private ClassUtil(){}
 
     @SuppressWarnings("unchecked")
     public static <T> T newInstance(Class<T> clazz, Object... params) {
         try {
             if (params.length == 0) {
                 Constructor<T> constructor = clazz.getDeclaredConstructor();
-                constructor.setAccessible(true);
                 return constructor.newInstance();
             } else {
                 Class<?>[] paramTypes = getClasses(params);

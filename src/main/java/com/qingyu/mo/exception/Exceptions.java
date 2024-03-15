@@ -6,7 +6,7 @@ package com.qingyu.mo.exception;
  * </p>
  *
  * @author qingyu-mo
- * @since 2023-03-26
+ * @since 1.0.6.2
  */
 public final class Exceptions {
 

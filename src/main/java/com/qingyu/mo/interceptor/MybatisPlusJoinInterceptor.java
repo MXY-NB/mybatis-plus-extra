@@ -1,6 +1,6 @@
 package com.qingyu.mo.interceptor;
 
-import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import cn.hutool.core.collection.CollUtil;
 import com.qingyu.mo.exception.Exceptions;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.plugin.InterceptorChain;
@@ -19,7 +19,7 @@ import java.util.Objects;
  * </p>
  *
  * @author qingyu-mo
- * @since 2023-03-26
+ * @since 1.0.6.2
  */
 @SuppressWarnings("all")
 public class MybatisPlusJoinInterceptor implements InitializingBean {
@@ -35,7 +35,7 @@ public class MybatisPlusJoinInterceptor implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        if (CollectionUtils.isNotEmpty(sqlSessionFactoryList) && Objects.nonNull(joinInterceptor)) {
+        if (CollUtil.isNotEmpty(sqlSessionFactoryList) && Objects.nonNull(joinInterceptor)) {
             try {
                 for (SqlSessionFactory factory : sqlSessionFactoryList) {
                     /*
@@ -50,7 +50,7 @@ public class MybatisPlusJoinInterceptor implements InitializingBean {
                     Field oldInterceptors = InterceptorChain.class.getDeclaredField("interceptors");
                     oldInterceptors.setAccessible(true);
                     List<Interceptor> list = (List<Interceptor>) oldInterceptors.get(chain);
-                    if (CollectionUtils.isNotEmpty(list)) {
+                    if (CollUtil.isNotEmpty(list)) {
                         if (list.get(list.size() - 1) != joinInterceptor) {
                             list.removeIf(i -> i == joinInterceptor);
                             list.add(joinInterceptor);

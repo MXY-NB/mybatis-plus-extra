@@ -8,9 +8,21 @@ import com.baomidou.mybatisplus.core.toolkit.Constants;
  * </p>
  *
  * @author qingyu-mo
- * @since 2023-12-19
+ * @since 1.0.6.2
  */
 public interface ConstantPlus extends Constants {
+
+    /**
+     * 乐观锁字段数组
+     */
+    String MPE_OPTLOCK_VERSION_ORIGINAL_COLL = "MPE_OPTLOCK_VERSION_ORIGINAL_COLL";
+
+    String ITEM = "item";
+
+    String INDEX = "index";
+
+    String ITEM_DOT = ITEM + DOT;
+
     String VARIABLE = "%s";
 
     String ADD = " + ";
@@ -30,6 +42,10 @@ public interface ConstantPlus extends Constants {
     String OR_C = SPACE + OR + SPACE;
 
     String EQUALS_C = SPACE + EQUALS + SPACE;
+
+    String NO_EQUALS = EXCLAMATION_MARK + EQUALS;
+
+    String NO_EQUALS_C = SPACE + NO_EQUALS + SPACE;
 
     String AS_C = VARIABLE + AS + VARIABLE;
 
@@ -69,9 +85,9 @@ public interface ConstantPlus extends Constants {
 
     String DEFAULT_TABLE_ALIAS_NAME = "t1";
 
-    String TEST_CONTENT_1 = VARIABLE + SPACE + EXCLAMATION_MARK + EQUALS + SPACE + NULL;
+    String TEST_CONTENT_1 = VARIABLE + NO_EQUALS_C + NULL;
 
-    String TEST_CONTENT_2 = TEST_CONTENT_1 + AND_C + VARIABLE + SPACE + EXCLAMATION_MARK + EQUALS + SPACE + SINGLE_QUOTE + SINGLE_QUOTE;
+    String TEST_CONTENT_2 = TEST_CONTENT_1 + AND_C + VARIABLE + NO_EQUALS_C + SINGLE_QUOTE + SINGLE_QUOTE;
 
     String TEST_CONTENT_3 = TEST_CONTENT_2 + AND_C + VARIABLE;
 

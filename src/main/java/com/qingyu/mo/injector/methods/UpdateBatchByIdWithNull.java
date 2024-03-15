@@ -18,7 +18,7 @@ import java.util.function.Predicate;
  * </p>
  *
  * @author qingyu-mo
- * @since 2023-12-19
+ * @since 1.0.6.2
  */
 @Setter
 public class UpdateBatchByIdWithNull extends AbstractMethodPlus {
@@ -32,7 +32,6 @@ public class UpdateBatchByIdWithNull extends AbstractMethodPlus {
     /**
      * 默认方法名
      * @param predicate 字段筛选条件
-     * @since 3.5.0
      */
     public UpdateBatchByIdWithNull(Predicate<TableFieldInfo> predicate) {
         this(SqlMethod.UPDATE_BATCH_BY_ID_WITH_NULL.getMethod(), predicate);
@@ -51,10 +50,11 @@ public class UpdateBatchByIdWithNull extends AbstractMethodPlus {
     @Override
     public MappedStatement injectMappedStatement(Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
         SqlMethod sqlMethod = SqlMethod.UPDATE_BATCH_BY_ID_WITH_NULL;
-        String additional = tableInfo.isWithVersion() ? tableInfo.getVersionFieldInfo().getVersionOli("item", "item.") : "" + tableInfo.getLogicDeleteSql(true, true);
+        setTableInfo(tableInfo);
+        final String additional = (tableInfo.isWithVersion() ? NEWLINE + getTable().getBatchVersionOli(ITEM) : EMPTY) + tableInfo.getLogicDeleteSql(true, true);
         String setSql = sqlSet(predicate, tableInfo,
-                tableInfo.isWithLogicDelete(), true, "item", "item.", true);
-        String sqlResult = String.format(sqlMethod.getSql(), tableInfo.getTableName(), setSql, tableInfo.getKeyColumn(), "item." + tableInfo.getKeyProperty(), additional);
+                tableInfo.isWithLogicDelete(), true, ITEM, ITEM_DOT, true);
+        String sqlResult = String.format(sqlMethod.getSql(), tableInfo.getTableName(), setSql, tableInfo.getKeyColumn(), ITEM_DOT + tableInfo.getKeyProperty(), additional);
         SqlSource sqlSource = languageDriver.createSqlSource(configuration, sqlResult, modelClass);
         // 第三个参数必须和RootMapper的自定义方法名一致
         return this.addUpdateMappedStatement(mapperClass, modelClass, methodName, sqlSource);

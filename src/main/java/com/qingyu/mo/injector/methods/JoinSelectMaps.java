@@ -16,7 +16,7 @@ import java.util.Map;
  * </p>
  *
  * @author qingyu-mo
- * @since 2023-12-19
+ * @since 1.0.6.2
  */
 public class JoinSelectMaps extends AbstractMethodPlus {
 

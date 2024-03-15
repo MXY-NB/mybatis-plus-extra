@@ -1,5 +1,6 @@
 package com.qingyu.mo.func;
 
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.qingyu.mo.entity.Search;
 import com.qingyu.mo.utils.LambdaUtil;
@@ -15,7 +16,7 @@ import java.util.function.Consumer;
  * </p>
  *
  * @author qingyu-mo
- * @since 2023-03-17
+ * @since 1.0.6.2
  */
 @SuppressWarnings("unused")
 public interface JoinQuery<Children, T, R> extends Serializable {
@@ -32,7 +33,19 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * @return children
      */
     @SuppressWarnings("unchecked")
-    <J> Children jSelect(SFunction<J, ?>... columns);
+    default <J> Children jSelect(SFunction<J, ?>... columns) {
+        return jSelect(true, columns);
+    }
+
+    /**
+     * join查询字段
+     * @param condition 执行条件
+     * @param columns 需要查询的关联的表字段
+     * @return children
+     */
+    @SuppressWarnings("unchecked")
+    <J> Children jSelect(boolean condition, SFunction<J, ?>... columns);
+
 
     /**
      * join查询字段
@@ -41,17 +54,40 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * @return children
      */
     default <J> Children jSelect(SFunction<J, ?> column, SFunction<T, ?> aliasField) {
-        return jSelect(column, LambdaUtil.toUnderlinePropertyName(aliasField));
+        return jSelect(true, column, aliasField);
     }
 
     /**
      * join查询字段
-     * <p>注意只有查询主表全部字段时(即未使用select方法)才会生效，生效时内部有 entity 才能使用该方法</p>
+     * @param condition 执行条件
+     * @param column 需要查询的关联的表字段
+     * @param aliasField 别名字段
+     * @return children
+     */
+    default <J> Children jSelect(boolean condition, SFunction<J, ?> column, SFunction<T, ?> aliasField) {
+        return jSelect(condition, column, LambdaUtil.toUnderlinePropertyName(aliasField));
+    }
+
+    /**
+     * join查询字段
+     * <p>内部有 entity 才能使用该方法</p>
      * @param column 需要查询的关联的表字段
      * @param alias 别名
      * @return children
      */
-    <J> Children jSelect(SFunction<J, ?> column, String alias);
+    default <J> Children jSelect(SFunction<J, ?> column, String alias) {
+        return jSelect(true, column, alias);
+    }
+
+    /**
+     * join查询字段
+     * <p>内部有 entity 才能使用该方法</p>
+     * @param condition 执行条件
+     * @param column 需要查询的关联的表字段
+     * @param alias 别名
+     * @return children
+     */
+    <J> Children jSelect(boolean condition, SFunction<J, ?> column, String alias);
 
     /**
      * 查询排除columns
@@ -1796,6 +1832,15 @@ public interface JoinQuery<Children, T, R> extends Serializable {
     /**
      * count(字段) as alias
      * @param column 字段
+     * @return children
+     */
+    default Children count(SFunction<T, ?> column) {
+        return count(true, column, null);
+    }
+
+    /**
+     * count(字段) as alias
+     * @param column 字段
      * @param aliasField 别名字段
      * @return children
      */
@@ -1825,11 +1870,31 @@ public interface JoinQuery<Children, T, R> extends Serializable {
     /**
      * count(字段) as alias
      * @param column 字段
+     * @return children
+     */
+    default <J> Children jCount(SFunction<J, ?> column) {
+        return jCount(true, column, StringPool.EMPTY);
+    }
+
+    /**
+     * count(字段) as alias
+     * @param column 字段
      * @param aliasField 别名字段
      * @return children
      */
     default <J> Children jCount(SFunction<J, ?> column, SFunction<T, ?> aliasField) {
-        return jCount(column, LambdaUtil.toUnderlinePropertyName(aliasField));
+        return jCount(true, column, aliasField);
+    }
+
+    /**
+     * count(字段) as alias
+     * @param condition 执行条件
+     * @param column 字段
+     * @param aliasField 别名字段
+     * @return children
+     */
+    default <J> Children jCount(boolean condition, SFunction<J, ?> column, SFunction<T, ?> aliasField) {
+        return jCount(condition, column, LambdaUtil.toUnderlinePropertyName(aliasField));
     }
 
     /**

@@ -13,7 +13,7 @@ import org.apache.ibatis.mapping.SqlSource;
  * </p>
  *
  * @author qingyu-mo
- * @since 2023-12-19
+ * @since 1.0.6.2
  */
 public class JoinSelectCount extends AbstractMethodPlus {
 

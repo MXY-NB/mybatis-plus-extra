@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.qingyu.mo.exception.Exceptions;
 import org.apache.ibatis.reflection.property.PropertyNamer;
 
-import java.io.Serializable;
 import java.lang.invoke.CallSite;
 import java.lang.invoke.LambdaMetafactory;
 import java.lang.invoke.MethodHandles;
@@ -21,11 +20,13 @@ import java.lang.reflect.Field;
  * </p>
  *
  * @author qingyu-mo
- * @since 2023-03-26
+ * @since 1.0.6.2
  */
-public final class LambdaUtil implements Serializable {
+public final class LambdaUtil {
 
-    private static final int serialVersionUID = 1;
+    private static final int ID = 1;
+
+    private LambdaUtil(){}
 
     /**
      * 获取一个sfunction的字段名称
@@ -76,7 +77,7 @@ public final class LambdaUtil implements Serializable {
                                                     methodType,
                                                     lookup.findVirtual(model, "get" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1),
                                                                        MethodType.methodType(field.getType())),
-                                                    methodType, serialVersionUID);
+                                                    methodType, ID);
             func = (SFunction<T, ?>) site.getTarget().invokeExact();
         } catch (Throwable e) {
             Exceptions.t(e);

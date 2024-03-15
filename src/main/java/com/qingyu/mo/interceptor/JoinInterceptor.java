@@ -27,7 +27,7 @@ import java.util.Map;
  * </p>
  *
  * @author qingyu-mo
- * @since 2023-03-26
+ * @since 1.0.6.2
  */
 @SuppressWarnings("all")
 @Order(Integer.MIN_VALUE)
@@ -52,7 +52,6 @@ public class JoinInterceptor implements Interceptor {
         return invocation.proceed();
     }
 
-
     /**
      * 构建新的MappedStatement
      */
@@ -71,7 +70,7 @@ public class JoinInterceptor implements Interceptor {
         if (ms.getKeyProperties() != null && ms.getKeyProperties().length != 0) {
             builder.keyProperty(String.join(StringPool.COMMA, ms.getKeyProperties()));
         }
-        builder.resultMaps(CollUtil.newArrayList(newResultMap(ms, joinLambdaQueryWrapper)));
+        builder.resultMaps(CollUtil.toList(newResultMap(ms, joinLambdaQueryWrapper)));
         return builder.build();
     }
 

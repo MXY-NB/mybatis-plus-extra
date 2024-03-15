@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
  * MybatisPlus 支持 SQL 方法
  *
  * @author qingyu-mo
- * @since 2023-12-19
+ * @since 1.0.6.2
  */
 @Getter
 @NoArgsConstructor
@@ -21,14 +21,19 @@ public enum SqlMethod {
     INSERT_LIST("insertList", "插入n条数据(选择字段插入)", "<script>\nINSERT INTO %s %s VALUES %s\n</script>"),
 
     /**
-     * 更新n条数据
+     * 更新数据
      */
-    UPDATE_BATCH_BY_ID("updateBatchById", "根据IDS 选择修改数据", "<script>\n<foreach collection=\"list\" item=\"item\" separator=\";\">\nupdate %s %s where %s=#{%s} %s\n</foreach>\n</script>"),
+    UPDATE_BY_ID_WITH_NULL("updateByIdWithNull", "根据ID 修改数据", "<script>\nUPDATE %s %s WHERE %s=#{%s} %s\n</script>"),
 
     /**
      * 更新n条数据
      */
-    UPDATE_BATCH_BY_ID_WITH_NULL("updateBatchByIdWithNull", "根据IDS 选择修改数据(允许字段赋值null)", "<script>\n<foreach collection=\"list\" item=\"item\" separator=\";\">\nupdate %s %s where %s=#{%s} %s\n</foreach>\n</script>"),
+    UPDATE_BATCH_BY_ID("updateBatchById", "根据IDS 选择修改数据", "<script>\n<foreach collection=\"list\" item=\"item\" index=\"index\" separator=\";\">\nupdate %s %s where %s=#{%s} %s\n</foreach>\n</script>"),
+
+    /**
+     * 更新n条数据
+     */
+    UPDATE_BATCH_BY_ID_WITH_NULL("updateBatchByIdWithNull", "根据IDS 选择修改数据(允许字段赋值null)", "<script>\n<foreach collection=\"list\" item=\"item\" index=\"index\" separator=\";\">\nupdate %s %s where %s=#{%s} %s\n</foreach>\n</script>"),
 
     /**
      * 查询满足条件所有数据

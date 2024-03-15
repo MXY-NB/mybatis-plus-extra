@@ -17,7 +17,7 @@ import java.util.List;
  * </p>
  *
  * @author qingyu-mo
- * @since 2023-12-19
+ * @since 1.0.6.2
  */
 public interface IServicePlus<T> extends IService<T> {
 

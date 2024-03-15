@@ -3,6 +3,7 @@ package com.qingyu.mo.entity;
 import cn.hutool.core.text.CharSequenceUtil;
 import com.baomidou.mybatisplus.core.metadata.TableFieldInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
+import com.baomidou.mybatisplus.core.toolkit.sql.SqlScriptUtils;
 import com.qingyu.mo.constant.ConstantPlus;
 import com.qingyu.mo.utils.JoinSqlScriptUtil;
 import lombok.Getter;
@@ -17,7 +18,7 @@ import static java.util.stream.Collectors.joining;
  * </p>
  *
  * @author qingyu-mo
- * @since 2023-12-19
+ * @since 1.0.6.2
  */
 @Getter
 public class TableInfoPlus implements ConstantPlus {
@@ -29,6 +30,17 @@ public class TableInfoPlus implements ConstantPlus {
 
     public TableInfoPlus(TableInfo tableInfo) {
         this.tableInfo = tableInfo;
+    }
+
+    public String getBatchVersionOli(final String alias) {
+        TableFieldInfo versionFieldInfo = tableInfo.getVersionFieldInfo();
+        final String oli = ConstantPlus.AND_C + versionFieldInfo.getColumn() + EQUALS + SqlScriptUtils.safeParam(JoinSqlScriptUtil.sqBracket(MPE_OPTLOCK_VERSION_ORIGINAL_COLL, SqlScriptUtils.unSafeParam(INDEX)));
+        final String ognlStr = JoinSqlScriptUtil.sqBracketWithQuote(alias, versionFieldInfo.getProperty());
+        if (versionFieldInfo.isCharSequence()) {
+            return SqlScriptUtils.convertIf(oli, String.format(TEST_CONTENT_1, alias) + AND_C + String.format(TEST_CONTENT_2, ognlStr, ognlStr), true);
+        } else {
+            return SqlScriptUtils.convertIf(oli, String.format(TEST_CONTENT_1, alias) + AND_C + String.format(TEST_CONTENT_1, ognlStr), true);
+        }
     }
 
     public String chooseSelect(Predicate<TableFieldInfo> predicate) {

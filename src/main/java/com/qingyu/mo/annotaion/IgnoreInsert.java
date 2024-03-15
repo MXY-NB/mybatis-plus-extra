@@ -8,7 +8,7 @@ import java.lang.annotation.*;
  * </p>
  *
  * @author qingyu-mo
- * @since 2023-12-19
+ * @since 1.0.6.2
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

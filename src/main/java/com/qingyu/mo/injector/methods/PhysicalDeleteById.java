@@ -13,7 +13,7 @@ import org.apache.ibatis.mapping.SqlSource;
  * </p>
  *
  * @author qingyu-mo
- * @since 2023-12-19
+ * @since 1.0.6.2
  */
 public class PhysicalDeleteById extends AbstractMethodPlus {
 
@@ -23,7 +23,6 @@ public class PhysicalDeleteById extends AbstractMethodPlus {
 
     /**
      * @param name 方法名
-     * @since 3.5.0
      */
     public PhysicalDeleteById(String name) {
         super(name);
@@ -32,7 +31,12 @@ public class PhysicalDeleteById extends AbstractMethodPlus {
     @Override
     public MappedStatement injectMappedStatement(Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
         SqlMethod sqlMethod = SqlMethod.PHYSICAL_DELETE_BY_ID;
-        String sql = String.format(sqlMethod.getSql(), tableInfo.getTableName(),tableInfo.getKeyColumn(),
+
+        setTableInfo(tableInfo);
+
+        String sql = String.format(sqlMethod.getSql(),
+                getJoinTableName(),
+                tableInfo.getKeyColumn(),
                 tableInfo.getKeyProperty());
         SqlSource sqlSource = languageDriver.createSqlSource(configuration, sql, modelClass);
         return this.addDeleteMappedStatement(mapperClass, methodName, sqlSource);

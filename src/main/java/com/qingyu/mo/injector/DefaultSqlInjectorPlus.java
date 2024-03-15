@@ -15,7 +15,7 @@ import java.util.List;
  * </p>
  *
  * @author qingyu-mo
- * @since 2023-12-19
+ * @since 1.0.6.2
  */
 public class DefaultSqlInjectorPlus extends DefaultSqlInjector {
 
@@ -23,8 +23,9 @@ public class DefaultSqlInjectorPlus extends DefaultSqlInjector {
     public List<AbstractMethod> getMethodList(Class<?> mapperClass, TableInfo tableInfo){
         List<AbstractMethod> methodList = super.getMethodList(mapperClass, tableInfo);
         methodList.add(new InsertList(x -> x.getField().getDeclaredAnnotation(IgnoreInsert.class) == null && !x.isLogicDelete()));
-        methodList.add(new UpdateBatchByIdWithNull(x -> x.getField().getDeclaredAnnotation(IgnoreUpdate.class) == null));
+        methodList.add(new UpdateByIdWithNull(x -> x.getField().getDeclaredAnnotation(IgnoreUpdate.class) == null));
         methodList.add(new UpdateBatchById(x -> x.getField().getDeclaredAnnotation(IgnoreUpdate.class) == null));
+        methodList.add(new UpdateBatchByIdWithNull(x -> x.getField().getDeclaredAnnotation(IgnoreUpdate.class) == null));
         methodList.add(new JoinSelectList());
         methodList.add(new JoinSelectDeletedList());
         methodList.add(new JoinSelectCount());

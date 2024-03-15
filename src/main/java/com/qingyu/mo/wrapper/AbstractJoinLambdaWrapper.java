@@ -25,7 +25,7 @@ import java.util.Map;
  * <p>统一处理解析 lambda 获取 column</p>
  *
  * @author qingyu-mo
- * @since 2023-12-19
+ * @since 1.0.6.2
  */
 public abstract class AbstractJoinLambdaWrapper<T, Children extends AbstractJoinLambdaWrapper<T, Children>>
         extends AbstractJoinWrapper<T, Children> {

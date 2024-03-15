@@ -1,7 +1,6 @@
 package com.qingyu.mo.mapper;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.collection.ListUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -21,7 +20,7 @@ import java.util.*;
  * </p>
  *
  * @author qingyu-mo
- * @since 2023-12-19
+ * @since 1.0.6.2
  */
 public interface BaseMapperPlus<T> extends BaseMapper<T> {
 
@@ -295,7 +294,7 @@ public interface BaseMapperPlus<T> extends BaseMapper<T> {
      */
     @SuppressWarnings("unchecked")
     default <O> O getMapValue(Wrapper<T> queryWrapper) {
-        ArrayList<Object> values = ListUtil.toList(joinSelectMap(queryWrapper).values());
+        ArrayList<Object> values = new ArrayList<>(joinSelectMap(queryWrapper).values());
         return CollUtil.isEmpty(values) ? null : (O) values.get(0);
     }
 

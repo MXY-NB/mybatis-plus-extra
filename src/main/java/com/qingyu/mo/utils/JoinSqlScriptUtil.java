@@ -1,5 +1,6 @@
 package com.qingyu.mo.utils;
 
+import cn.hutool.core.text.CharSequenceUtil;
 import com.baomidou.mybatisplus.core.toolkit.sql.SqlScriptUtils;
 import com.qingyu.mo.constant.ConstantPlus;
 
@@ -9,7 +10,7 @@ import com.qingyu.mo.constant.ConstantPlus;
  * </p>
  *
  * @author qingyu-mo
- * @since 2023-03-26
+ * @since 1.0.6.2
  */
 public class JoinSqlScriptUtil extends SqlScriptUtils implements ConstantPlus {
 
@@ -47,6 +48,25 @@ public class JoinSqlScriptUtil extends SqlScriptUtils implements ConstantPlus {
      */
     public static String bracket(String param) {
         return LEFT_BRACKET + param + RIGHT_BRACKET;
+    }
+
+    /**
+     * param -> prefix['param']
+     * @param param 值
+     * @return String
+     */
+    public static String sqBracketWithQuote(String prefix, String param) {
+        return CharSequenceUtil.isEmpty(prefix) ? param : prefix + LEFT_SQ_BRACKET + SINGLE_QUOTE + param + SINGLE_QUOTE + RIGHT_SQ_BRACKET;
+    }
+
+    /**
+     * param -> prefix[param]
+     * @param prefix 前缀
+     * @param param 值
+     * @return String
+     */
+    public static String sqBracket(String prefix, String param) {
+        return CharSequenceUtil.isEmpty(prefix) ? param : prefix + LEFT_SQ_BRACKET + param + RIGHT_SQ_BRACKET;
     }
 
     public static String convertChooseEwSelect(final String param, final String otherwise) {

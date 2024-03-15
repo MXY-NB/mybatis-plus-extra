@@ -2,7 +2,6 @@ package com.qingyu.mo.wrapper;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.text.CharSequenceUtil;
-import cn.hutool.core.text.StrPool;
 import com.baomidou.mybatisplus.core.conditions.AbstractWrapper;
 import com.baomidou.mybatisplus.core.conditions.ISqlSegment;
 import com.baomidou.mybatisplus.core.conditions.SharedString;
@@ -39,7 +38,7 @@ import static java.util.stream.Collectors.joining;
  * <p>统一处理解析 lambda 获取 column</p>
  *
  * @author qingyu-mo
- * @since 2023-12-19
+ * @since 1.0.6.2
  */
 public abstract class AbstractJoinWrapper<T, Children extends AbstractJoinWrapper<T, Children>>
         extends AbstractWrapper<T, SFunction<T, ?>, Children>
@@ -730,6 +729,30 @@ public abstract class AbstractJoinWrapper<T, Children extends AbstractJoinWrappe
     // ======================= JoinFunc ======================== //
 
     @Override
+    @SafeVarargs
+    public final <J> Children jOrderByAsc(SFunction<J, ?>... columns) {
+        return jOrderByAsc(true, columns);
+    }
+
+    @Override
+    @SafeVarargs
+    public final <J> Children jOrderByAsc(boolean condition, SFunction<J, ?>... columns) {
+        return jOrderByAsc(condition, Arrays.asList(columns));
+    }
+
+    @Override
+    @SafeVarargs
+    public final <J> Children jOrderByDesc(SFunction<J, ?>... columns) {
+        return jOrderByDesc(true, columns);
+    }
+
+    @Override
+    @SafeVarargs
+    public final <J> Children jOrderByDesc(boolean condition, SFunction<J, ?>... columns) {
+        return jOrderByDesc(condition, Arrays.asList(columns));
+    }
+
+    @Override
     public <J> Children jOrderBy(boolean condition, boolean isAsc, List<SFunction<J, ?>> columns) {
         return maybeDo(condition, () -> columns.forEach(c -> appendSqlSegments(ORDER_BY,
                 joinColumnToSqlSegment(c), isAsc ? ASC : DESC)));
@@ -805,6 +828,12 @@ public abstract class AbstractJoinWrapper<T, Children extends AbstractJoinWrappe
     @Override
     public <J> Children jGroupByMonth(boolean condition, SFunction<J, ?> column) {
         return maybeDo(condition, () -> appendSqlSegments(GROUP_BY, strToSqlSegment(JoinSqlScriptUtil.getDateFormatSql(joinColumnToString(column)))));
+    }
+
+    @Override
+    @SafeVarargs
+    public final <J> Children jGroup(SFunction<J, ?>... columns) {
+        return jGroup(true, columns);
     }
 
     @Override
@@ -960,8 +989,8 @@ public abstract class AbstractJoinWrapper<T, Children extends AbstractJoinWrappe
             Exceptions.t(getEntityClass() == null, "对象类为空！");
             TableInfo tableInfo = TableInfoHelper.getTableInfo(getEntityClass());
             String columnsToString = noSqlSelect.stream().map(SharedString::getStringValue).collect(joining(StringPool.COMMA));
-            appendSelectSqlSegments(strToSqlSegment(masterTableAlias + StrPool.DOT + tableInfo.getKeySqlSelect()));
-            tableInfo.getFieldList().stream().filter(i->!columnsToString.contains(i.getColumn())).forEach(i->appendSelectSqlSegments(strToSqlSegment(masterTableAlias + StrPool.DOT + i.getSqlSelect())));
+            appendSelectSqlSegments(strToSqlSegment(masterTableAlias + StringPool.DOT + tableInfo.getKeySqlSelect()));
+            tableInfo.getFieldList().stream().filter(i->!columnsToString.contains(i.getColumn())).forEach(i->appendSelectSqlSegments(strToSqlSegment(masterTableAlias + StringPool.DOT + i.getSqlSelect())));
         }
         String sql = sqlSelect.stream().map(SharedString::getStringValue).collect(joining(StringPool.COMMA));
         return CharSequenceUtil.isEmpty(sql) ? null : sql;
