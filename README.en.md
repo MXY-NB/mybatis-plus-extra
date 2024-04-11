@@ -46,7 +46,7 @@ Add the following content to the dependencies of pom.xml in the project:
 <dependency>
     <groupId>io.gitee.qingyu-mo</groupId>
     <artifactId>mybatis-plus-extra</artifactId>
-    <version>1.0.6.1</version>
+    <version>1.0.7.5</version>
 </dependency>
 ```
 
@@ -67,9 +67,9 @@ public DefaultSqlInjectorPlus mySqlInjector(){
 
 #### spring xml Annotation method:
 ```xml
-<bean class="com.qingyu.mo.interceptor.MybatisPlusJoinInterceptor" id="mybatisPlusJoinInterceptor"/>
+<bean class="com.qingyu.mo.mybatisplus.interceptor.MybatisPlusJoinInterceptor" id="mybatisPlusJoinInterceptor"/>
 
-<bean class="com.qingyu.mo.injector.DefaultSqlInjectorPlus" id="mySqlInjector"/>
+<bean class="com.qingyu.mo.mybatisplus.injector.DefaultSqlInjectorPlus" id="mySqlInjector"/>
 ```
 ### 🔖inherit
 * mapper extend BaseMapperPlus (required)

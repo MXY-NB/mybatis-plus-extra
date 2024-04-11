@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.gitee.qingyu-mo</groupId>
     <artifactId>mybatis-plus-extra</artifactId>
-    <version>1.0.6.1</version>
+    <version>1.0.7.5</version>
     <name>mybatis-plus-extra</name>
     <description>懒人福音，进一步增强mybatis-plus的功能，增加了多表查询/函数查询(例如：sum)/子查询/json字段查询等功能，并实现真正的批量插入，批量更新</description>
     <url>https://gitee.com/qingyu-mo/mybatis-plus-extra</url>
@@ -31,6 +31,19 @@
         <maven.javadoc.skip>true</maven.javadoc.skip>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
+        <mybatis-plus.version>3.5.5</mybatis-plus.version>
+        <spring-core.version>5.3.33</spring-core.version>
+        <spring-tx.version>5.3.33</spring-tx.version>
+        <lombok.version>1.18.30</lombok.version>
+        <hutool.version>5.8.25</hutool.version>
+        <easyexcel.version>3.3.4</easyexcel.version>
+        <commons-compress.version>1.26.1</commons-compress.version>
+        <tomcat-embed-core.version>9.0.87</tomcat-embed-core.version>
+        <cron-utils.version>9.2.1</cron-utils.version>
+        <jackson-core.version>2.17.0</jackson-core.version>
+        <jackson-annotations.version>2.17.0</jackson-annotations.version>
+        <jackson-databind.version>2.17.0</jackson-databind.version>
+        <fastjson.version>1.2.83</fastjson.version>
     </properties>
     <profiles>
         <profile>
@@ -50,9 +63,47 @@
                     </plugin>
                 </plugins>
             </build>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>oss</id>
+                    <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+                </snapshotRepository>
+                <repository>
+                    <id>release</id>
+                    <url>https://s01.oss.sonatype.org/content/repositories/releases/</url>
+                </repository>
+            </distributionManagement>
         </profile>
         <profile>
             <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-release-plugin</artifactId>
+                        <configuration>
+                            <tagNameFormat>@{project.version}</tagNameFormat>
+                            <autoVersionSubmodules>true</autoVersionSubmodules>
+                            <useReleaseProfile>false</useReleaseProfile>
+                            <releaseProfiles>release</releaseProfiles>
+                            <goals>deploy</goals>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>oss</id>
+                    <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+                </snapshotRepository>
+                <repository>
+                    <id>release</id>
+                    <url>https://s01.oss.sonatype.org/content/repositories/releases/</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+        <profile>
+            <id>private-release</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
@@ -71,6 +122,16 @@
                     </plugin>
                 </plugins>
             </build>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>oss</id>
+                    <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+                </snapshotRepository>
+                <repository>
+                    <id>private-release</id>
+                    <url>http://10.1.10.224:30010/repository/maven-releases/</url>
+                </repository>
+            </distributionManagement>
         </profile>
     </profiles>
     <build>
@@ -131,48 +192,102 @@
             </plugin>
         </plugins>
     </build>
-    <distributionManagement>
-        <snapshotRepository>
-            <id>oss</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>release</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/releases/</url>
-        </repository>
-    </distributionManagement>
     <dependencies>
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus</artifactId>
-            <version>3.5.4.1</version>
+            <version>${mybatis-plus.version}</version>
             <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-all</artifactId>
-            <version>5.8.25</version>
-            <scope>compile</scope>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.30</version>
-            <scope>provided</scope>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <version>5.3.21</version>
-            <optional>true</optional>
+            <version>${spring-core.version}</version>
+            <optional>true</optional><!-- 防止将此依赖传递下去 -->
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
-            <version>5.3.21</version>
-            <optional>true</optional>
+            <version>${spring-tx.version}</version>
+            <optional>true</optional><!-- 防止将此依赖传递下去 -->
+        </dependency>
+        <!-- hutool工具 -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>${hutool.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- lombok工具 -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- excel工具 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>easyexcel</artifactId>
+            <version>${easyexcel.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- easyexcel引用版本有漏洞，更改新版本 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-compress</artifactId>
+            <version>${commons-compress.version}</version>
+            <scope>compile</scope>
+            <optional>true</optional><!-- 防止将此依赖传递下去 -->
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+            <scope>provided</scope>
+            <optional>true</optional><!-- 防止将此依赖传递下去 -->
+        </dependency>
+        <!-- cron 注意: 这里必须要使用 9.1.6 及以上版本, 之前的版本有严重漏洞 -->
+        <dependency>
+            <groupId>com.cronutils</groupId>
+            <artifactId>cron-utils</artifactId>
+            <version>${cron-utils.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson-core.version}</version>
+            <scope>compile</scope>
+            <optional>true</optional><!-- 防止将此依赖传递下去 -->
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson-annotations.version}</version>
+            <scope>compile</scope>
+            <optional>true</optional><!-- 防止将此依赖传递下去 -->
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-databind.version}</version>
+            <scope>compile</scope>
+            <optional>true</optional><!-- 防止将此依赖传递下去 -->
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>5.3.33</version>
+            <scope>compile</scope>
+            <optional>true</optional><!-- 防止将此依赖传递下去 -->
+        </dependency>
+        <!-- JSON 解析器和生成器 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>
