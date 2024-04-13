@@ -46,7 +46,7 @@ json字段查询(有待完善，现在只有两种方法)。同时也增加了�
 <dependency>
     <groupId>io.gitee.qingyu-mo</groupId>
     <artifactId>mybatis-plus-extra</artifactId>
-    <version>1.0.6.1</version>
+    <version>1.0.7</version>
 </dependency>
 ```
 
@@ -67,9 +67,9 @@ public DefaultSqlInjectorPlus mySqlInjector(){
 
 #### spring xml 注解方式:
 ```xml
-<bean class="com.qingyu.mo.interceptor.MybatisPlusJoinInterceptor" id="mybatisPlusJoinInterceptor"/>
+<bean class="com.qingyu.mo.mybatisplus.interceptor.MybatisPlusJoinInterceptor" id="mybatisPlusJoinInterceptor"/>
 
-<bean class="com.qingyu.mo.injector.DefaultSqlInjectorPlus" id="mySqlInjector"/>
+<bean class="com.qingyu.mo.mybatisplus.injector.DefaultSqlInjectorPlus" id="mySqlInjector"/>
 ```
 ### 🔖继承
 * mapper继承BaseMapperPlus (必选)
