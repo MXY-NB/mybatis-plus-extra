@@ -8,6 +8,7 @@ import com.alibaba.excel.analysis.v03.handlers.*;
 import com.alibaba.excel.context.xls.XlsReadContext;
 import com.alibaba.excel.exception.ExcelAnalysisException;
 import com.alibaba.excel.exception.ExcelAnalysisStopException;
+import com.alibaba.excel.exception.ExcelAnalysisStopSheetException;
 import com.alibaba.excel.read.metadata.ReadSheet;
 import com.alibaba.excel.read.metadata.holder.xls.XlsReadWorkbookHolder;
 import lombok.extern.slf4j.Slf4j;
@@ -100,7 +101,7 @@ public class MoXlsSaxAnalyser implements HSSFListener, ExcelReadExecutor {
             return;
         }
         boolean ignoreRecord =
-            (handler instanceof IgnorableXlsRecordHandler) && xlsReadContext.xlsReadWorkbookHolder().getIgnoreRecord();
+                (handler instanceof IgnorableXlsRecordHandler) && xlsReadContext.xlsReadWorkbookHolder().getIgnoreRecord();
         if (ignoreRecord) {
             // No need to read the current sheet
             return;
@@ -108,7 +109,16 @@ public class MoXlsSaxAnalyser implements HSSFListener, ExcelReadExecutor {
         if (!handler.support(xlsReadContext, record)) {
             return;
         }
-        handler.processRecord(xlsReadContext, record);
+
+        try {
+            handler.processRecord(xlsReadContext, record);
+        } catch (ExcelAnalysisStopSheetException e) {
+            if (log.isDebugEnabled()) {
+                log.debug("Custom stop!", e);
+            }
+            xlsReadContext.xlsReadWorkbookHolder().setIgnoreRecord(Boolean.TRUE);
+            xlsReadContext.xlsReadWorkbookHolder().setCurrentSheetStopped(Boolean.TRUE);
+        }
     }
 
 }

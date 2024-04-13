@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
  * 处理状态 0-未处理 1-处理中 2-处理成功 3-处理失败
  * </p>
  *
- * @author liweimin
- * @since 2021-10-11
+ * @author qingyu-mo
+ * @since 1.0.7
  */
 @Getter
 @AllArgsConstructor

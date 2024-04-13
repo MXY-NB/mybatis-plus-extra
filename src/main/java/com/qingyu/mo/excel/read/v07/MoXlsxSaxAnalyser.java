@@ -9,19 +9,17 @@ import com.alibaba.excel.metadata.CellExtra;
 import com.alibaba.excel.read.metadata.ReadSheet;
 import com.alibaba.excel.read.metadata.holder.xlsx.XlsxReadWorkbookHolder;
 import com.alibaba.excel.util.FileUtils;
+import com.alibaba.excel.util.MapUtils;
 import com.alibaba.excel.util.SheetUtils;
 import com.alibaba.excel.util.StringUtils;
-import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.qingyu.mo.excel.content.MoXlsxReadContext;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.openxml4j.opc.OPCPackage;
-import org.apache.poi.openxml4j.opc.PackageAccess;
-import org.apache.poi.openxml4j.opc.PackagePart;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.*;
 import org.apache.poi.ss.util.CellAddress;
 import org.apache.poi.xssf.eventusermodel.XSSFReader;
 import org.apache.poi.xssf.model.CommentsTable;
 import org.apache.poi.xssf.usermodel.XSSFComment;
-import org.apache.poi.xssf.usermodel.XSSFRelation;
 import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTWorkbook;
 import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTWorkbookPr;
 import org.openxmlformats.schemas.spreadsheetml.x2006.main.WorkbookDocument;
@@ -49,6 +47,20 @@ import java.util.*;
 @Slf4j
 public class MoXlsxSaxAnalyser implements ExcelReadExecutor {
 
+    /**
+     * Storage sheet SharedStrings
+     */
+    public static final PackagePartName SHARED_STRINGS_PART_NAME;
+
+    static {
+        try {
+            SHARED_STRINGS_PART_NAME = PackagingURIHelper.createPartName("/xl/sharedStrings.xml");
+        } catch (InvalidFormatException e) {
+            log.error("Initialize the XlsxSaxAnalyser failure", e);
+            throw new ExcelAnalysisException("Initialize the XlsxSaxAnalyser failure", e);
+        }
+    }
+
     private MoXlsxReadContext xlsxReadContext;
     private List<ReadSheet> sheetList;
     private Map<Integer, InputStream> sheetMap;
@@ -65,11 +77,9 @@ public class MoXlsxSaxAnalyser implements ExcelReadExecutor {
         OPCPackage pkg = readOpcPackage(xlsxReadWorkbookHolder, decryptedStream);
         xlsxReadWorkbookHolder.setOpcPackage(pkg);
 
-        ArrayList<PackagePart> packageParts = pkg.getPartsByContentType(XSSFRelation.SHARED_STRINGS.getContentType());
-
-        if (CollectionUtils.isNotEmpty(packageParts)) {
-            PackagePart sharedStringsTablePackagePart = packageParts.get(0);
-
+        // Read the Shared information Strings
+        PackagePart sharedStringsTablePackagePart = pkg.getPart(SHARED_STRINGS_PART_NAME);
+        if (sharedStringsTablePackagePart != null) {
             // Specify default cache
             defaultReadCache(xlsxReadWorkbookHolder, sharedStringsTablePackagePart);
 
@@ -86,6 +96,9 @@ public class MoXlsxSaxAnalyser implements ExcelReadExecutor {
         sheetList = new ArrayList<>();
         sheetMap = new HashMap<>();
         commentsTableMap = new HashMap<>();
+        Map<Integer, PackageRelationshipCollection> packageRelationshipCollectionMap = MapUtils.newHashMap();
+        xlsxReadWorkbookHolder.setPackageRelationshipCollectionMap(packageRelationshipCollectionMap);
+
         XSSFReader.SheetIterator ite = (XSSFReader.SheetIterator)xssfReader.getSheetsData();
         int index = 0;
         if (!ite.hasNext()) {
@@ -99,6 +112,20 @@ public class MoXlsxSaxAnalyser implements ExcelReadExecutor {
                 CommentsTable commentsTable = ite.getSheetComments();
                 if (null != commentsTable) {
                     commentsTableMap.put(index, commentsTable);
+                }
+            }
+            if (xlsxReadContext.readWorkbookHolder().getExtraReadSet().contains(CellExtraTypeEnum.HYPERLINK)) {
+                PackageRelationshipCollection packageRelationshipCollection = Optional.ofNullable(ite.getSheetPart())
+                        .map(packagePart -> {
+                            try {
+                                return packagePart.getRelationships();
+                            } catch (InvalidFormatException e) {
+                                log.warn("Reading the Relationship failed", e);
+                                return null;
+                            }
+                        }).orElse(null);
+                if (packageRelationshipCollection != null) {
+                    packageRelationshipCollectionMap.put(index, packageRelationshipCollection);
                 }
             }
             index++;
@@ -179,15 +206,21 @@ public class MoXlsxSaxAnalyser implements ExcelReadExecutor {
         InputSource inputSource = new InputSource(inputStream);
         try {
             SAXParserFactory saxFactory;
-            String xlsxSaxParserFactoryName = xlsxReadContext.xlsxReadWorkbookHolder().getSaxParserFactoryName();
-            if (StringUtils.isEmpty(xlsxSaxParserFactoryName)) {
+            String xlsxSAXParserFactoryName = xlsxReadContext.xlsxReadWorkbookHolder().getSaxParserFactoryName();
+            if (StringUtils.isEmpty(xlsxSAXParserFactoryName)) {
                 saxFactory = SAXParserFactory.newInstance();
             } else {
-                saxFactory = SAXParserFactory.newInstance(xlsxSaxParserFactoryName, null);
+                saxFactory = SAXParserFactory.newInstance(xlsxSAXParserFactoryName, null);
             }
-            saxFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
-            saxFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
-            saxFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+            try {
+                saxFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+            } catch (Throwable ignore) {}
+            try {
+                saxFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+            } catch (Throwable ignore) {}
+            try {
+                saxFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+            } catch (Throwable ignore) {}
             SAXParser saxParser = saxFactory.newSAXParser();
             XMLReader xmlReader = saxParser.getXMLReader();
             xmlReader.setContentHandler(handler);

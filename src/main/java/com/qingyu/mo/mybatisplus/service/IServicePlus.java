@@ -35,7 +35,7 @@ public interface IServicePlus<T> extends IService<T> {
      * 根据 Wrapper 更新记录
      * @param updateWrapper 实体对象封装操作类
      * @return boolean 是否成功
-     * @since 1.0.7.4
+     * @since 1.0.7
      */
     default boolean joinUpdate(Wrapper<T> updateWrapper) {
         return SqlHelper.retBool(getBaseMapper().joinUpdate(updateWrapper));

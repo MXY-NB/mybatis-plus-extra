@@ -15,7 +15,7 @@ import org.apache.ibatis.mapping.SqlSource;
  * </p>
  *
  * @author qingyu-mo
- * @since 1.0.7.4
+ * @since 1.0.7
  */
 @Setter
 public class JoinUpdate extends AbstractMethodPlus {

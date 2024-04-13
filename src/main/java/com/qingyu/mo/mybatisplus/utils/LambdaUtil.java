@@ -45,6 +45,9 @@ public final class LambdaUtil {
      * @return String
      */
     public static <T> String toPropertyName(SFunction<T, ?> sFunction) {
+        if (sFunction == null) {
+            return null;
+        }
         return PropertyNamer.methodToProperty(LambdaUtils.extract(sFunction).getImplMethodName());
     }
 

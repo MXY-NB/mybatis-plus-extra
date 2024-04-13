@@ -1584,7 +1584,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
      * @return children
      */
     default Children jsonContain(R column, Collection<?> coll) {
-        return jsonContain(column, null, coll);
+        return jsonContain(true, column, null, coll);
     }
 
     /**

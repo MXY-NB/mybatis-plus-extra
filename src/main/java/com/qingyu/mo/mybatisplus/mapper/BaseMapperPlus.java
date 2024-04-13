@@ -42,7 +42,7 @@ public interface BaseMapperPlus<T> extends BaseMapper<T> {
      * 根据 whereEntity 条件，更新记录
      * @param updateWrapper 实体对象封装操作类
      * @return int 影响行数
-     * @since 1.0.7.4
+     * @since 1.0.7
      */
     int joinUpdate(@Param(Constants.WRAPPER) Wrapper<T> updateWrapper);
 

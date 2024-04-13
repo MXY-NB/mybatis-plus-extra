@@ -1,5 +1,6 @@
 package com.qingyu.mo.excel.typehandler;
 
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
@@ -46,7 +47,13 @@ public class ExcelEnumConverter extends AutoConverter {
     @Override
     public Object convertToJavaData(ReadCellData<?> cellData, ExcelContentProperty contentProperty, GlobalConfiguration globalConfiguration){
         Class<?> type = contentProperty.getField().getType();
-        return likeValueOf(type, cellData.getStringValue());
+        if (CharSequenceUtil.isNotEmpty(cellData.getStringValue())) {
+            return likeValueOf(type, cellData.getStringValue());
+        } else if (ObjectUtil.isNotEmpty(cellData.getNumberValue())) {
+            return likeValueOf(type, cellData.getNumberValue().toPlainString());
+        } else {
+            return null;
+        }
     }
 
     public <E extends IEnum> E likeValueOf(Class<?> enumClass, String value) {
@@ -61,7 +68,7 @@ public class ExcelEnumConverter extends AutoConverter {
                 continue;
             }
             for (Enum<?> enumObj : enums) {
-                if (ObjectUtil.equal(value, ReflectUtil.getFieldValue(enumObj, field))) {
+                if (ObjectUtil.equal(value, ReflectUtil.getFieldValue(enumObj, field).toString())) {
                     return (E) enumObj;
                 }
             }
