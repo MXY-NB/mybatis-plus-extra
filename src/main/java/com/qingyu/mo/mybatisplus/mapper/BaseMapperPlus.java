@@ -39,12 +39,20 @@ public interface BaseMapperPlus<T> extends BaseMapper<T> {
     int insertList(Collection<T> list);
 
     /**
-     * 根据 whereEntity 条件，更新记录
+     * 根据 entity 条件，更新记录
      * @param updateWrapper 实体对象封装操作类
      * @return int 影响行数
      * @since 1.0.7
      */
     int joinUpdate(@Param(Constants.WRAPPER) Wrapper<T> updateWrapper);
+
+    /**
+     * 根据 entity 条件，删除记录
+     * @param queryWrapper 实体对象封装操作类
+     * @return int 影响行数
+     * @since 1.0.7.3
+     */
+    int joinDelete(@Param(Constants.WRAPPER) Wrapper<T> queryWrapper);
 
     /**
      * 批量更新

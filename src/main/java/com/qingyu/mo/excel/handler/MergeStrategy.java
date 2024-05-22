@@ -21,25 +21,34 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * The regions of the loop merge
+ * <p>
+ * 合并相同数据单元格
+ * </p>
  *
- * @author Jiaju Zhuang
+ * @author qingyu-mo
+ * @since 1.0.7
  */
 public class MergeStrategy implements RowWriteHandler {
 
     /**
-     * Each row
-     */
-    private Integer columnIndex;
-
-    /**
-     * Each row
+     * 合并属性对象
      */
     private MergeObj mergeObj;
 
+    /**
+     * map<列名,index>
+     */
     private final Map<String, Integer> map;
 
+    /**
+     * 检查相同的字段名称
+     */
     private String checkFieldName;
+
+    /**
+     * 检查相同的字段所在index
+     */
+    private Integer columnIndex;
 
     @Data
     @Builder

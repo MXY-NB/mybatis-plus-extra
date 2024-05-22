@@ -40,7 +40,7 @@ public class JoinUpdate extends AbstractMethodPlus {
 
         String sql = String.format(sqlMethod.getSql(), getJoinTableName(),
                 SqlScriptUtils.convertSet(convertIfEwParam(U_WRAPPER_SQL_SET, false)),
-                sqlWhereEntityWrapper(true, tableInfo), sqlComment());
+                sqlWrapper(true), sqlComment());
         SqlSource sqlSource = super.createSqlSource(configuration, sql, modelClass);
         return this.addUpdateMappedStatement(mapperClass, modelClass, methodName, sqlSource);
     }

@@ -19,6 +19,8 @@ public interface ConstantPlus extends Constants {
 
     String ITEM = "item";
 
+    String _SGES_ = "_sgEs_";
+
     String INDEX = "index";
 
     String ITEM_DOT = ITEM + DOT;

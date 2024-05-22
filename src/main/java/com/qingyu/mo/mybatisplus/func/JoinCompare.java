@@ -1,5 +1,6 @@
 package com.qingyu.mo.mybatisplus.func;
 
+import cn.hutool.core.lang.func.Func0;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.qingyu.mo.mybatisplus.utils.LambdaUtil;
 import com.qingyu.mo.mybatisplus.wrapper.query.JoinLambdaQueryWrapper;
@@ -164,6 +165,25 @@ public interface JoinCompare<Children, R, T> extends Serializable {
     <J> Children jEq(boolean condition, SFunction<J, ?> column, Object val);
 
     /**
+     * column = val
+     * @param column 字段
+     * @param func0 后续操作
+     * @return children
+     */
+    default <J> Children jEq(SFunction<J, ?> column, Func0<Object> func0) {
+        return jEq(true, column, func0);
+    }
+
+    /**
+     * column = val
+     * @param condition 执行条件
+     * @param column 字段
+     * @param func0 后续操作
+     * @return children
+     */
+    <J> Children jEq(boolean condition, SFunction<J, ?> column, Func0<Object> func0);
+
+    /**
      * column = column2
      * @param column 字段
      * @param column2 字段
@@ -200,6 +220,25 @@ public interface JoinCompare<Children, R, T> extends Serializable {
      * @return children
      */
     <J> Children jNe(boolean condition, SFunction<J, ?> column, Object val);
+
+    /**
+     * column <> val
+     * @param column 字段
+     * @param func0 后续操作
+     * @return children
+     */
+    default <J> Children jNe(SFunction<J, ?> column, Func0<Object> func0) {
+        return jNe(true, column, func0);
+    }
+
+    /**
+     * column <> val
+     * @param condition 执行条件
+     * @param column 字段
+     * @param func0 后续操作
+     * @return children
+     */
+    <J> Children jNe(boolean condition, SFunction<J, ?> column, Func0<Object> func0);
 
     /**
      * column <> column2
@@ -240,6 +279,25 @@ public interface JoinCompare<Children, R, T> extends Serializable {
     <J> Children jGt(boolean condition, SFunction<J, ?> column, Object val);
 
     /**
+     * column > val
+     * @param column 字段
+     * @param func0 后续操作
+     * @return children
+     */
+    default <J> Children jGt(SFunction<J, ?> column, Func0<Object> func0) {
+        return jGt(true, column, func0);
+    }
+
+    /**
+     * column > val
+     * @param condition 执行条件
+     * @param column 字段
+     * @param func0 后续操作
+     * @return children
+     */
+    <J> Children jGt(boolean condition, SFunction<J, ?> column, Func0<Object> func0);
+
+    /**
      * column > column2
      * @param column 字段
      * @param column2 字段
@@ -276,6 +334,25 @@ public interface JoinCompare<Children, R, T> extends Serializable {
      * @return children
      */
     <J> Children jGe(boolean condition, SFunction<J, ?> column, Object val);
+
+    /**
+     * column >= val
+     * @param column 字段
+     * @param func0 后续操作
+     * @return children
+     */
+    default <J> Children jGe(SFunction<J, ?> column, Func0<Object> func0) {
+        return jGe(true, column, func0);
+    }
+
+    /**
+     * column >= val
+     * @param condition 执行条件
+     * @param column 字段
+     * @param func0 后续操作
+     * @return children
+     */
+    <J> Children jGe(boolean condition, SFunction<J, ?> column, Func0<Object> func0);
 
     /**
      * column >= column2
@@ -316,6 +393,25 @@ public interface JoinCompare<Children, R, T> extends Serializable {
     <J> Children jLt(boolean condition, SFunction<J, ?> column, Object val);
 
     /**
+     * column < val
+     * @param column 字段
+     * @param func0 后续操作
+     * @return children
+     */
+    default <J> Children jLt(SFunction<J, ?> column, Func0<Object> func0) {
+        return jLt(true, column, func0);
+    }
+
+    /**
+     * column < val
+     * @param condition 执行条件
+     * @param column 字段
+     * @param func0 后续操作
+     * @return children
+     */
+    <J> Children jLt(boolean condition, SFunction<J, ?> column, Func0<Object> func0);
+
+    /**
      * column < column2
      * @param column 字段
      * @param column2 字段
@@ -352,6 +448,25 @@ public interface JoinCompare<Children, R, T> extends Serializable {
      * @return children
      */
     <J> Children jLe(boolean condition, SFunction<J, ?> column, Object val);
+
+    /**
+     * column <= val
+     * @param column 字段
+     * @param func0 后续操作
+     * @return children
+     */
+    default <J> Children jLe(SFunction<J, ?> column, Func0<Object> func0) {
+        return jLe(true, column, func0);
+    }
+
+    /**
+     * column <= val
+     * @param condition 执行条件
+     * @param column 字段
+     * @param func0 后续操作
+     * @return children
+     */
+    <J> Children jLe(boolean condition, SFunction<J, ?> column, Func0<Object> func0);
 
     /**
      * column <= column2
@@ -1537,35 +1652,68 @@ public interface JoinCompare<Children, R, T> extends Serializable {
 
     /**
      * column -> '$.key' = 'val' 等于
-     * @param column json字段
+     * @param jsonColumn json字段
      * @param keyColumn json字段取key
      * @param val 值
      * @return children
      */
-    default <M> Children jsonEq(R column, SFunction<M, ?> keyColumn, Object val) {
-        return jsonEq(true, column, keyColumn, val);
+    default <M> Children jsonEq(R jsonColumn, SFunction<M, ?> keyColumn, Object val) {
+        return jsonEq(true, jsonColumn, keyColumn, val);
     }
 
     /**
      * column -> '$.key' = 'val' 等于
      * @param condition 执行条件
-     * @param column json字段
-     * @param keyColumn json字段取key
+     * @param jsonColumn json字段
+     * @param keyColumn json字段key
      * @param val 值
      * @return children
      */
-    default <M> Children jsonEq(boolean condition, R column, SFunction<M, ?> keyColumn, Object val) {
-        return jsonEq(condition, column, LambdaUtil.toPropertyName(keyColumn), val);
+    default <M> Children jsonEq(boolean condition, R jsonColumn, SFunction<M, ?> keyColumn, Object val) {
+        return jsonEq(condition, jsonColumn, LambdaUtil.toPropertyName(keyColumn), val);
     }
 
     /**
      * column -> '$.key' = 'val' 等于
      * @param condition 执行条件
-     * @param column 字段
+     * @param jsonColumn 字段
+     * @param key json字段key
      * @param val 值
      * @return children
      */
-    Children jsonEq(boolean condition, R column, String key, Object val);
+    Children jsonEq(boolean condition, R jsonColumn, String key, Object val);
+
+    /**
+     * jsonColumn -> '$.key' = column 等于
+     * @param jsonColumn json字段
+     * @param keyColumn json字段key
+     * @param val 值
+     * @return children
+     */
+    default <J, M> Children jJsonEq(SFunction<J, ?> jsonColumn, SFunction<M, ?> keyColumn, Object val) {
+        return jJsonEq(true, jsonColumn, keyColumn, val);
+    }
+
+    /**
+     * jsonColumn -> '$.key' = column 等于
+     * @param jsonColumn json字段
+     * @param keyColumn json字段key
+     * @param val 值
+     * @return children
+     */
+    default <J, M> Children jJsonEq(boolean condition, SFunction<J, ?> jsonColumn, SFunction<M, ?> keyColumn, Object val) {
+        return jJsonEq(condition, jsonColumn, LambdaUtil.toPropertyName(keyColumn), val);
+    }
+
+    /**
+     * jsonColumn -> '$.key' = 'val' 等于
+     * @param condition 执行条件
+     * @param jsonColumn json字段
+     * @param key json字段key
+     * @param val 值
+     * @return children
+     */
+    <J> Children jJsonEq(boolean condition, SFunction<J, ?> jsonColumn, String key, Object val);
 
     /**
      * json_contain 包含
@@ -1590,6 +1738,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
     /**
      * json_contain 包含
      * @param column 字段
+     * @param column2 对象key[对象数组]
      * @param values 值
      * @return children
      */
@@ -1600,6 +1749,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
     /**
      * json_contain 包含
      * @param column 字段
+     * @param column2 对象key[对象数组]
      * @param coll 值
      * @return children
      */
@@ -1611,6 +1761,7 @@ public interface JoinCompare<Children, R, T> extends Serializable {
      * json_contain 包含
      * @param condition 执行条件
      * @param column 字段
+     * @param column2 对象key[对象数组]
      * @param coll 值
      * @return children
      */

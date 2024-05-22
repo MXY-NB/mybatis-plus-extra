@@ -1,6 +1,7 @@
 package com.qingyu.mo.mybatisplus.wrapper;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.lang.func.Func0;
 import cn.hutool.core.text.CharSequenceUtil;
 import com.baomidou.mybatisplus.core.conditions.AbstractWrapper;
 import com.baomidou.mybatisplus.core.conditions.ISqlSegment;
@@ -29,6 +30,7 @@ import lombok.Getter;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import static com.baomidou.mybatisplus.core.enums.SqlKeyword.*;
 import static java.util.stream.Collectors.joining;
@@ -327,6 +329,40 @@ public abstract class AbstractJoinWrapper<T, Children extends AbstractJoinWrappe
 
     protected <J> Children joinAddCondition(boolean condition, SFunction<J, ?> column, SqlKeyword sqlKeyword, Object val) {
         return maybeDo(condition, () -> appendSqlSegments(joinColumnToSqlSegment(column), sqlKeyword, () -> formatParam(null, val)));
+    }
+
+    @Override
+    public <J> Children jEq(boolean condition, SFunction<J, ?> column, Func0<Object> func0) {
+        return joinAddCondition(condition, column, EQ, func0);
+    }
+
+    @Override
+    public <J> Children jNe(boolean condition, SFunction<J, ?> column, Func0<Object> func0) {
+        return joinAddCondition(condition, column, NE, func0);
+    }
+
+    @Override
+    public <J> Children jGt(boolean condition, SFunction<J, ?> column, Func0<Object> func0) {
+        return joinAddCondition(condition, column, GT, func0);
+    }
+
+    @Override
+    public <J> Children jGe(boolean condition, SFunction<J, ?> column, Func0<Object> func0) {
+        return joinAddCondition(condition, column, GE, func0);
+    }
+
+    @Override
+    public <J> Children jLt(boolean condition, SFunction<J, ?> column, Func0<Object> func0) {
+        return joinAddCondition(condition, column, LT, func0);
+    }
+
+    @Override
+    public <J> Children jLe(boolean condition, SFunction<J, ?> column, Func0<Object> func0) {
+        return joinAddCondition(condition, column, LE, func0);
+    }
+
+    protected <J> Children joinAddCondition(boolean condition, SFunction<J, ?> column, SqlKeyword sqlKeyword, Func0<Object> func0) {
+        return maybeDo(condition, () -> appendSqlSegments(joinColumnToSqlSegment(column), sqlKeyword, () -> formatParam(null, func0.callWithRuntimeException())));
     }
 
     @Override
@@ -715,8 +751,14 @@ public abstract class AbstractJoinWrapper<T, Children extends AbstractJoinWrappe
     }
 
     @Override
-    public Children jsonEq(boolean condition, SFunction<T, ?> column, String key, Object val) {
-        return maybeDo(condition, () -> appendSqlSegments(columnToSqlSegment(column), strToSqlSegment(ConstantPlus.RIGHT_ARROW),
+    public Children jsonEq(boolean condition, SFunction<T, ?> jsonColumn, String key, Object val) {
+        return maybeDo(condition, () -> appendSqlSegments(columnToSqlSegment(jsonColumn), strToSqlSegment(ConstantPlus.RIGHT_ARROW),
+                columnToSqlSegment(ConstantPlus.JSON_KEY_EQ, key, val)));
+    }
+
+    @Override
+    public <J> Children jJsonEq(boolean condition, SFunction<J, ?> jsonColumn, String key, Object val) {
+        return maybeDo(condition, () -> appendSqlSegments(joinColumnToSqlSegment(jsonColumn), strToSqlSegment(ConstantPlus.RIGHT_ARROW),
                 columnToSqlSegment(ConstantPlus.JSON_KEY_EQ, key, val)));
     }
 
@@ -995,9 +1037,9 @@ public abstract class AbstractJoinWrapper<T, Children extends AbstractJoinWrappe
         if (CollUtil.isEmpty(sqlSelect) && CollUtil.isNotEmpty(noSqlSelect)) {
             Exceptions.t(getEntityClass() == null, "对象类为空！");
             TableInfo tableInfo = TableInfoHelper.getTableInfo(getEntityClass());
-            String columnsToString = noSqlSelect.stream().map(SharedString::getStringValue).collect(joining(StringPool.COMMA));
+            List<String> noSelectList = noSqlSelect.stream().map(i->i.getStringValue().contains(StringPool.DOT) ? CharSequenceUtil.subAfter(i.getStringValue(), StringPool.DOT, true) : i.getStringValue()).collect(Collectors.toList());
             appendSelectSqlSegments(strToSqlSegment(masterTableAlias + StringPool.DOT + tableInfo.getKeySqlSelect()));
-            tableInfo.getFieldList().stream().filter(i->!columnsToString.contains(i.getColumn())).forEach(i->appendSelectSqlSegments(strToSqlSegment(masterTableAlias + StringPool.DOT + i.getSqlSelect())));
+            tableInfo.getFieldList().stream().filter(i->noSelectList.stream().noneMatch(j->j.equals(i.getColumn()))).forEach(i->appendSelectSqlSegments(strToSqlSegment(masterTableAlias + StringPool.DOT + i.getSqlSelect())));
         }
         String sql = sqlSelect.stream().map(SharedString::getStringValue).collect(joining(StringPool.COMMA));
         return CharSequenceUtil.isEmpty(sql) ? null : sql;

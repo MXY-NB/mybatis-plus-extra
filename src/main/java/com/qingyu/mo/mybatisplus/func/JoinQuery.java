@@ -37,6 +37,21 @@ public interface JoinQuery<Children, T, R> extends Serializable {
     Children noCarrier(boolean condition);
 
     /**
+     * .last("LIMIT 1")
+     * @return children
+     */
+    default Children justOne() {
+        return justOne(true);
+    }
+
+    /**
+     * .last("LIMIT 1")
+     * @param condition 执行条件
+     * @return children
+     */
+    Children justOne(boolean condition);
+
+    /**
      * join查询所有字段
      * @return children
      */
@@ -79,7 +94,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * @return children
      */
     default <J> Children jSelect(boolean condition, SFunction<J, ?> column, SFunction<T, ?> aliasField) {
-        return jSelect(condition, column, LambdaUtil.toPropertyName(aliasField));
+        return jSelect(condition, column, LambdaUtil.toUnderlinePropertyName(aliasField));
     }
 
     /**
@@ -259,7 +274,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * @see com.qingyu.mo.mybatisplus.mapper.BaseMapperPlus#getMapValue
      * 配合一起使用
      */
-    default <J> Children jSelectSumAddJOne(SFunction<J, ?> column, SFunction<J, ?> column2) {
+    default <J, K> Children jSelectSumAddJOne(SFunction<J, ?> column, SFunction<K, ?> column2) {
         return jSelectSumAddJOne(column, column2, "sumValue");
     }
 
@@ -271,7 +286,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * @see com.qingyu.mo.mybatisplus.mapper.BaseMapperPlus#getMapValue
      * 配合一起使用
      */
-    <J> Children jSelectSumAddJOne(SFunction<J, ?> column, SFunction<J, ?> column2, String alias);
+    <J, K> Children jSelectSumAddJOne(SFunction<J, ?> column, SFunction<K, ?> column2, String alias);
 
     /**
      * 只查询sum(column) - sum(column2)
@@ -1213,7 +1228,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * @param aliasField 别名字段
      * @return children
      */
-    default <J> Children jSumAddJ(SFunction<J, ?> column, SFunction<J, ?> column2, SFunction<T, ?> aliasField) {
+    default <J, K> Children jSumAddJ(SFunction<J, ?> column, SFunction<K, ?> column2, SFunction<T, ?> aliasField) {
         return jSumAddJ(true, column, column2, aliasField);
     }
 
@@ -1226,7 +1241,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * @param aliasField 别名字段
      * @return children
      */
-    default <J> Children jSumAddJ(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2, SFunction<T, ?> aliasField) {
+    default <J, K> Children jSumAddJ(boolean condition, SFunction<J, ?> column, SFunction<K, ?> column2, SFunction<T, ?> aliasField) {
         return jSumAddJ(condition, column, column2, LambdaUtil.toUnderlinePropertyName(aliasField));
     }
 
@@ -1238,7 +1253,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * @param alias 别名
      * @return children
      */
-    default <J> Children jSumAddJ(SFunction<J, ?> column, SFunction<J, ?> column2, String alias) {
+    default <J, K> Children jSumAddJ(SFunction<J, ?> column, SFunction<K, ?> column2, String alias) {
         return jSumAddJ(true, column, column2, alias);
     }
 
@@ -1251,7 +1266,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * @param alias 别名
      * @return children
      */
-    default <J> Children jSumAddJ(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2, String alias) {
+    default <J, K> Children jSumAddJ(boolean condition, SFunction<J, ?> column, SFunction<K, ?> column2, String alias) {
         return jSumAddJ(condition, false, column, column2, alias);
     }
 
@@ -1263,7 +1278,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * @param aliasField 别名字段
      * @return children
      */
-    default <J> Children jSumAddJIfNull(SFunction<J, ?> column, SFunction<J, ?> column2, SFunction<T, ?> aliasField) {
+    default <J, K> Children jSumAddJIfNull(SFunction<J, ?> column, SFunction<K, ?> column2, SFunction<T, ?> aliasField) {
         return jSumAddJIfNull(true, column, column2, aliasField);
     }
 
@@ -1276,7 +1291,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * @param aliasField 别名字段
      * @return children
      */
-    default <J> Children jSumAddJIfNull(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2, SFunction<T, ?> aliasField) {
+    default <J, K> Children jSumAddJIfNull(boolean condition, SFunction<J, ?> column, SFunction<K, ?> column2, SFunction<T, ?> aliasField) {
         return jSumAddJIfNull(condition, column, column2, LambdaUtil.toUnderlinePropertyName(aliasField));
     }
 
@@ -1288,7 +1303,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * @param alias 别名
      * @return children
      */
-    default <J> Children jSumAddJIfNull(SFunction<J, ?> column, SFunction<J, ?> column2, String alias) {
+    default <J, K> Children jSumAddJIfNull(SFunction<J, ?> column, SFunction<K, ?> column2, String alias) {
         return jSumAddJIfNull(true, column, column2, alias);
     }
 
@@ -1301,7 +1316,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * @param alias 别名
      * @return children
      */
-    default <J> Children jSumAddJIfNull(boolean condition, SFunction<J, ?> column, SFunction<J, ?> column2, String alias) {
+    default <J, K> Children jSumAddJIfNull(boolean condition, SFunction<J, ?> column, SFunction<K, ?> column2, String alias) {
         return jSumAddJ(condition, true, column, column2, alias);
     }
 
@@ -1315,7 +1330,7 @@ public interface JoinQuery<Children, T, R> extends Serializable {
      * @param alias 别名
      * @return children
      */
-    <J> Children jSumAddJ(boolean condition, boolean needIfNull, SFunction<J, ?> column, SFunction<J, ?> column2, String alias);
+    <J, K> Children jSumAddJ(boolean condition, boolean needIfNull, SFunction<J, ?> column, SFunction<K, ?> column2, String alias);
 
     /**
      * sum(column) - sum(column2)

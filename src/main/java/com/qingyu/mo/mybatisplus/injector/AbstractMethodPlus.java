@@ -89,37 +89,17 @@ public abstract class AbstractMethodPlus extends AbstractMethod implements Const
                 ).filter(Objects::nonNull).collect(joining(NEWLINE));
     }
 
-    protected String sqlWrapper() {
-        if (table.getTableInfo().isWithLogicDelete()) {
-            String sqlScript = "";
-            sqlScript += (NEWLINE + table.getLogicDeleteSql(true, true) + NEWLINE);
-            String normalSqlScript = SqlScriptUtils.convertIf(AND_C + SqlScriptUtils.unSafeParam(WRAPPER_SQLSEGMENT),
-                    String.format(TEST_CONTENT_3, WRAPPER_SQLSEGMENT, WRAPPER_SQLSEGMENT,
-                            WRAPPER_NONEMPTYOFNORMAL), true);
-            normalSqlScript += NEWLINE;
-            normalSqlScript += SqlScriptUtils.convertIf(SqlScriptUtils.unSafeParam(WRAPPER_SQLSEGMENT),
-                    String.format(TEST_CONTENT_3, WRAPPER_SQLSEGMENT, WRAPPER_SQLSEGMENT,
-                            WRAPPER_EMPTYOFNORMAL), true);
-            sqlScript += normalSqlScript;
-            sqlScript = SqlScriptUtils.convertChoose(String.format(TEST_CONTENT_1, WRAPPER), sqlScript,
-                    table.getLogicDeleteSql(false, true));
-            sqlScript = SqlScriptUtils.convertWhere(sqlScript);
-            return NEWLINE + sqlScript;
-        } else {
-            return sqlWrapperNoDeleted();
-        }
-    }
+    protected String sqlWrapper(boolean needLoginDelete) {
+        String bindParam = "<bind name=\"" + _SGES_ + "\" value=\"" + String.format(TEST_CONTENT_2, WRAPPER_SQLSEGMENT, WRAPPER_SQLSEGMENT) + "\"/>";
 
-    protected String sqlWrapperNoDeleted() {
-        String sqlScript = "";
-        sqlScript += SqlScriptUtils.convertIf(SqlScriptUtils.convertIf(AND_C, WRAPPER_NONEMPTYOFENTITY + AND_C + WRAPPER_NONEMPTYOFNORMAL, false) + SPACE + SqlScriptUtils.unSafeParam(WRAPPER_SQLSEGMENT),
-                String.format(TEST_CONTENT_3, WRAPPER_SQLSEGMENT, WRAPPER_SQLSEGMENT,
-                        WRAPPER_NONEMPTYOFWHERE), true);
-        sqlScript = SqlScriptUtils.convertWhere(sqlScript) + NEWLINE;
-        sqlScript += SqlScriptUtils.convertIf(SqlScriptUtils.unSafeParam(WRAPPER_SQLSEGMENT),
-                String.format(TEST_CONTENT_3, WRAPPER_SQLSEGMENT, WRAPPER_SQLSEGMENT,
-                        WRAPPER_EMPTYOFWHERE), true);
-        sqlScript = SqlScriptUtils.convertIf(sqlScript, String.format(TEST_CONTENT_1, WRAPPER), true);
-        return NEWLINE + sqlScript;
+        String andSqlSegment = SqlScriptUtils.convertIf(AND_C + SqlScriptUtils.unSafeParam(WRAPPER_SQLSEGMENT),  _SGES_ + AND_C + WRAPPER_NONEMPTYOFNORMAL, true);
+        String lastSqlSegment = SqlScriptUtils.convertIf(SPACE + SqlScriptUtils.unSafeParam(WRAPPER_SQLSEGMENT), _SGES_ + AND_C + WRAPPER_EMPTYOFNORMAL, true);
+
+        String sqlScript = EMPTY;
+        if (needLoginDelete && table.getTableInfo().isWithLogicDelete()) {
+            sqlScript = table.getLogicDeleteSql(false, true) + NEWLINE;
+        }
+        return NEWLINE + SqlScriptUtils.convertWhere(sqlScript + SqlScriptUtils.convertIf(bindParam + NEWLINE + andSqlSegment + NEWLINE + lastSqlSegment,
+                String.format(TEST_CONTENT_1, WRAPPER), true));
     }
 }

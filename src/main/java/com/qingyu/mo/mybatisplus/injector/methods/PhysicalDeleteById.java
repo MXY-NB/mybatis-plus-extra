@@ -38,7 +38,7 @@ public class PhysicalDeleteById extends AbstractMethodPlus {
                 getJoinTableName(),
                 tableInfo.getKeyColumn(),
                 tableInfo.getKeyProperty());
-        SqlSource sqlSource = languageDriver.createSqlSource(configuration, sql, modelClass);
+        SqlSource sqlSource = super.createSqlSource(configuration, sql, modelClass);
         return this.addDeleteMappedStatement(mapperClass, methodName, sqlSource);
     }
 }

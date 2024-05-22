@@ -40,8 +40,8 @@ public class JoinSelectCount extends AbstractMethodPlus {
         setTableInfo(tableInfo);
 
         String sql = String.format(sqlMethod.getSql(), sqlFirst(), getJoinTableName(), SqlScriptUtils.unSafeParam(SQL_JOIN),
-                sqlWrapper(), sqlComment());
-        SqlSource sqlSource = languageDriver.createSqlSource(configuration, sql, modelClass);
+                sqlWrapper(true), sqlComment());
+        SqlSource sqlSource = super.createSqlSource(configuration, sql, modelClass);
         return this.addSelectMappedStatementForOther(mapperClass, methodName, sqlSource, Long.class);
     }
 }

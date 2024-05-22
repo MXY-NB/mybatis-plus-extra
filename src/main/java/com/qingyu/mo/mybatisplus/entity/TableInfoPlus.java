@@ -65,20 +65,20 @@ public class TableInfoPlus implements ConstantPlus {
     }
 
     private String formatLogicDeleteSql(boolean isWhere) {
-        String logicDeleteColumn = JoinSqlScriptUtil.getUnSafeAliasColumn(this.tableInfo.getLogicDeleteFieldInfo().getColumn());
-        final String value = isWhere ? this.tableInfo.getLogicDeleteFieldInfo().getLogicNotDeleteValue() : this.tableInfo.getLogicDeleteFieldInfo().getLogicDeleteValue();
+        String logicDeleteColumn = JoinSqlScriptUtil.getUnSafeAliasColumn(tableInfo.getLogicDeleteFieldInfo().getColumn());
+        final String value = isWhere ? tableInfo.getLogicDeleteFieldInfo().getLogicNotDeleteValue() : tableInfo.getLogicDeleteFieldInfo().getLogicDeleteValue();
         if (isWhere) {
             if (NULL.equalsIgnoreCase(value)) {
                 return logicDeleteColumn + " IS NULL";
             } else {
-                return logicDeleteColumn + EQUALS + String.format(this.tableInfo.getLogicDeleteFieldInfo().isCharSequence() ? "'" + VARIABLE + "'" : VARIABLE, value);
+                return logicDeleteColumn + EQUALS + String.format(tableInfo.getLogicDeleteFieldInfo().isCharSequence() ? "'" + VARIABLE + "'" : VARIABLE, value);
             }
         }
         final String targetStr = logicDeleteColumn + EQUALS;
         if (NULL.equalsIgnoreCase(value)) {
             return targetStr + NULL;
         } else {
-            return targetStr + (this.tableInfo.getLogicDeleteFieldInfo().isCharSequence() ? "'" + value + "'" : value);
+            return targetStr + (tableInfo.getLogicDeleteFieldInfo().isCharSequence() ? "'" + value + "'" : value);
         }
     }
 }

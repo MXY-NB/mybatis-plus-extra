@@ -46,10 +46,10 @@ public class JoinSelectPage extends AbstractMethodPlus {
                 JoinSqlScriptUtil.convertChooseEwSelect(SQL_JOIN_SELECT, null),
                 getJoinTableName(),
                 SqlScriptUtils.unSafeParam(SQL_JOIN),
-                sqlWrapper(),
+                sqlWrapper(true),
                 sqlComment()
         );
-        SqlSource sqlSource = languageDriver.createSqlSource(configuration, sql, modelClass);
+        SqlSource sqlSource = super.createSqlSource(configuration, sql, modelClass);
         return this.addSelectMappedStatementForTable(mapperClass, methodName, sqlSource, tableInfo);
     }
 }

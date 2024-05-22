@@ -66,6 +66,11 @@ public enum SqlMethod {
     JOIN_SELECT_MAPS("joinSelectMaps", "查询满足条件的总数", "<script>\n%s\nSELECT\n%s\n%s\nFROM %s %s %s %s\n</script>"),
 
     /**
+     * 逻辑删除记录
+     */
+    JOIN_LOGIC_DELETE("joinDelete", "根据 entity 条件逻辑删除记录", "<script>\nUPDATE %s %s %s %s\n</script>"),
+
+    /**
      * 物理删除记录
      */
     PHYSICAL_DELETE("physicalDelete", "根据 entity 条件物理删除记录", "<script>\nDELETE FROM %s %s %s\n</script>"),

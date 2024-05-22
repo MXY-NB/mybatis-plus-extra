@@ -54,7 +54,7 @@ public class UpdateByIdWithNull extends AbstractMethodPlus {
         String sql = String.format(sqlMethod.getSql(), tableInfo.getTableName(),
                 sqlSet(predicate, tableInfo, tableInfo.isWithLogicDelete(), false, ENTITY, ENTITY_DOT, true),
                 tableInfo.getKeyColumn(), ENTITY_DOT + tableInfo.getKeyProperty(), additional);
-        SqlSource sqlSource = languageDriver.createSqlSource(configuration, sql, modelClass);
+        SqlSource sqlSource = super.createSqlSource(configuration, sql, modelClass);
         // 第三个参数必须和RootMapper的自定义方法名一致
         return this.addUpdateMappedStatement(mapperClass, modelClass, methodName, sqlSource);
     }

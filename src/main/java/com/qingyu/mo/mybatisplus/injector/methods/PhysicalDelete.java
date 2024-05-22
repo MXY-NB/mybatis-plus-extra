@@ -36,9 +36,9 @@ public class PhysicalDelete extends AbstractMethodPlus {
 
         String sql = String.format(sqlMethod.getSql(),
                 getJoinTableName(),
-                sqlWrapperNoDeleted(),
+                sqlWrapper(false),
                 sqlComment());
-        SqlSource sqlSource = languageDriver.createSqlSource(configuration, sql, modelClass);
+        SqlSource sqlSource = super.createSqlSource(configuration, sql, modelClass);
         return this.addDeleteMappedStatement(mapperClass, methodName, sqlSource);
     }
 }

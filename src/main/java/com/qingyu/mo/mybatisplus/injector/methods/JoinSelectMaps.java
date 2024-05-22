@@ -48,10 +48,10 @@ public class JoinSelectMaps extends AbstractMethodPlus {
                 JoinSqlScriptUtil.convertChooseEwSelect(SQL_JOIN_SELECT, null),
                 getJoinTableName(),
                 SqlScriptUtils.unSafeParam(SQL_JOIN),
-                sqlWrapper(),
+                sqlWrapper(true),
                 sqlComment()
         );
-        SqlSource sqlSource = languageDriver.createSqlSource(configuration, sql, modelClass);
+        SqlSource sqlSource = super.createSqlSource(configuration, sql, modelClass);
         return this.addSelectMappedStatementForOther(mapperClass, methodName, sqlSource, Map.class);
     }
 }

@@ -18,6 +18,7 @@ import com.qingyu.mo.mybatisplus.exception.Exceptions;
 import com.qingyu.mo.mybatisplus.func.JoinQuery;
 import com.qingyu.mo.mybatisplus.wrapper.AbstractJoinLambdaWrapper;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -73,6 +74,18 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
         this.masterTableAlias = masterTableAlias;
     }
 
+    @Override
+    @SafeVarargs
+    public final JoinLambdaQueryWrapper<T> select(SFunction<T, ?>... columns) {
+        return select(true, columns);
+    }
+
+    @Override
+    @SafeVarargs
+    public final JoinLambdaQueryWrapper<T> select(boolean condition, SFunction<T, ?>... columns) {
+        return select(condition, Arrays.asList(columns));
+    }
+
     /**
      * SELECT 部分 SQL 设置
      * @param condition 执行条件
@@ -115,6 +128,16 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
     @Override
     public JoinLambdaQueryWrapper<T> noCarrier(boolean condition) {
         return maybeDo(condition, ()->needCarrier = false);
+    }
+
+    /**
+     * .last("LIMIT 1")
+     * @param condition 执行条件
+     * @return this
+     */
+    @Override
+    public JoinLambdaQueryWrapper<T> justOne(boolean condition) {
+        return maybeDo(condition, ()->typedThis.last("LIMIT 1"));
     }
 
     /**
@@ -288,7 +311,7 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
      * @return this
      */
     @Override
-    public <J> JoinLambdaQueryWrapper<T> jSelectSumAddJOne(SFunction<J, ?> column, SFunction<J, ?> column2, String alias) {
+    public <J, K> JoinLambdaQueryWrapper<T> jSelectSumAddJOne(SFunction<J, ?> column, SFunction<K, ?> column2, String alias) {
         appendSelectSqlSegments(strToSqlSegment(String.format(ConstantPlus.SUM_ADD_AS_IF_NULL, joinColumnToString(column), joinColumnToString(column2), alias)));
         return typedThis;
     }
@@ -525,7 +548,7 @@ public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, Join
      * @return this
      */
     @Override
-    public <J> JoinLambdaQueryWrapper<T> jSumAddJ(boolean condition, boolean needIfNull, SFunction<J, ?> column, SFunction<J, ?> column2, String alias) {
+    public <J, K> JoinLambdaQueryWrapper<T> jSumAddJ(boolean condition, boolean needIfNull, SFunction<J, ?> column, SFunction<K, ?> column2, String alias) {
         return maybeDo(condition, () -> {
             appendNoSelectSqlSegments(strToSqlSegment(alias));
             appendJoinSelectSqlSegments(strToSqlSegment(String.format(

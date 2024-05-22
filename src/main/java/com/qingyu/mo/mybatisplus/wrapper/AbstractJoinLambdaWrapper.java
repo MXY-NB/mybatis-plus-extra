@@ -3,10 +3,7 @@ package com.qingyu.mo.mybatisplus.wrapper;
 import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.ReflectUtil;
 import com.baomidou.mybatisplus.core.conditions.ISqlSegment;
-import com.baomidou.mybatisplus.core.toolkit.Assert;
-import com.baomidou.mybatisplus.core.toolkit.ClassUtils;
-import com.baomidou.mybatisplus.core.toolkit.LambdaUtils;
-import com.baomidou.mybatisplus.core.toolkit.StringPool;
+import com.baomidou.mybatisplus.core.toolkit.*;
 import com.baomidou.mybatisplus.core.toolkit.support.ColumnCache;
 import com.baomidou.mybatisplus.core.toolkit.support.LambdaMeta;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
@@ -29,6 +26,48 @@ import java.util.Map;
  */
 public abstract class AbstractJoinLambdaWrapper<T, Children extends AbstractJoinLambdaWrapper<T, Children>>
         extends AbstractJoinWrapper<T, Children> {
+
+    @Override
+    @SafeVarargs
+    public final Children groupBy(boolean condition, SFunction<T, ?> column, SFunction<T, ?>... columns) {
+        return super.groupBy(condition, column, columns);
+    }
+
+    @Override
+    @SafeVarargs
+    public final Children orderBy(boolean condition, boolean isAsc, SFunction<T, ?> column, SFunction<T, ?>... columns) {
+        return orderBy(condition, isAsc, column, CollectionUtils.toList(columns));
+    }
+
+    @Override
+    @SafeVarargs
+    public final Children groupBy(SFunction<T, ?> column, SFunction<T, ?>... columns) {
+        return doGroupBy(true, column, CollectionUtils.toList(columns));
+    }
+
+    @Override
+    @SafeVarargs
+    public final Children orderByAsc(SFunction<T, ?> column, SFunction<T, ?>... columns) {
+        return super.orderByAsc(column, columns);
+    }
+
+    @Override
+    @SafeVarargs
+    public final Children orderByAsc(boolean condition, SFunction<T, ?> column, SFunction<T, ?>... columns) {
+        return super.orderByAsc(condition, column, columns);
+    }
+
+    @Override
+    @SafeVarargs
+    public final Children orderByDesc(SFunction<T, ?> column, SFunction<T, ?>... columns) {
+        return super.orderByDesc(column, columns);
+    }
+
+    @Override
+    @SafeVarargs
+    public final Children orderByDesc(boolean condition, SFunction<T, ?> column, SFunction<T, ?>... columns) {
+        return super.orderByDesc(condition, column, columns);
+    }
 
     /**
      * 获取字段名称
@@ -73,8 +112,8 @@ public abstract class AbstractJoinLambdaWrapper<T, Children extends AbstractJoin
             prefix = getMasterTableAlias();
         } else {
             if (CharSequenceUtil.isNotEmpty(joinColumnCache.getMapping())) {
-                JoinResultMap joinResultMap = JoinResultMap.builder().column(alias == null ? joinColumnCache.getColumn() : alias)
-                        .property(alias == null ? fieldName : alias)
+                JoinResultMap joinResultMap = JoinResultMap.builder().column(alias == null ? joinColumnCache.getColumn() : CharSequenceUtil.toUnderlineCase(alias))
+                        .property(alias == null ? fieldName : CharSequenceUtil.toCamelCase(alias))
                         .build();
                 Class<?> typeHandler = ClassUtils.toClassConfident(CharSequenceUtil.subAfter(joinColumnCache.getMapping(), '=', true));
                 if (typeHandler == JacksonTypeHandler.class) {

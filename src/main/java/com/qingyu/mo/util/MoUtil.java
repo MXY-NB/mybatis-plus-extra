@@ -125,6 +125,15 @@ public class MoUtil {
     }
 
     /**
+     * 修改为一天的结束时间，例如：2020-02-02 23:59:59,999
+     * @param date 日期时间
+     * @return LocalDateTime
+     */
+    public static LocalDateTime endDate(LocalDate date) {
+        return LocalDateTimeUtil.endOfDay(date.atStartOfDay());
+    }
+
+    /**
      * 年月日格式 yyyy-MM-dd
      * @param text 日期时间字符串
      * @return LocalDate

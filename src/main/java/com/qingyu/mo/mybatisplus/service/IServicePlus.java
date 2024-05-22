@@ -42,6 +42,16 @@ public interface IServicePlus<T> extends IService<T> {
     }
 
     /**
+     * 根据 Wrapper 删除记录
+     * @param deleteWrapper 实体对象封装操作类
+     * @return boolean 是否成功
+     * @since 1.0.7.3
+     */
+    default boolean joinDelete(Wrapper<T> deleteWrapper) {
+        return SqlHelper.retBool(getBaseMapper().joinDelete(deleteWrapper));
+    }
+
+    /**
      * 根据ID 批量更新
      * @param entityList 实体对象集合
      * @return boolean 是否成功
